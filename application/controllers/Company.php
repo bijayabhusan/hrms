@@ -10,6 +10,7 @@ class Company extends CI_Controller {
 
     public function header(){
         try{
+
             $this->load->view('include/header');
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
@@ -273,6 +274,7 @@ class Company extends CI_Controller {
             $request = json_decode(json_encode($_POST), FALSE);
 			$postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
+//            $datanow = date("Y-m-d H:i:s");
             if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
                 $where="isactive=true";
             }else{

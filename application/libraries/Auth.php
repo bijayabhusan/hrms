@@ -10,6 +10,24 @@ class Auth
 		$this->CI->load->model(
 			'Model_Db'
 		);
+
 	}
+
+	public function check_session(){
+	    try{
+
+            if($this->CI->session->login){
+
+               redirect('Welcome/');
+                return false;
+            }else{
+                $data=$this->CI->session->login;
+                //print_r($data);
+               return $data;
+            }
+        }catch (Exception $e){
+	        return $e->getMessage();
+        }
+    }
 
 }

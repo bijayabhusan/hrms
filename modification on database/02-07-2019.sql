@@ -313,7 +313,15 @@ from tbl_user u join tbl_user_type ut on u.usertypeid = ut.id
 
 alter table tbl_user_authentication drop column username;
 
-
+create table  tbl_year(
+                          id smallserial not null primary key ,
+                          year varchar(15) not null unique  ,
+                          entryby int not null references tbl_user on update cascade ,
+                          createdat timestamp default current_timestamp ,
+                          updatedby int default null references tbl_user on update cascade ,
+                          updatedat timestamp default null,
+                          isactive boolean default true
+);
 
 
 

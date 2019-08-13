@@ -1,55 +1,23 @@
 <?php
 defined("BASEPATH") or exit("No direct script access allowed.");
-$userid = $this->session->userid;
-echo $userid;
+if(isset($_SESSION['login'])) {
+    print_r($_SESSION['login']);
+}
+echo $this->session->login['userid'];
+echo "Hello sipence";
 ?>
-
     <div class="col-sm-12">
         <div class="row">
             <div class="page-container2">
-                <!-- HEADER DESKTOP-->
-
-                <!-- END HEADER DESKTOP-->
-
-                <!-- BREADCRUMB-->
-                <!-- <section class="au-breadcrumb m-t-75">
-                    <div class="section__content section__content--p30">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="au-breadcrumb-content">
-                                        <div class="au-breadcrumb-left">
-                                            <span class="au-breadcrumb-span">You are here:</span>
-                                            <ul class="list-unstyled list-inline au-breadcrumb__list">
-                                                <li class="list-inline-item active">
-                                                    <a href="#">Home</a>
-                                                </li>
-                                                <li class="list-inline-item seprate">
-                                                    <span>/</span>
-                                                </li>
-                                                <li class="list-inline-item">Dashboard</li>
-                                            </ul>
-                                        </div>
-                                        <button class="au-btn au-btn-icon au-btn--green">
-                                            <i class="zmdi zmdi-plus"></i>add item</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section> -->
-                <!-- END BREADCRUMB-->
-
-                <div class="main-content">
-                    <div class="section__content section__content--p30">
-                        <div class="container-fluid">
-
-                            <div class="row m-t-25">
-                                <div class="col-sm-6 col-lg-3" style="cursor: pointer;" onclick="loadCompanyDashboard()">
-                                    <div class="overview-item overview-item--c1">
-                                        <div class="overview__inner">
-                                            <div class="overview-box clearfix">
-                                                <div class="icon">
+                    <div class="main-content">
+                        <div class="section__content section__content--p30">
+                            <div class="container-fluid">
+                                <div class="row m-t-25">
+                                    <div class="col-sm-12 col-lg-3" style="cursor: pointer;" onclick="loadCompanyDashboard()">
+                                        <div class="overview-item overview-item--c1">
+                                            <div class="overview__inner">
+                                                <div class="overview-box clearfix">
+                                                    <div class="icon">
                                                     <i class="zmdi zmdi-account-o"></i>
                                                 </div>
                                                 <div class="text">
@@ -63,7 +31,7 @@ echo $userid;
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3" style="cursor: pointer;" onclick="loadProjectDashboard()">
+                                <div class="col-sm-12 col-lg-3" style="cursor: pointer;" onclick="loadProjectDashboard()">
                                     <div class="overview-item overview-item--c2">
                                         <div class="overview__inner">
                                             <div class="overview-box clearfix">
@@ -81,7 +49,7 @@ echo $userid;
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3" style="cursor: pointer;" onclick="loadEmployeesDashboard()">
+                                <div class="col-sm-12 col-lg-3" style="cursor: pointer;" onclick="loadEmployeesDashboard()">
                                     <div class="overview-item overview-item--c3">
                                         <div class="overview__inner">
                                             <div class="overview-box clearfix">
@@ -99,7 +67,7 @@ echo $userid;
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3" style="cursor: pointer;" onclick="loadOfficeDashboard()">
+                                <div class="col-sm-12 col-lg-3" style="cursor: pointer;" onclick="loadOfficeDashboard()">
                                     <div class="overview-item overview-item--c4">
                                         <div class="overview__inner">
                                             <div class="overview-box clearfix">
@@ -119,7 +87,7 @@ echo $userid;
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="au-card recent-report">
                                         <div class="au-card-inner">
                                             <h3 class="title-2">recent reports</h3>
@@ -153,7 +121,7 @@ echo $userid;
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="au-card chart-percent-card">
                                         <div class="au-card-inner">
                                             <h3 class="title-2 tm-b-5">char by %</h3>
@@ -181,7 +149,7 @@ echo $userid;
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-9">
+                                <div class="col-lg-9 col-sm-12">
                                     <h2 class="title-1 m-b-25">Earnings By Items</h2>
                                     <div class="table-responsive table--no-card m-b-40">
                                         <table class="table table-borderless table-striped table-earning">
@@ -264,7 +232,7 @@ echo $userid;
                                         </table>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-3 col-sm-12">
                                     <h2 class="title-1 m-b-25">Top countries</h2>
                                     <div class="au-card au-card--bg-blue au-card-top-countries m-b-40">
                                         <div class="au-card-inner">
@@ -311,7 +279,7 @@ echo $userid;
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
                                         <div class="au-card-title" style="background-image:url('images/bg-title-01.jpg');">
                                             <div class="bg-overlay bg-overlay--blue"></div>
@@ -381,7 +349,7 @@ echo $userid;
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
                                         <div class="au-card-title" style="background-image:url('images/bg-title-02.jpg');">
                                             <div class="bg-overlay bg-overlay--blue"></div>
@@ -570,7 +538,7 @@ echo $userid;
                 <section>
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 col-sm-12">
                                 <div class="copyright">
                                     <!-- <p>Copyright © 2018. All rights reserved.</p> -->
                                 </div>
@@ -583,12 +551,15 @@ echo $userid;
         </div>
     </div>
 <script>
-    function loadCompanyDashboard() {
-        $.ajax({
-            url:'<?= base_url("Company")?>',
-            type:'post',
-            success:function (res) {
-            }
-        });
-    }
+    //$(function () {
+    //
+    //});
+    //function loadCompanyDashboard() {
+    //    $.ajax({
+    //        url:'<?//= base_url("Company")?>//',
+    //        type:'post',
+    //        success:function (res) {
+    //        }
+    //    });
+    //}
 </script>

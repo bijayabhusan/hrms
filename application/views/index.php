@@ -1,8 +1,11 @@
 <?php
 defined("BASEPATH") or exit("No direct script access allowed.");
+if(isset($_SESSION['login'])) {
+    print_r($_SESSION['login']);
+}
 ?>
-<div class="container">
-    <div class="row">
+<div class="row">
+    <div class="container">
         <div class="col-sm-12">
             <div id="loginbox" style="margin-left:auto;margin-right:auto;display: block;margin-top:15%;" class="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-sm-6 col-sm-offset-6">
                 <div class="panel panel-info" >
@@ -16,7 +19,7 @@ defined("BASEPATH") or exit("No direct script access allowed.");
 
                         <form method="post" class="form-horizontal" name="frmLogin" role="form" id="frmLogin">
                             <div style="margin-bottom: 25px">
-                                <input id="username" type="text" class="form-control" name="username"   placeholder="username or email" required>
+                                <input id="username" type="text" class="form-control" name="username"  autofocus  placeholder="username or email" required>
                             </div>
                             <br>
                             <div style="margin-top:10px" class="form-group">
@@ -30,8 +33,8 @@ defined("BASEPATH") or exit("No direct script access allowed.");
 
                         <form method="post" class="form-horizontal" name="frmPassword" role="form" id="frmPassword" style="display: none;">
                             <div style="margin-bottom: 25px">
-<!--                                <input type="hidden" id="userid" value="" hidden>-->
-                                <input id="password" type="password" class="form-control" name="password"  placeholder="password" required>
+                                <!--                                <input type="hidden" id="userid" value="" hidden>-->
+                                <input id="password" type="password" class="form-control"  name="password"  placeholder="password" required autofocus>
                             </div>
                             <br>
                             <div style="margin-top:10px" class="form-group">
@@ -45,7 +48,8 @@ defined("BASEPATH") or exit("No direct script access allowed.");
 
                         <form method="post" class="form-horizontal" name="frmOtp" role="form" id="frmOtp" style="display: none;">
                             <div style="margin-bottom: 25px">
-                                <input id="otp" type="text" class="form-control" name="otp"  minlength="6" maxlength="6" placeholder="otp">
+                                <input type="hidden" id="otp_check" name="otp_check" value="1">
+                                <input id="otp" type="text" class="form-control" name="otp" autofocus  minlength="6" maxlength="6" placeholder="otp">
                             </div>
                             <br>
                             <div style="margin-top:10px" class="form-group">
@@ -58,7 +62,6 @@ defined("BASEPATH") or exit("No direct script access allowed.");
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -76,6 +79,7 @@ defined("BASEPATH") or exit("No direct script access allowed.");
                 if(jsondata.status!=false){
                  $("#frmLogin").hide();
                  $('#frmPassword').show();
+                 $("#password").focus();
                  var userid = jsondata.userid;
                  $("#frmPassword").submit(function (e) {
                      e.preventDefault();
@@ -90,27 +94,36 @@ defined("BASEPATH") or exit("No direct script access allowed.");
                                  $("#frmLogin").hide();
                                  $('#frmPassword').hide();
                                  $('#frmOtp').show();
+                                 $("#otp").focus();
                                  var otp = jsondata.otp;
                                  var userid = jsondata.userid;
                                  $("#frmOtp").submit(function (e) {
                                      e.preventDefault();
                                      var frm = $("#frmOtp").serialize()+'&'+$.param({ 'userid': userid});
-                                     alert(frm);
                                      $.ajax({
                                          type: 'post',
                                          url: "<?= base_url('User/verify_otp') ?>",
                                          data: frm,
                                          success: function (data) {
                                              var jsondata = JSON.parse(data);
+                                             console.log(jsondata);
+                                             var check = $("#otp_check").val();
                                                  if(jsondata.status != false){
-                                                     window.location.href="<?= base_url('Dashboard/')?>";
+                                                      window.location.href="<?= base_url('Dashboard/')?>";
                                                  }else{
+                                                     if(check == 1){
+                                                     $("#otp_check").val(2);
                                                      alert("Your have entered wrong Otp");
-                                                     window.location.href="<?= base_url('Welcome/')?>";
+                                                     }else if(check == 2){
+                                                         alert("Your have entered wrong Otp");
+                                                         window.location.href="<?= base_url('Welcome/')?>";
+                                                     }
                                                  }
                                          }
                                      });
                                  });
+                             }else{
+                                 alert('You are not authorized to access.');
                              }
                          }
                      });
@@ -121,4 +134,5 @@ defined("BASEPATH") or exit("No direct script access allowed.");
             }
         });
     });
+
 </script>

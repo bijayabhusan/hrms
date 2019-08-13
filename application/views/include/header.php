@@ -36,4 +36,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link href="<?= base_url('assets/css/theme.css')?>" rel="stylesheet" media="all">
     <title>HRMS</title>
 </head>
-<body>
+<body class="animsition">
+<div class="col-sm-12">
+<!--<body>-->

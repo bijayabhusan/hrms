@@ -5,15 +5,15 @@ $datenow = date("Y-m-d H:i:s");
     <div class="row" style="margin-top: 6%;">
         <div class="col-sm-3">
             <div class="card">
-                <div class="card-header">Company Type</div>
+                <div class="card-header">Marital Status</div>
                 <div class="card-body card-block">
-                    <form  class="" id="companyTypeForm" >
+                    <form  class="" id="maritalStatusForm" name="maritalStatusForm">
                         <div class="form-group">
                             <input type="hidden" id="txtid" name="txtid" value="0">
-                            <label for="" class="control-label mb-1">Company Type Name</label>
-                            <input type="text" id="companytypename" name="companytypename" onclick="charachters_validate('companytypename')" minlength="5" maxlength="60" class="form-control" required>
+                            <label for="" class="control-label mb-1">Status Name</label>
+                            <input type="text" id="statusname" name="statusname" onclick="charachters_validate('statusname')" minlength="5" maxlength="60" class="form-control" required>
                             <input type="hidden" id="isactive" name="isactive" value='1' class="form-control">
-                            <small class="errormsg_companytypename"></small>
+                            <small class="errormsg_statusname"></small>
                         </div>
                         <br>
                         <div class="form-actions form-group text-right">
@@ -23,10 +23,10 @@ $datenow = date("Y-m-d H:i:s");
                     </form>
                     <br>
                     <hr>
-                    <form action="">
-                        <button type="reset" class="btn  btn-sm">All Records</button>
-                        <button type="submit" class="btn btn-sm">Details View</button>
-                    </form>
+<!--                    <form action="">-->
+<!--                        <button type="reset" class="btn  btn-sm">All Records</button>-->
+<!--                        <button type="submit" class="btn btn-sm">Details View</button>-->
+<!--                    </form>-->
                 </div>
             </div>
         </div>
@@ -40,12 +40,12 @@ $datenow = date("Y-m-d H:i:s");
                             <thead>
                                 <tr>
                                     <th>Sl#</th>
-                                    <th>Company type name</th>
+                                    <th>Status name</th>
                                     <th>IsActive</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="load_company_type">
+                            <tbody id="load_status_names">
                             </tbody>
                         </table>
                     </div>
@@ -56,34 +56,32 @@ $datenow = date("Y-m-d H:i:s");
 </div>
 <script>
     $(function () {
-        load_company_type();
+        load_status_name();
     });
-    $("#companyTypeForm").submit(function(e){
+    $("#maritalStatusForm").submit(function(e){
         e.preventDefault();
-        var frm = $("#companyTypeForm").serialize();
+        var frm = $("#maritalStatusForm").serialize();
         $.ajax({
             type:'post',
-            url: "<?= base_url('Company/create_company_type')?>",
+            url: "<?= base_url('MaritalStatus/create_marital_status')?>",
             crossDomain:true,
             data:frm,
             success:function(data){
                 if(data!=false){
                     console.log(data);
-                    $('#companytypename').val("");
+                    $('#statusname').val("");
                 }else{
                     console.log(data);
                 }
-                load_company_type();
+                load_status_name();
             }
         });
     });
-    function load_company_type(){
-        var datenow = "<?= $datenow?>";
+    function load_status_name(){
         $.ajax({
             type:'post',
-            url:"<?= base_url('Company/report_company_type')?>",
+            url:"<?= base_url('MaritalStatus/report_marital_status')?>",
             crossDomain:true,
-            // data:{creatdate:datenow},
             success:function(data){
                 var jsondata = JSON.parse(data);
                 if(data!=false){
@@ -93,9 +91,9 @@ $datenow = date("Y-m-d H:i:s");
                     var html = "";
                     for(var i=0; i<z; i++){
                         j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statusname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
                     }
-                    $("#load_company_type").html(html);
+                    $("#load_status_names").html(html);
                 }
             }
         });

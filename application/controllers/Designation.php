@@ -84,7 +84,7 @@ class Designation extends CI_Controller {
             $res=$this->Model_Db->select(25,null,$where);
             if($res!=false){
                 foreach ($res as $r){
-                    $data[]="<option value='$r->id'>$r->departmentname</option>";
+                    $data[]="<option value='$r->id'>$r->designationname</option>";
                 }
             }
             echo json_encode($data);

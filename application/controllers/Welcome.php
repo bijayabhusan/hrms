@@ -53,11 +53,9 @@ class Welcome extends CI_Controller {
     }
 	public function index(){
 	    try{
-        $this->header();
-//        $this->sidebar();
-//        $this->navbar();
-        $this->load->view('index');
-        $this->footer();
+            $this->header();
+            $this->load->view('index');
+            $this->footer();
     }catch (Exception $e){
         echo "Message:" . $e->getMessage();
     }

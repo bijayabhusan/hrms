@@ -16,7 +16,7 @@ function alfa_numeric(id) {
 }
 function charachters_validate(id) {
     $("#"+id).keypress(function (e) {
-        if (e.which != 8 && e.which != 0 && e.which != 32 && (e.which < 65 || e.which > 90 ) && (e.which < 97 || e.which > 122)) {
+        if (e.which != 8 && e.which != 0 && e.which != 32 && e.which != 13 &&(e.which < 65 || e.which > 90 ) && (e.which < 97 || e.which > 122)) {
             $(".errormsg_"+id).html("Characters Only").css({'color':'red'}).show().fadeOut(2000);
             return false;
         }

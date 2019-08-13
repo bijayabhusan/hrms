@@ -10,8 +10,9 @@ class Gender extends CI_Controller {
         try{
             $data=array();
             $insert=array();
-			$postdata = file_get_contents("php://input");
-			$request = json_decode($postdata);
+            $request= json_decode(json_encode($_POST), false);
+//			$postdata = file_get_contents("php://input");
+//			$request = json_decode($postdata);
             $status=true;
             if(isset($request->gendername) && preg_match("/^[a-zA-Z]{3,20}$/",$request->gendername)){
                 $insert[0]['gendername']=$request->gendername;
@@ -43,7 +44,8 @@ class Gender extends CI_Controller {
                             $data['status']=false;
                         }
                     }else if($request->txtid==0){
-                        $insert[0]['entryby']=$this->session->login['userid'];
+//                        $insert[0]['entryby']=$this->session->login['userid'];
+                        $insert[0]['entryby']=2;
                         $insert[0]['createdat']=date("Y-m-d H:i:s");
                         $res=$this->Model_Db->insert(17,$insert);
                         if($res!=false){
@@ -97,8 +99,9 @@ class Gender extends CI_Controller {
     public function report_gender(){
         try{
             $data=array();
-			$postdata = file_get_contents("php://input");
-			$request = json_decode($postdata);
+            $request= json_decode(json_encode($_POST), false);
+//			$postdata = file_get_contents("php://input");
+//			$request = json_decode($postdata);
 			if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
 				$where="isactive=true";
 			}else{

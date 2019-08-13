@@ -6,6 +6,7 @@ class User extends CI_Controller {
     {
         parent::__construct();
         $this->load->model(array('Model_Db'));
+        $this->load->library('session');
     }
 	public function check_user(){
         try{
@@ -187,11 +188,14 @@ class User extends CI_Controller {
                 }else{
                     $data['message']="Bad request.";
                     $data['status']=false;
+                    echo json_encode($data);
+                    exit();
                 }
             }else{
                 $data['message']="Wrong otp Provided.";
                 $data['status']=false;
-//                print_r($this->session->loginAtempt['otp']);
+                echo json_encode($data);
+                exit();
             }
             echo json_encode($data);
             exit();
@@ -209,15 +213,15 @@ class User extends CI_Controller {
             $this->session->sess_destroy();
             $data['message']="Logout successful.";
             $data['status']=true;
-//            echo json_encode($data);
-            redirect("welcome/");
+            echo json_encode($data);
+            redirect("Welcome/");
             exit();
         }catch (Exception $e){
             $data['message']= "Message:".$e->getMessage();
             $data['status']=false;
             $data['error']=true;
             redirect("Welcome/");
-//            echo json_encode($data);
+            echo json_encode($data);
             exit();
         }
     }

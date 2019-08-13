@@ -5,13 +5,13 @@ $datenow = date("Y-m-d H:i:s");
     <div class="row" style="margin-top: 6%;">
         <div class="col-sm-3">
             <div class="card">
-                <div class="card-header">Company Type</div>
+                <div class="card-header">Employee Type</div>
                 <div class="card-body card-block">
-                    <form  class="" id="companyTypeForm" >
+                    <form  class="" id="employeeTypeForm" >
                         <div class="form-group">
                             <input type="hidden" id="txtid" name="txtid" value="0">
-                            <label for="" class="control-label mb-1">Company Type Name</label>
-                            <input type="text" id="companytypename" name="companytypename" onclick="charachters_validate('companytypename')" minlength="5" maxlength="60" class="form-control" required>
+                            <label for="" class="control-label mb-1">Employee Type Name</label>
+                            <input type="text" id="typename" name="typename" onclick="charachters_validate('companytypename')" minlength="5" maxlength="60" class="form-control" required>
                             <input type="hidden" id="isactive" name="isactive" value='1' class="form-control">
                             <small class="errormsg_companytypename"></small>
                         </div>
@@ -58,18 +58,18 @@ $datenow = date("Y-m-d H:i:s");
     $(function () {
         load_company_type();
     });
-    $("#companyTypeForm").submit(function(e){
+    $("#employeeTypeForm").submit(function(e){
         e.preventDefault();
-        var frm = $("#companyTypeForm").serialize();
+        var frm = $("#employeeTypeForm").serialize();
         $.ajax({
             type:'post',
-            url: "<?= base_url('Company/create_company_type')?>",
+            url: "<?= base_url('Employee/create_employee_type')?>",
             crossDomain:true,
             data:frm,
             success:function(data){
                 if(data!=false){
                     console.log(data);
-                    $('#companytypename').val("");
+                    $('#typename').val("");
                 }else{
                     console.log(data);
                 }
@@ -78,10 +78,9 @@ $datenow = date("Y-m-d H:i:s");
         });
     });
     function load_company_type(){
-        var datenow = "<?= $datenow?>";
         $.ajax({
             type:'post',
-            url:"<?= base_url('Company/report_company_type')?>",
+            url:"<?= base_url('Employee/report_employee_type')?>",
             crossDomain:true,
             // data:{creatdate:datenow},
             success:function(data){

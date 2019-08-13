@@ -103,17 +103,7 @@ class Forms extends CI_Controller {
             echo "Message:" .$e->getMessage();
         }
     }
-    public function employeeDashboard(){
-        try{
-            $this->header();
-//            $this->sidebar();
-            $this->navbar();
-            $this->load->view('dashboard/employeeDashboard');
-            $this->footer();
-        }catch (Exception $e){
-            echo "Message:" .$e->getMessage();
-        }
-    }
+
     public function formCompanyType(){
         try{
             $this->header();
@@ -174,5 +164,93 @@ class Forms extends CI_Controller {
         }
 
     }
+    public function employeeDashboard(){
+        try{
+            $this->header();
+//            $this->sidebar();
+            $this->navbar();
+            $this->load->view('dashboard/employeeDashboard');
+            $this->footer();
+        }catch (Exception $e){
+            echo "Message:" .$e->getMessage();
+        }
+    }
+    public function formEmployeeType(){
+        try{
+            $this->header();
+//            $this->sidebar();
+            $this->navbar();
+            $this->load->view('forms/formEmployeeType');
+            $this->footer();
+        }catch (Exception $e){
+            echo "Message:" . $e->getMessage();
+        }
 
+    }
+    public function formNewEmployee(){
+        try{
+            $this->header();
+//            $this->sidebar();
+            $this->navbar();
+            $this->load->view('forms/formNewEmployee');
+            $this->footer();
+        }catch (Exception $e){
+            echo "Message:" . $e->getMessage();
+        }
+    }
+    public function formEmployeeBankDetails(){
+        try{
+            $this->header();
+//            $this->sidebar();
+            $this->navbar();
+            $this->load->view('forms/formEmployeeBankDetails');
+            $this->footer();
+        }catch (Exception $e){
+            echo "Message:" . $e->getMessage();
+        }
+    }
+    public function employeeAttendance(){
+        try{
+            $this->header();
+//            $this->sidebar();
+            $this->navbar();
+            $this->load->view('forms/employeeAttendance');
+            $this->footer();
+        }catch (Exception $e){
+            echo "Message:" . $e->getMessage();
+        }
+    }
+    public function formBankDetails(){
+        try{
+            $this->header();
+//            $this->sidebar();
+            $this->navbar();
+            $this->load->view('forms/formBankDetails');
+            $this->footer();
+        }catch (Exception $e){
+            echo "Message:" . $e->getMessage();
+        }
+    }
+    public function formMaritalStatus(){
+        try{
+            $this->header();
+//            $this->sidebar();
+            $this->navbar();
+            $this->load->view('forms/formMaritalStatus');
+            $this->footer();
+        }catch (Exception $e){
+            echo "Message:" . $e->getMessage();
+        }
+    }
+    public function formGender(){
+        try{
+            $this->header();
+//            $this->sidebar();
+            $this->navbar();
+            $this->load->view('forms/formGender');
+            $this->footer();
+        }catch (Exception $e){
+            echo "Message:" . $e->getMessage();
+        }
+    }
 }

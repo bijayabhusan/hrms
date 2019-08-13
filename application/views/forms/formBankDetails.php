@@ -5,15 +5,15 @@ $datenow = date("Y-m-d H:i:s");
     <div class="row" style="margin-top: 6%;">
         <div class="col-sm-3">
             <div class="card">
-                <div class="card-header">Company Type</div>
+                <div class="card-header">Bank Details</div>
                 <div class="card-body card-block">
-                    <form  class="" id="companyTypeForm" >
+                    <form  class="" id="frmBankName" name="frmBankName">
                         <div class="form-group">
                             <input type="hidden" id="txtid" name="txtid" value="0">
-                            <label for="" class="control-label mb-1">Company Type Name</label>
-                            <input type="text" id="companytypename" name="companytypename" onclick="charachters_validate('companytypename')" minlength="5" maxlength="60" class="form-control" required>
+                            <label for="" class="control-label mb-1">Bank Name</label>
+                            <input type="text" id="bankname" name="bankname" onclick="charachters_validate('bankname')" minlength="3" maxlength="60" class="form-control" required>
                             <input type="hidden" id="isactive" name="isactive" value='1' class="form-control">
-                            <small class="errormsg_companytypename"></small>
+                            <small class="errormsg_bankname"></small>
                         </div>
                         <br>
                         <div class="form-actions form-group text-right">
@@ -40,12 +40,12 @@ $datenow = date("Y-m-d H:i:s");
                             <thead>
                                 <tr>
                                     <th>Sl#</th>
-                                    <th>Company type name</th>
+                                    <th>Bank name</th>
                                     <th>IsActive</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="load_company_type">
+                            <tbody id="load_bank_names">
                             </tbody>
                         </table>
                     </div>
@@ -56,34 +56,32 @@ $datenow = date("Y-m-d H:i:s");
 </div>
 <script>
     $(function () {
-        load_company_type();
+        load_bank_details();
     });
-    $("#companyTypeForm").submit(function(e){
+    $("#frmBankName").submit(function(e){
         e.preventDefault();
-        var frm = $("#companyTypeForm").serialize();
+        var frm = $("#frmBankName").serialize();
         $.ajax({
             type:'post',
-            url: "<?= base_url('Company/create_company_type')?>",
+            url: "<?= base_url('Bank/create_bank')?>",
             crossDomain:true,
             data:frm,
             success:function(data){
                 if(data!=false){
                     console.log(data);
-                    $('#companytypename').val("");
+                    $('#bankname').val("");
                 }else{
                     console.log(data);
                 }
-                load_company_type();
+                load_bank_details();
             }
         });
     });
-    function load_company_type(){
-        var datenow = "<?= $datenow?>";
+    function load_bank_details(){
         $.ajax({
             type:'post',
-            url:"<?= base_url('Company/report_company_type')?>",
+            url:"<?= base_url('Bank/report_bank_details')?>",
             crossDomain:true,
-            // data:{creatdate:datenow},
             success:function(data){
                 var jsondata = JSON.parse(data);
                 if(data!=false){
@@ -93,9 +91,9 @@ $datenow = date("Y-m-d H:i:s");
                     var html = "";
                     for(var i=0; i<z; i++){
                         j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].bankname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
                     }
-                    $("#load_company_type").html(html);
+                    $("#load_bank_names").html(html);
                 }
             }
         });

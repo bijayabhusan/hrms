@@ -27,6 +27,7 @@ class Model_Db extends CI_Model
                 '31'=>'tbl_employee','32'=>'view_employee',
                 '33'=>'tbl_bank_name','34'=>'view_bank_name',
                 '35'=>'tbl_employee_bank_details','36'=>'view_employee_bank_details',
+                '37'=>'tbl_year', '38'=>'view_year'
             );
             if($table[$tblno]){
                 return $table[$tblno];
