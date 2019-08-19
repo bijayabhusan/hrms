@@ -38,16 +38,17 @@ class Dashboard extends CI_Controller {
     }
     public function index(){
         try{
-//            if($this->session->login){
+            if($this->session->login['userid']){
                 $this->header();
                 $this->navbar();
                 $this->load->view('dashboard/dashboard');
                 $this->footer();
-//            }else{
+            }else{
+                redirect('welcome/');
 //                $this->header();
-//                $this->load->view('Welcome/');
+//                $this->load->view('index');
 //                $this->footer();
-//            }
+            }
 
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();

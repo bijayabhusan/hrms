@@ -13,7 +13,6 @@ class Forms extends CI_Controller {
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
-
     }
     public function footer(){
         try{
@@ -38,11 +37,14 @@ class Forms extends CI_Controller {
     }
     public function index(){
         try{
-            $this->header();
-//            $this->sidebar();
-            $this->navbar();
-            $this->load->view('dashboard/formDashboard');
-            $this->footer();
+            if($this->session->login['userid']){
+                $this->header();
+                $this->navbar();
+                $this->load->view('dashboard/formDashboard');
+                $this->footer();
+        }else{
+            redirect('welcome/');
+        }
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
@@ -50,55 +52,64 @@ class Forms extends CI_Controller {
     }
     public function companyDashboard(){
     try{
-        $this->header();
-//        $this->sidebar();
-        $this->navbar();
-        $this->load->view('dashboard/companyDashboard');
-        $this->footer();
+        if($this->session->login['userid']){
+            $this->header();
+            $this->navbar();
+            $this->load->view('dashboard/companyDashboard');
+            $this->footer();
+        }else{
+            redirect('welcome/');
+        }
+
     }catch (Exception $e){
         echo "Message:" .$e->getMessage();
     }
 }
     public function loadCompanyType(){
         try{
-            $this->header();
-//            $this->sidebar();
-            $this->navbar();
-            $this->load->view('forms/formCompanyType');
-            $this->footer();
+            if($this->session->login['userid']){
+                extract($_POST);
+                $this->load->view('forms/formCompanyType');
+            }else{
+                redirect("Welcome/");
+            }
+
         }catch (Exception $e){
             echo "Message:" .$e->getMessage();
         }
     }
     public function loadNewCompany(){
         try{
-            $this->header();
-//            $this->sidebar();
-            $this->navbar();
-            $this->load->view('forms/formNewCompany');
-            $this->footer();
+            if($this->session->login['userid']) {
+                extract($_POST);
+                $this->load->view('forms/formNewCompany');
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" .$e->getMessage();
         }
     }
     public function loadDesignation(){
         try{
-            $this->header();
-//            $this->sidebar();
-            $this->navbar();
-            $this->load->view('forms/formDesignation');
-            $this->footer();
+            if($this->session->login['userid']) {
+                extract($_POST);
+                $this->load->view('forms/formDesignation');
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" .$e->getMessage();
         }
     }
     public function loadDepartment(){
         try{
-            $this->header();
-//            $this->sidebar();
-            $this->navbar();
+            if($this->session->login['userid']) {
+            extract($_POST);
             $this->load->view('forms/formDepartment');
-            $this->footer();
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" .$e->getMessage();
         }
@@ -106,11 +117,14 @@ class Forms extends CI_Controller {
 
     public function formCompanyType(){
         try{
+            if($this->session->login['userid']) {
             $this->header();
-//            $this->sidebar();
             $this->navbar();
             $this->load->view('forms/formCompanyType');
             $this->footer();
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
@@ -118,11 +132,15 @@ class Forms extends CI_Controller {
     }
     public function formDistrict(){
         try{
+            if($this->session->login['userid']) {
             $this->header();
-//            $this->sidebar();
             $this->navbar();
+            $this->sidebar();
             $this->load->view('forms/formDistrict');
             $this->footer();
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
@@ -130,11 +148,15 @@ class Forms extends CI_Controller {
     }
     public function formState(){
         try{
+            if($this->session->login['userid']) {
             $this->header();
-//            $this->sidebar();
             $this->navbar();
+            $this->sidebar();
             $this->load->view('forms/formState');
             $this->footer();
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
@@ -142,11 +164,15 @@ class Forms extends CI_Controller {
     }
     public function formYear(){
         try{
+            if($this->session->login['userid']) {
             $this->header();
-//            $this->sidebar();
             $this->navbar();
+            $this->sidebar();
             $this->load->view('forms/formYear');
             $this->footer();
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
@@ -154,11 +180,15 @@ class Forms extends CI_Controller {
     }
     public function formEducation(){
         try{
+            if($this->session->login['userid']) {
             $this->header();
-//            $this->sidebar();
             $this->navbar();
+            $this->sidebar();
             $this->load->view('forms/formEducation');
             $this->footer();
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
@@ -166,22 +196,26 @@ class Forms extends CI_Controller {
     }
     public function employeeDashboard(){
         try{
+            if($this->session->login['userid']) {
             $this->header();
-//            $this->sidebar();
             $this->navbar();
             $this->load->view('dashboard/employeeDashboard');
             $this->footer();
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" .$e->getMessage();
         }
     }
     public function formEmployeeType(){
         try{
-            $this->header();
-//            $this->sidebar();
-            $this->navbar();
+            if($this->session->login['userid']) {
+            extract($_POST);
             $this->load->view('forms/formEmployeeType');
-            $this->footer();
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
@@ -189,66 +223,95 @@ class Forms extends CI_Controller {
     }
     public function formNewEmployee(){
         try{
-            $this->header();
-//            $this->sidebar();
-            $this->navbar();
+            if($this->session->login['userid']) {
+            extract($_POST);
             $this->load->view('forms/formNewEmployee');
-            $this->footer();
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
     }
     public function formEmployeeBankDetails(){
         try{
-            $this->header();
-//            $this->sidebar();
-            $this->navbar();
+            if($this->session->login['userid']) {
+            extract($_POST);
             $this->load->view('forms/formEmployeeBankDetails');
-            $this->footer();
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
     }
     public function employeeAttendance(){
         try{
-            $this->header();
-//            $this->sidebar();
-            $this->navbar();
+            if($this->session->login['userid']) {
+            extract($_POST);
             $this->load->view('forms/employeeAttendance');
-            $this->footer();
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
     }
     public function formBankDetails(){
         try{
+            if($this->session->login['userid']) {
+//            extract($_POST);
             $this->header();
 //            $this->sidebar();
             $this->navbar();
+            $this->sidebar();
             $this->load->view('forms/formBankDetails');
             $this->footer();
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
     }
     public function formMaritalStatus(){
         try{
+            if($this->session->login['userid']) {
             $this->header();
-//            $this->sidebar();
             $this->navbar();
+            $this->sidebar();
             $this->load->view('forms/formMaritalStatus');
             $this->footer();
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
     }
     public function formGender(){
         try{
+            if($this->session->login['userid']) {
             $this->header();
-//            $this->sidebar();
             $this->navbar();
+            $this->sidebar();
             $this->load->view('forms/formGender');
             $this->footer();
+            }else{
+                redirect('welcome/');
+            }
+        }catch (Exception $e){
+            echo "Message:" . $e->getMessage();
+        }
+    }
+    public function mapping_company_department(){
+        try{
+            if($this->session->login['userid']) {
+            extract($_POST);
+            $this->load->view('forms/formMappingCompanyDepartment');
+            }else{
+                redirect('welcome/');
+            }
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }

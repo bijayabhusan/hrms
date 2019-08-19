@@ -56,9 +56,8 @@ class Welcome extends CI_Controller {
             $this->header();
             $this->load->view('index');
             $this->footer();
-    }catch (Exception $e){
-        echo "Message:" . $e->getMessage();
-    }
-
+        }catch (Exception $e){
+            echo "Message:" . $e->getMessage();
+        }
 	}
 }

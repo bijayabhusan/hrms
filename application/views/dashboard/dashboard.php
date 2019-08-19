@@ -1,10 +1,5 @@
 <?php
 defined("BASEPATH") or exit("No direct script access allowed.");
-if(isset($_SESSION['login'])) {
-    print_r($_SESSION['login']);
-}
-echo $this->session->login['userid'];
-echo "Hello sipence";
 ?>
     <div class="col-sm-12">
         <div class="row">
@@ -31,6 +26,7 @@ echo "Hello sipence";
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-sm-12 col-lg-3" style="cursor: pointer;" onclick="loadProjectDashboard()">
                                     <div class="overview-item overview-item--c2">
                                         <div class="overview__inner">
@@ -40,7 +36,15 @@ echo "Hello sipence";
                                                 </div>
                                                 <div class="text">
                                                     <h2>11</h2>
-                                                    <span>Projects</span>
+                                                    <span>Projects
+<!--                                                    --><?php
+//                                                    if(isset($this->session->login)) {
+//                                                        print_r($this->session->login);
+//                                                    }
+//                                                    echo $this->session->login['userid'];
+//                                                    echo "Hello sipence";
+//                                                    ?>
+                                                    </span>
                                                 </div>
                                             </div>
                                             <div class="overview-chart">

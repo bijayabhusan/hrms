@@ -1,10 +1,20 @@
-<div class="col-sm-12">
-    <div class="row" style="margin-top: 7%;">
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="card-header">New Company</div>
-                <div class="card-body card-block">
-                    <form  class="" id="newCompanyForm" >
+    <div class="row">
+        <div class="box col-md-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2><i class="fa fa-angle-double-right "></i>Create New Company</h2>
+
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting btn-round btn-default"><i
+                                    class="fa fa-cog"></i></a>
+                        <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                    class="fa fa-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                    class="fa fa-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    <form  class="" id="newCompanyForm" autocomplete="off">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -30,13 +40,13 @@
                                     <input id="establishedon" name="establishedon" type="date" class="form-control" aria-required="true" aria-invalid="false" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="gstno" class="control-label mb-1">GST number</label>
-                                    <input id="gstno" name="gstno" type="text" onclick="alfa_numeric('gstno')" class="form-control" aria-required="true" aria-invalid="false" minlength="15" maxlength="15" placeholder="Enter GST number" required>
+                                    <label for="gstno" class="control-label mb-1">GST Number</label>
+                                    <input id="gstno" name="gstno" type="text" onclick="alfa_numeric('gstno')" class="form-control" aria-required="true" aria-invalid="false" minlength="15" maxlength="15" placeholder="Enter GST number" autocapitalize="characters" required>
                                     <small class="errormsg_gstno"></small>
                                 </div>
                                 <div class="form-group">
                                     <label for="address" class="control-label mb-1">Address</label>
-                                    <textarea id="address" name="address" onclick="alfa_numeric('address')" class="form-control" aria-required="true" aria-invalid="false" placeholder="Enter company address" required></textarea>
+                                    <textarea id="address" name="address" onclick="alfa_numeric('address')" rows="1" class="form-control text-area" aria-required="true" aria-invalid="false" placeholder="Enter company address" required autocomplete="off"></textarea>
                                     <small class="errormsg_address"></small>
                                 </div>
                             </div>
@@ -55,7 +65,7 @@
 
                                 <div class="form-group">
                                     <label for="pincode" class="control-label mb-1 errlable">Pincode</label>
-                                    <input id="pincode" name="pincode" type="text" onclick="number_validate('pincode')" class="form-control"  aria-required="true" aria-invalid="false" minlength="6" maxlength="6"   placeholder="Enter pincode" required>
+                                    <input id="pincode" name="pincode" type="text" onclick="number_validate('pincode')" class="form-control"  aria-required="true" aria-invalid="false" minlength="6" maxlength="6"   placeholder="Enter pincode" required autocomplete="off">
                                     <small class="errormsg_pincode"></small>
                                 </div>
                                 <div class="form-group">
@@ -75,42 +85,60 @@
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <div class="form-actions form-group text-center ">
                             <button type="reset" class="btn btn-danger btn-sm">reset</button>
                             <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                         </div>
                     </form>
+                    <br>
+                    <hr>
+                    <form action="">
+                        <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
+                        <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
+                        <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
+                        <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
+                        <button type="submit" class="btn btn-sm">Details View</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">Report</div>
-                    <div class="card-body">
-                        <div class="table table-responsive" >
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Sl#</th>
-                                    <th>Company Name</th>
-                                    <th>Company Short Name</th>
-                                    <th>Address</th>
-                                    <th>Pincode</th>
-                                    <th>GST Number</th>
-                                    <th>URL</th>
-                                    <th>Email</th>
-                                    <th>Contact Number</th>
-                                    <th>IsActive</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody id="load_company">
-                                </tbody>
-                            </table>
-                        </div>
+    <div class="row">
+        <div class="box col-md-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2><i class="fa fa-angle-double-right "></i> Report</h2>
+
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting btn-round btn-default"><i
+                                    class="fa fa-cog"></i></a>
+                        <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                    class="fa fa-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                    class="fa fa-remove"></i></a>
                     </div>
+                </div>
+                <div class="box-content">
+                    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                        <thead>
+                        <tr>
+                            <th>Sl#</th>
+                            <th>Company Name</th>
+                            <th>Company Short Name</th>
+                            <th>Address</th>
+                            <th>Pincode</th>
+                            <th>GST Number</th>
+                            <th>URL</th>
+                            <th>Email</th>
+                            <th>Contact Number</th>
+                            <th>IsActive</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="load_company">
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -119,9 +147,13 @@
     $(function () {
         load_company_type();
         load_state();
-        load_company_report();
+        // load_company_report();
+        $('#gstno').keyup(function() {
+            $(this).val($(this).val().toUpperCase());
+        });
     });
     $("#newCompanyForm").submit(function(e){
+        $("#newCompany_report").show();
         e.preventDefault();
         var frm = $("#newCompanyForm").serialize();
         $.ajax({
@@ -136,11 +168,11 @@
                     console.log(data);
                 }
             }
-
         });
     });
 
     function load_company_type(){
+
         $.ajax({
             type:'post',
             url: "<?= base_url('Company/load_company_type')?>",
@@ -151,10 +183,10 @@
                     $("#companytype").html(data);
                 }
             }
-
         });
     }
     function load_state(){
+
         $.ajax({
             type:'post',
             url: "<?= base_url('State/load_state')?>",
@@ -163,7 +195,6 @@
                 var data = JSON.parse(data);
                 if(data!=false){
                     $("#stateid").html(data);
-
                 }
             }
 
@@ -189,9 +220,36 @@
         });
     }
     $("#companytype").change(function () {
-        load_company_report();
+        recentEntries();
     });
-    function load_company_report(){
+    function recentEntries(){
+        $("#newCompany_report").show();
+        var companyid = $("#companytype").val();
+        $.ajax({
+            type:'post',
+            url:"<?= base_url('Company/report_company/1')?>",
+            data:{typeid:companyid},
+            crossDomain:true,
+            success:function(data){
+                var jsondata = JSON.parse(data);
+                if(data!=false){
+                    var j=0;
+                    var z = jsondata.length;
+                    // alert(z);
+                    var html = "";
+                    for(var i=0; i<z; i++){
+                        j++;
+                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyname+"</td><td>"+jsondata[i].companyshortname +"</td><td>"+jsondata[i].address+"</td><td>"+jsondata[i].pincode +"</td><td>"+jsondata[i].gstno +"</td><td>"+jsondata[i].url+"</td><td>"+jsondata[i].emailid+"</td><td>"+jsondata[i].mobile +"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                    }
+                    $("#load_company").html(html);
+                }else{
+                    $("#newCompany_report").hide();
+                }
+            }
+        });
+    }
+    function allEntries(){
+        $("#newCompany_report").show();
         var companyid = $("#companytype").val();
         $.ajax({
             type:'post',
@@ -210,6 +268,56 @@
                         html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyname+"</td><td>"+jsondata[i].companyshortname +"</td><td>"+jsondata[i].address+"</td><td>"+jsondata[i].pincode +"</td><td>"+jsondata[i].gstno +"</td><td>"+jsondata[i].url+"</td><td>"+jsondata[i].emailid+"</td><td>"+jsondata[i].mobile +"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
                     }
                     $("#load_company").html(html);
+                }
+            }
+        });
+    }
+    function activeEntries(){
+        $("#newCompany_report").show();
+        var companyid = $("#companytype").val();
+        $.ajax({
+            type:'post',
+            url:"<?= base_url('Company/report_company')?>",
+            data:{typeid:companyid,onlyactive:1},
+            crossDomain:true,
+            success:function(data){
+                var jsondata = JSON.parse(data);
+                if(data!=false){
+                    var j=0;
+                    var z = jsondata.length;
+                    // alert(z);
+                    var html = "";
+                    for(var i=0; i<z; i++){
+                        j++;
+                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyname+"</td><td>"+jsondata[i].companyshortname +"</td><td>"+jsondata[i].address+"</td><td>"+jsondata[i].pincode +"</td><td>"+jsondata[i].gstno +"</td><td>"+jsondata[i].url+"</td><td>"+jsondata[i].emailid+"</td><td>"+jsondata[i].mobile +"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                    }
+                    $("#load_company").html(html);
+                }
+            }
+        });
+    }
+    function inactiveEntries(){
+        $("#newCompany_report").show();
+        var companyid = $("#companytype").val();
+        $.ajax({
+            type:'post',
+            url:"<?= base_url('Company/report_company')?>",
+            data:{typeid:companyid,onlyinactive:1},
+            crossDomain:true,
+            success:function(data){
+                var jsondata = JSON.parse(data);
+                if(data!=false){
+                    var j=0;
+                    var z = jsondata.length;
+                    // alert(z);
+                    var html = "";s
+                    for(var i=0; i<z; i++){
+                        j++;
+                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyname+"</td><td>"+jsondata[i].companyshortname +"</td><td>"+jsondata[i].address+"</td><td>"+jsondata[i].pincode +"</td><td>"+jsondata[i].gstno +"</td><td>"+jsondata[i].url+"</td><td>"+jsondata[i].emailid+"</td><td>"+jsondata[i].mobile +"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                    }
+                    $("#load_company").html(html);
+                }else{
+                    $("#newCompany_report").hide();
                 }
             }
         });

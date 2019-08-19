@@ -6,12 +6,12 @@ class User extends CI_Controller {
     {
         parent::__construct();
         $this->load->model(array('Model_Db'));
-        $this->load->library('session');
+//        $this->load->library('session');
     }
 	public function check_user(){
         try{
             $data=array();
-			$postdata = file_get_contents("php://input");
+//			$postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
             $request = json_decode(json_encode($_POST), FALSE);
             if(isset($request->username) && $request->username!=null){
@@ -94,7 +94,7 @@ class User extends CI_Controller {
                                     echo json_encode($data);
                                     exit();
                                 }else{
-                                    $data['message']="Password matched.";
+                                    $data['message']="Password matched. Otp sent.";
                                     $data['status']=true;
                                     $data['userid']=$request->userid;
                                     $otp=rand(324653,876532);
@@ -170,6 +170,12 @@ class User extends CI_Controller {
 	                $data['umail']=null;
 	                $data['udob']=null;
 	                $data['ulogo']=null;
+                    $this->session->unset_userdata(
+                        array(
+                            'tempuser',
+                            'loginAtempt'
+                        )
+                    );
 	                $where="id=$request->userid and isactive=true and authisactive=true";
 	                $res=$this->Model_Db->select(4,null,$where);
 	                if($res!=false){
@@ -183,7 +189,7 @@ class User extends CI_Controller {
 	                    $data['udob']=$res[0]->dob;
 	                    $data['ulogo']=$res[0]->logo;
                     }
-                    $this->session->sess_destroy();
+
                     $this->session->set_userdata('login',$data);
                 }else{
                     $data['message']="Bad request.";

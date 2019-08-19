@@ -1,13 +1,18 @@
 <?php
 defined("BASEPATH") or exit("No direct script access allowed.");
-if(isset($_SESSION['login'])) {
-    print_r($_SESSION['login']);
-}
+//if(isset($_SESSION['login'])) {
+//    print_r($_SESSION['login']);
+//}
 ?>
 <div class="row">
     <div class="container">
         <div class="col-sm-12">
-            <div id="loginbox" style="margin-left:auto;margin-right:auto;display: block;margin-top:15%;" class="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-sm-6 col-sm-offset-6">
+            <div id="" style="margin-left:auto;margin-right:auto;display: block;margin-top:10%;" class="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-sm-6 col-sm-offset-6 text-center">
+                <img src="<?= base_url('assets/images/favicon.png')?>" alt="" height="150" width="150">
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div id="loginbox" style="margin-left:auto;margin-right:auto;display: block;margin-top:10%;" class="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-sm-6 col-sm-offset-6">
                 <div class="panel panel-info" >
                     <div class="panel-heading">
                         <div class="panel-title">Sign In</div>

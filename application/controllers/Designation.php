@@ -44,8 +44,7 @@ class Designation extends CI_Controller {
                             $data['status']=false;
                         }
                     }else if($request->txtid==0){
-                        $insert[0]['entryby']=2;
-//                        $insert[0]['entryby']=$this->session->login['userid'];
+                        $insert[0]['entryby']=$this->session->login['userid'];
                         $insert[0]['createdat']=date("Y-m-d H:i:s");
                         $res=$this->Model_Db->insert(25,$insert);
                         if($res!=false){
@@ -96,14 +95,19 @@ class Designation extends CI_Controller {
             exit();
         }
     }
-    public function report_designation(){
+    public function report_designation($status=null){
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
 			$postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
+            $current_date=Date("Y-m-d");
 			if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
 				$where="isactive=true";
+			}else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
+				$where="isactive=false";
+			}else if(isset($status) && $status!=null){
+				$where="DATE(createdat)=DATE('$current_date')";
 			}else{
 				$where="1=1";
 			}

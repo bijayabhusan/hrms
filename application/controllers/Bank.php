@@ -85,7 +85,7 @@ class Bank extends CI_Controller
                             $data['status']=false;
                         }
                     }else if($request->txtid==0){
-                        $insert[0]['entryby']=2;
+                        $insert[0]['entryby']=$this->session->login['userid'];
                         $insert[0]['createdat']=date("Y-m-d H:i:s");
                         $res=$this->Model_Db->insert(33,$insert);
                         if($res!=false){
@@ -137,15 +137,20 @@ class Bank extends CI_Controller
             exit();
         }
     }
-    public function report_bank_details(){
+    public function report_bank_details($status=null){
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
             $postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
 //            $datanow = date("Y-m-d H:i:s");
+            $current_date=Date("Y-m-d");
             if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
                 $where="isactive=true";
+            }else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
+                $where="isactive=true";
+            }else if(isset($status) && $status!=null){
+                $where="DATE(createdat) = DATE('$current_date')";
             }else{
                 $where="1=1";
             }

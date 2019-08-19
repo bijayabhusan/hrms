@@ -49,8 +49,7 @@ class District extends CI_Controller {
                             $data['status']=false;
                         }
                     }else if($request->txtid==0){
-                        $insert[0]['entryby']=2;
-//                        $insert[0]['entryby']=$this->session->login['userid'];
+                        $insert[0]['entryby']=$this->session->login['userid'];
                         $insert[0]['createdat']=date("Y-m-d H:i:s");
                         $res=$this->Model_Db->insert(9,$insert);
                         if($res!=false){

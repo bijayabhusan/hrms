@@ -1,51 +1,117 @@
-        <div class="col-sm-12 " style="margin-top: 7%; " >
-            <div class="row">
-                <div class="col-lg-3 formsCard" style="min-height: 500px;">
-                    <div class="card overview-item--c3" onclick="loadCompanyType()" style="cursor: pointer; ">
-                        <div class="card-header">Company Type</div>
-                        <div class="card-body">
-                            <i class="fa fa-industry fa-3x"></i>
-                        </div>
-                    </div>
+<div class="row">
+        <div class="col-sm-12" style="margin-top: 5%">
+           <div class="row">
+        <div class="box col-sm-2">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2><i class="fa fa-angle-double-right "></i> Forms</h2>
                 </div>
-                <div class="col-lg-3 formsCard" style="min-height: 10px;">
-                    <div class="card overview-item--c2" onclick="loadNewCompany()">
-                        <div class="card-header"  >New Company</div>
-                        <div class="card-body">
-                            <i class="fa fa-building fa-3x"></i>
-                        </div>
-                    </div>
+                <div class="box-content">
+                    <ul class="nav nav-pills nav-stacked main-menu">
+                        <li onclick="loadCompanyType()"><i class="fa fa-check-square "></i> &nbsp; Company Type</li>
+                        <li onclick="loadNewCompany()"><i class="fa fa-check-square "></i> &nbsp; New Company</li>
+                        <li onclick="loadDepartment()"><i class="fa fa-check-square "></i> &nbsp; Department</li>
+                        <li onclick="loadDesignation()"><i class="fa fa-check-square "></i> &nbsp; Designation</li>
+                    </ul>
+                    <hr>
+                    <ul class="nav nav-pills nav-stacked main-menu">
+                        <li onclick="loadCompanyType()"><i class="fa fa-check-square "></i> &nbsp; Company Type</li>
+                        <li onclick="loadNewCompany()"><i class="fa fa-check-square "></i> &nbsp; New Company</li>
+                        <li onclick="loadDepartment()"><i class="fa fa-check-square "></i> &nbsp; Department</li>
+                        <li onclick="loadDesignation()"><i class="fa fa-check-square "></i> &nbsp; Designation</li>
+                    </ul>
                 </div>
-                <div class="col-lg-3 formsCard" style="min-height: 10px;">
-                    <div class="card overview-item--c4" onclick="loadDepartment()">
-                        <div class="card-header"  >Department</div>
-                        <div class="card-body">
-                            <i class="fa fa-search fa-3x"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 formsCard" style="min-height: 10px;">
-                    <div class="card overview-item--c1" onclick="loadDesignation()">
-                        <div class="card-header"  >Designation</div>
-                        <div class="card-body">
-                            <i class="fa fa-industry fa-3x"></i>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
+        <div class="col-sm-10">
+            <div class=" " style="min-height: 600px;">
+                <div id="load_pages">
+                    <div class="row">
+                        <div class="box col-sm-12">
+                            <div class="box-inner">
+                                <div class="box-header well">
+                                    <h2><i class="fa fa-angle-double-right "></i> Company Dashboard</h2>
+
+                                    <div class="box-icon">
+                                        <a href="#" class="btn btn-setting btn-round btn-default"><i
+                                                    class="fa fa-cog"></i></a>
+                                        <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                                    class="fa fa-chevron-up"></i></a>
+                                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                                    class="fa fa-remove"></i></a>
+                                    </div>
+                                </div>
+                                <div class="box-content">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+</div>
         <script>
             function loadCompanyType() {
-                window.location.href="<?= base_url('Forms/loadCompanyType')?>";
+
+                //window.location.href="<?//= base_url('Forms/loadCompanyType')?>//";
+                $.ajax({
+                    url:"<?= base_url('Forms/loadCompanyType')?>",
+                    type:"post",
+                    success:function (d) {
+                        // if(d!=false){
+                            $("#load_pages").html(d);
+                        // }
+                    }
+                });
             }
             function loadNewCompany() {
-                window.location.href="<?= base_url('Forms/loadNewCompany')?>"
+                //window.location.href="<?//= base_url('Forms/loadNewCompany')?>//"
+                $.ajax({
+                    url:"<?= base_url('Forms/loadNewCompany')?>",
+                    type:"post",
+                    success:function (d) {
+                        // if(d!=false){
+                        $("#load_pages").html(d);
+                        // }
+                    }
+                });
             }
             function loadDepartment() {
-                window.location.href="<?= base_url('Forms/loadDepartment')?>";
+                //window.location.href="<?//= base_url('Forms/loadDepartment')?>//";
+                $.ajax({
+                    url:"<?= base_url('Forms/loadDepartment')?>",
+                    type:"post",
+                    success:function (d) {
+                        // if(d!=false){
+                        $("#load_pages").html(d);
+                        // }
+                    }
+                });
             }
             function loadDesignation() {
-                window.location.href="<?= base_url('Forms/loadDesignation')?>";
+                //window.location.href="<?//= base_url('Forms/loadDesignation')?>//";
+                $.ajax({
+                    url:"<?= base_url('Forms/loadDesignation')?>",
+                    type:"post",
+                    success:function (d) {
+                        // if(d!=false){
+                        $("#load_pages").html(d);
+                        // }
+                    }
+                });
+            }
+            function mappingCompanyDept() {
+                $.ajax({
+                    url:"<?= base_url('Forms/mapping_company_department')?>",
+                    type:"post",
+                    success:function (d) {
+                        // if(d!=false){
+                        $("#load_pages").html(d);
+                        // }
+                    }
+                });
             }
         </script>

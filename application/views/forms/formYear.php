@@ -1,46 +1,80 @@
-<div class="col-sm-12">
-    <div class="row" style="margin-top: 6%;">
-        <div class="col-sm-4">
-            <div class="card">
-                <div class="card-header">Year</div>
-                <div class="card-body card-block">
-                    <form  class="" id="yearForm" >
+<div class="col-sm-10">
+
+    <div class="row">
+        <div class="box col-md-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2><i class="fa fa-angle-double-right "></i> Create Year</h2>
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting btn-round btn-default"><i
+                                    class="fa fa-cog"></i></a>
+                        <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                    class="fa fa-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                    class="fa fa-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    <br>
+                    <form  class="" id="yearForm" autocomplete="off">
                         <div class="form-group">
                             <input type="hidden" id="txtid" name="txtid" value="0">
-                            <label for="yearname" class="control-label mb-1">Add Year</label>
+                            <label for="yearname" class="control-label mb-1">Add New Year</label>
                             <input type="text" id="year" name="year" class="form-control" aria-required="true" aria-invalid="false">
                             <input type="hidden" id="isactive" name="isactive" value='1' class="form-control">
                         </div>
-                        <div class="form-actions form-group">
-                            <button type="reset" class="btn btn-primary btn-sm">reset</button>
+                        <div class=" form-group text-right">
+                            <button type="reset" class="btn btn-danger btn-sm">Reset</button>
                             <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                         </div>
+                    </form>
+                    <br>
+                    <hr>
+                    <form action="">
+                        <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
+                        <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
+                        <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
+                        <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
+                        <button type="submit" class="btn btn-sm">Details View</button>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="col-sm-8">
-            <div class="card">
-                <div class="card-header">Report</div>
-                <div class="card-body">
-                    <div class="table">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Sl#</th>
-                                <th>Department name</th>
-                                <th>IsActive</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody id="load_year">
-                            </tbody>
-                        </table>
+    </div>
+    <div class="row">
+        <div class="box col-md-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2><i class="fa fa-angle-double-right "></i> Report</h2>
+
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting btn-round btn-default"><i
+                                    class="fa fa-cog"></i></a>
+                        <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                    class="fa fa-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                    class="fa fa-remove"></i></a>
                     </div>
+                </div>
+                <div class="box-content">
+                    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                        <thead>
+                        <tr>
+                            <th>Sl#</th>
+                            <th>Department name</th>
+                            <th>IsActive</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="load_year">
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 <!--<div class="container" style="margin-top: 14%;min-height: 500px;">-->
 <!--    <div class="hd">-->

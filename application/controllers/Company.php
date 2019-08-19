@@ -79,7 +79,7 @@ class Company extends CI_Controller {
                             $data['status']=false;
                         }
                     }else if($request->txtid==0){
-                        $insert[0]['entryby']=2;
+                        $insert[0]['entryby']=$this->session->login['userid'];
                         $insert[0]['createdat']=date("Y-m-d H:i:s");
                         $res=$this->Model_Db->insert(11,$insert);
                         if($res!=false){
@@ -123,70 +123,68 @@ class Company extends CI_Controller {
                 $insert[0]['companytypeid']=$request->companytype;
             }else{
                 $status=false;
-                echo $request->companytype;
+//                echo $request->companytype;
             }
             if(isset($request->companyname) && preg_match("/[a-zA-Z ]{5,60}/",$request->companyname)){
                 $insert[0]['companyname']=$request->companyname;
             }else{
                 $status=false;
-                echo $request->companyname;
+//                echo $request->companyname;
             }
             if(isset($request->companyshortname) && preg_match("/[a-zA-Z]{0,5}/",$request->companyshortname)){
                 $insert[0]['companyshortname']=$request->companyshortname;
             }else{
                 $status=false;
-                echo $request->companyshortname;
+//                echo $request->companyshortname;
             }
             if(isset($request->establishedon) && preg_match("/^[0-9 -]{10}$/",$request->establishedon)){
                 $doe=date("Y-m-d",strtotime($request->establishedon));
                 $insert[0]['establishedon']=$doe;
             }else{
                 $status=false;
-                echo $request->establishedon;
+//                echo $request->establishedon;
             }
             if(isset($request->gstno) && preg_match("/^[0-9]{2}+[A-Z0-9]{13}$/",$request->gstno)){
                 $insert[0]['gstno']=$request->gstno;
             }else{
                 $status=false;
-                echo $request->gstno;
+//                echo $request->gstno;
             }
             if(isset($request->address) && preg_match("/[a-zA-Z ()]{5,60}/",$request->address)){
                 $insert[0]['address']=$request->address;
             }else{
                 $status=false;
-                echo $request->address;
+//                echo $request->address;
             }
             if(isset($request->distid) && preg_match("/[0-9]{1,2}/",$request->distid)){
                 $insert[0]['distid']=$request->distid;
             }else{
                 $status=false;
-                echo $request->distid;
+//                echo $request->distid;
             }
             if(isset($request->pincode) && preg_match("/[0-9]{6}/",$request->pincode)){
                 $insert[0]['pincode']=$request->pincode;
             }else{
                 $status=false;
-                echo $request->pincode;
+//                echo $request->pincode;
             }
 //            if(isset($request->logo) && preg_match("/[0-9]{6}/",$request->logo)){
 //                $insert[0]['logo']=$request->logo;
 //            }
             if(isset($request->url) && preg_match("/^[a-zA-Z0-9._-]+\.[a-zA-Z.]{2,5}$/",$request->url)){
                 $insert[0]['url']=$request->url;
-            }else{
-                echo $request->url;
             }
             if(isset($request->companyemail) && preg_match("/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/",$request->companyemail)){
                 $insert[0]['emailid']=$request->companyemail;
             }else{
                 $status=false;
-                echo $request->companyemail;
+//                echo $request->companyemail;
             }
             if(isset($request->mobile) && preg_match("/[6,7,8,9]{1}+[0-9]{9}/",$request->mobile)){
                 $insert[0]['mobile']=$request->mobile;
             }else{
                 $status=false;
-                echo $request->mobile;
+//                echo $request->mobile;
             }
             if(isset($request->isactive) && preg_match("/[0,1]{1}/",$request->isactive)){
                 if($request->isactive==1){
@@ -195,7 +193,7 @@ class Company extends CI_Controller {
                     $insert[0]['isactive']=false;
                 }else{
                     $status=false;
-                    echo $request->isactive;
+//                    echo $request->isactive;
                 }
             }else{
                 $status=false;
@@ -211,12 +209,12 @@ class Company extends CI_Controller {
                             $data['message']="Update successful.";
                             $data['status']=true;
                         }else{
+
                             $data['message']="Update failed.";
                             $data['status']=false;
                         }
                     }else if($request->txtid==0){
-                        print_r($request);
-                        $insert[0]['entryby']=2;
+                        $insert[0]['entryby']=$this->session->login['userid'];
                         $insert[0]['createdat']=date("Y-m-d H:i:s");
                         $res=$this->Model_Db->insert(13,$insert);
                         if($res!=false){
@@ -268,15 +266,22 @@ class Company extends CI_Controller {
             exit();
         }
     }
-    public function report_company_type(){
+    public function report_company_type($status=null){
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
 			$postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
-//            $datanow = date("Y-m-d H:i:s");
+            $current_date = Date("Y-m-d");
+//            print_r($datanow);
+//            SELECT * FROM tbl_company_type where DATE(createdat) = DATE('2019-08-14');
+//            $from=date("Y-m-d H:i:s",strtotime($from_date));
             if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
                 $where="isactive=true";
+            }else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
+                $where="isactive=false";
+            }else if(isset($status) && $status!=null){
+                $where="DATE(createdat)=DATE('$current_date')";
             }else{
                 $where="1=1";
             }
@@ -305,7 +310,7 @@ class Company extends CI_Controller {
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
-			$postdata = file_get_contents("php://input");
+//			$postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
             if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
                 $where="isactive=true";
@@ -322,11 +327,9 @@ class Company extends CI_Controller {
             }
             $res=$this->Model_Db->select(13,null,$where);
             if($res!=false){
-                foreach ($res as $r){
                     foreach ($res as $r){
-                        $data[]="<option value='$r->id'>$r->typename</option>";
+                        $data[]="<option value='$r->id'>$r->companyname</option>";
                     }
-                }
             }
             echo json_encode($data);
         }catch (Exception $e){
@@ -337,15 +340,20 @@ class Company extends CI_Controller {
             exit();
         }
     }
-    public function report_company(){
+    public function report_company($status=null){
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
 			$postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
             //print_r($request);
+            $current_date=Date('Y-m-d');
 			if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
 				$where="isactive=true";
+			}else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
+				$where="isactive=false";
+			}else if(isset($status) && $status!=null){
+				$where="DATE(createdat)=DATE('$current_date')";
 			}else{
 				$where="1=1";
 			}
@@ -358,28 +366,29 @@ class Company extends CI_Controller {
                 exit();
             }
             $res=$this->Model_Db->select(13,null,$where);
-            if($res!=false){
-                foreach ($res as $r){
-                    $data[]=array(
-                        'id'=>$r->id,
-                        'companytypeid'=>$r->companytypeid,
-                        'companyname'=>$r->companyname,
-                        'companyshortname'=>$r->companyshortname,
-                        'establishedon'=>$r->establishedon,
-                        'gstno'=>$r->gstno,
-                        'address'=>$r->address,
-                        'distid'=>$r->distid,
-                        'pincode'=>$r->pincode,
-                        'logo'=>$r->logo,
-                        'url'=>$r->url,
-                        'emailid'=>$r->emailid,
-                        'mobile'=>$r->mobile,
-                        'creationdate'=>$r->createdat,
-                        'lastmodifiedon'=>$r->updatedat,
-                        'isactive'=>$r->isactive
-                    );
-                }
-            }
+               if($res!=false){
+                   foreach ($res as $r){
+                       $data[]=array(
+                           'id'=>$r->id,
+                           'companytypeid'=>$r->companytypeid,
+                           'companyname'=>$r->companyname,
+                           'companyshortname'=>$r->companyshortname,
+                           'establishedon'=>$r->establishedon,
+                           'gstno'=>$r->gstno,
+                           'address'=>$r->address,
+                           'distid'=>$r->distid,
+                           'pincode'=>$r->pincode,
+                           'logo'=>$r->logo,
+                           'url'=>$r->url,
+                           'emailid'=>$r->emailid,
+                           'mobile'=>$r->mobile,
+                           'creationdate'=>$r->createdat,
+                           'lastmodifiedon'=>$r->updatedat,
+                           'isactive'=>$r->isactive
+                       );
+                   }
+               }
+
             echo json_encode($data);
         }catch (Exception $e){
             $data['message']= "Message:".$e->getMessage();
@@ -389,4 +398,12 @@ class Company extends CI_Controller {
             exit();
         }
     }
+
+//    public function getRecentEntries(){
+//        try{
+//
+//        }catch (Exception $exception){
+//            echo "Message:".$exception->getMessage();
+//        }
+//    }
 }

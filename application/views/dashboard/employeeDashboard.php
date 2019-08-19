@@ -1,50 +1,95 @@
-        <div class="col-sm-12 " style="margin-top: 7%; " >
-            <div class="row">
-                <div class="col-lg-3 formsCard" style="min-height: 500px;">
-                    <div class="card overview-item--c3" onclick="loadEmployeeType()" style="cursor: pointer; ">
-                        <div class="card-header">Employee Type</div>
-                        <div class="card-body">
-                            <i class="fa fa-industry fa-3x"></i>
+<div class="row">
+    <div class="col-sm-12" style="margin-top: 5%">
+        <div class="row">
+            <div class="box col-sm-2">
+                <div class="box-inner">
+                    <div class="box-header well">
+                        <h2><i class="fa fa-angle-double-right "></i> Menus</h2>
+
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-setting btn-round btn-default"><i
+                                        class="fa fa-cog"></i></a>
+                            <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                        class="fa fa-chevron-up"></i></a>
+                            <a href="#" class="btn btn-close btn-round btn-default"><i
+                                        class="fa fa-remove"></i></a>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 formsCard" style="min-height: 10px;">
-                    <div class="card overview-item--c2" onclick="loadNewEmployee()">
-                        <div class="card-header"  >New Eployee</div>
-                        <div class="card-body">
-                            <i class="fa fa-building fa-3x"></i>
-                        </div>
+                    <div class="box-content">
+                        <ul class="nav nav-pills nav-stacked main-menu">
+                            <li onclick="loadEmployeeType()"><i class="fa fa-check-square "></i> &nbsp; Employee Type</li>
+                            <li onclick="loadNewEmployee()"><i class="fa fa-check-square "></i> &nbsp; New Eployee</li>
+                            <li onclick="loadEmployeeBankDetails()"><i class="fa fa-check-square "></i> &nbsp; Bank Details</li>
+                            <li onclick="loadAttendance()"><i class="fa fa-check-square "></i> &nbsp; Attendance</li>
+                        </ul>
                     </div>
                 </div>
-                <div class="col-lg-3 formsCard" style="min-height: 10px;">
-                    <div class="card overview-item--c4" onclick="formEmployeeBankDetails()">
-                        <div class="card-header" >Bank Details</div>
-                        <div class="card-body">
-                            <i class="fa fa-search fa-3x"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 formsCard" style="min-height: 10px;">
-                    <div class="card overview-item--c1" onclick="employeeAttendance()">
-                        <div class="card-header">Attendance</div>
-                        <div class="card-body">
-                            <i class="fa fa-industry fa-3x"></i>
+            </div>
+            <div class="col-sm-10">
+                <div class=" " style="min-height: 600px;">
+                    <div id="load_employee_pages">
+                        <div class="row">
+                            <div class="box col-sm-12">
+                                <div class="box-inner">
+                                    <div class="box-header well">
+                                        <h2><i class="fa fa-angle-double-right "></i> Employee Dashboard</h2>
+
+                                        <div class="box-icon">
+                                            <a href="#" class="btn btn-setting btn-round btn-default"><i
+                                                        class="fa fa-cog"></i></a>
+                                            <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                                        class="fa fa-chevron-up"></i></a>
+                                            <a href="#" class="btn btn-close btn-round btn-default"><i
+                                                        class="fa fa-remove"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="box-content">
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
         <script>
             function loadEmployeeType() {
-                window.location.href="<?= base_url('Forms/formEmployeeType')?>";
+                $.ajax({
+                    url:"<?= base_url('Forms/formEmployeeType')?>",
+                    type:"post",
+                    success:function (d) {
+                        $("#load_employee_pages").html(d);
+                    }
+                });
             }
             function loadNewEmployee() {
-                window.location.href="<?= base_url('Forms/formNewEmployee')?>"
+                $.ajax({
+                    url:"<?= base_url('Forms/formNewEmployee')?>",
+                    type:"post",
+                    success:function (d) {
+                        $("#load_employee_pages").html(d);
+                    }
+                });
             }
-            function formEmployeeBankDetails() {
-                window.location.href="<?= base_url('Forms/formEmployeeBankDetails')?>";
+            function loadEmployeeBankDetails() {
+                $.ajax({
+                    url:"<?= base_url('Forms/formEmployeeBankDetails')?>",
+                    type:"post",
+                    success:function (d) {
+                        $("#load_employee_pages").html(d);
+                    }
+                });
             }
             function employeeAttendance() {
-                window.location.href="<?= base_url('Forms/employeeAttendance')?>";
+                $.ajax({
+                    url:"<?= base_url('Forms/employeeAttendance')?>",
+                    type:"post",
+                    success:function (d) {
+                        $("#load_employee_pages").html(d);
+                    }
+                });
             }
         </script>

@@ -37,6 +37,41 @@ defined("BASEPATH") or exit("No direct script access allowed.");
 <!-- Main JS-->
 <script type="text/javascript" src="<?= base_url('assets/js/main.js')?>"></script>
 <script type="text/javascript" src="<?= base_url('assets/js/custom.js')?>"></script>
+<script>
+    function loadCompany() {
+        window.location.href="<?= base_url('Forms/companyDashboard')?>";
+    }
+    function loadBankDetails() {
+        window.location.href="<?= base_url('Forms/formBankDetails')?>";
+    }
+    function loadState() {
+        window.location.href="<?= base_url('Forms/formState')?>"
+    }
+    function loadDistict() {
+        window.location.href="<?= base_url('Forms/formDistrict')?>";
+    }
+    function loadEducation() {
+        window.location.href="<?= base_url('Forms/formEducation')?>";
+    }
+    function loadYear() {
+        window.location.href="<?= base_url('Forms/formYear')?>";
+    }
+    function loadEmployee() {
+        window.location.href="<?= base_url('Forms/employeeDashboard')?>";
+    }
+    function loadMaritalStatus() {
+        window.location.href="<?= base_url('Forms/formMaritalStatus')?>";
+    }
+    function loadGender() {
+        window.location.href="<?= base_url('Forms/formGender')?>";
+    }
+    function mainDashboard() {
+        window.location.href="<?= base_url('Dashboard/')?>";
+    }
+    function formDashboard() {
+        window.location.href="<?= base_url('Forms/')?>";
+    }
+</script>
 </div>
 </div>
 </body>

@@ -1,10 +1,20 @@
-<div class="col-sm-12">
-    <div class="row" style="margin-top: 6%;">
-        <div class="col-sm-4">
-            <div class="card">
-                <div class="card-header">Employee Bank Details</div>
-                <div class="card-body card-block">
-                    <form  class="" id="frmBankDetails" name="frmBankDetails" >
+    <div class="row">
+        <div class="box col-md-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2><i class="fa fa-angle-double-right "></i> Employee Bank Details</h2>
+
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting btn-round btn-default"><i
+                                    class="fa fa-cog"></i></a>
+                        <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                    class="fa fa-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                    class="fa fa-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    <form  class="" id="frmBankDetails" name="frmBankDetails" autocomplete="off">
                         <div class="form-group">
                             <label for="" class="control-label mb-1">Employee Name</label>
                             <input type="hidden" id="txtid" name="txtid" value="0">
@@ -30,38 +40,57 @@
                             <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                         </div>
                     </form>
+                    <br>
+                    <hr>
+                    <form action="">
+                        <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
+                        <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
+                        <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
+                        <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
+                        <button type="submit" class="btn btn-sm">Details View</button>
+                    </form>
                 </div>
             </div>
         </div>
-            <div class="col-sm-8">
-                <div class="card">
-                    <div class="card-header">Report</div>
-                    <div class="card-body">
-                        <div class="table table-responsive" >
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Sl#</th>
-                                    <th>Employee name</th>
-                                    <th>Bank name</th>
-                                    <th>A/C Number</th>
-                                    <th>IFSC Code</th>
-                                    <th>IsActive</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody id="load_bank_employee">
-                                </tbody>
-                            </table>
-                        </div>
+    </div>
+    <div class="row">
+        <div class="box col-md-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2><i class="fa fa-angle-double-right "></i> Report</h2>
+
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting btn-round btn-default"><i
+                                    class="fa fa-cog"></i></a>
+                        <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                    class="fa fa-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                    class="fa fa-remove"></i></a>
                     </div>
+                </div>
+                <div class="box-content">
+                    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                        <thead>
+                        <tr>
+                            <th>Sl#</th>
+                            <th>Employee name</th>
+                            <th>Bank name</th>
+                            <th>A/C Number</th>
+                            <th>IFSC Code</th>
+                            <th>IsActive</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="load_bank_employee">
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 <script>
     $(function () {
-        load_employee_bank_details();
+        // load_employee_bank_details();
         load_employee();
     });
     $("#frmBankDetails").submit(function(e){
@@ -79,7 +108,7 @@
                 }else{
                     console.log(data);
                 }
-                load_employee_bank_details();
+                recentEntries();
             }
         });
     });
@@ -111,7 +140,28 @@
     $("#stateid").change(function () {
         load_district();
     });
-    function load_employee_bank_details(){
+    function recentEntries(){
+        $.ajax({
+            type:'post',
+            url:"<?= base_url('Employee/report_employee_bank_details/1')?>",
+            crossDomain:true,
+            success:function(data){
+                var jsondata = JSON.parse(data);
+                if(data!=false){
+                    var j=0;
+                    var z = jsondata.length;
+                    // alert(z);
+                    var html = "";
+                    for(var i=0; i<z; i++){
+                        j++;
+                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                    }
+                    $("#load_bank_employee").html(html);
+                }
+            }
+        });
+    }
+    function allEntries(){
         $.ajax({
             type:'post',
             url:"<?= base_url('Employee/report_employee_bank_details')?>",
@@ -132,5 +182,48 @@
             }
         });
     }
-
+    function activeEntries(){
+        $.ajax({
+            type:'post',
+            url:"<?= base_url('Employee/report_employee_bank_details')?>",
+            crossDomain:true,
+            data:{onlyactive:1},
+            success:function(data){
+                var jsondata = JSON.parse(data);
+                if(data!=false){
+                    var j=0;
+                    var z = jsondata.length;
+                    // alert(z);
+                    var html = "";
+                    for(var i=0; i<z; i++){
+                        j++;
+                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                    }
+                    $("#load_bank_employee").html(html);
+                }
+            }
+        });
+    }
+    function inactiveEntries(){
+        $.ajax({
+            type:'post',
+            url:"<?= base_url('Employee/report_employee_bank_details')?>",
+            crossDomain:true,
+            data:{onlyinactive:1},
+            success:function(data){
+                var jsondata = JSON.parse(data);
+                if(data!=false){
+                    var j=0;
+                    var z = jsondata.length;
+                    // alert(z);
+                    var html = "";
+                    for(var i=0; i<z; i++){
+                        j++;
+                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                    }
+                    $("#load_bank_employee").html(html);
+                }
+            }
+        });
+    }
 </script>

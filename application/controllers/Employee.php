@@ -44,8 +44,7 @@ class Employee extends CI_Controller {
                             $data['status']=false;
                         }
                     }else if($request->txtid==0){
-                        $insert[0]['entryby']=2;
-//                        $insert[0]['entryby']=$this->session->login['userid'];
+                        $insert[0]['entryby']=$this->session->login['userid'];
                         $insert[0]['createdat']=date("Y-m-d H:i:s");
                         $res=$this->Model_Db->insert(15,$insert);
                         if($res!=false){
@@ -96,14 +95,19 @@ class Employee extends CI_Controller {
             exit();
         }
     }
-    public function report_employee_type(){
+    public function report_employee_type($status=null){
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
 			$postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
+            $current_date = Date('Y-m-d');
 			if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
 				$where="isactive=true";
+			}else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
+				$where="isactive=false";
+			}else if(isset($status) && $status!=null){
+				$where="DATE(createdat) = DATE('$current_date')";
 			}else{
 				$where="1=1";
 			}
@@ -133,7 +137,7 @@ class Employee extends CI_Controller {
             $data=array();
             $insert=array();
             $request = json_decode(json_encode($_POST), FALSE);
-            $postdata = file_get_contents("php://input");
+//            $postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
             $status=true;
 //            if(isset($request->typename) && preg_match("/^[a-zA-Z ]{3,20}$/",$request->typename)){
@@ -157,7 +161,7 @@ class Employee extends CI_Controller {
                     if($request->txtid>0){
                         $insert[0]['updatedby']=$this->session->login['userid'];
                         $insert[0]['updatedat']=date("Y-m-d H:i:s");
-                        $res=$this->Model_Db->update(31,$insert,"id",$request->txtid);
+                        $res=$this->Model_Db->update(29,$insert,"id",$request->txtid);
                         if($res!=false){
                             $data['message']="Update successful.";
                             $data['status']=true;
@@ -166,10 +170,9 @@ class Employee extends CI_Controller {
                             $data['status']=false;
                         }
                     }else if($request->txtid==0){
-                        $insert[0]['entryby']=2;
-//                        $insert[0]['entryby']=$this->session->login['userid'];
+                        $insert[0]['entryby']=$this->session->login['userid'];
                         $insert[0]['createdat']=date("Y-m-d H:i:s");
-                        $res=$this->Model_Db->insert(31,$insert);
+                        $res=$this->Model_Db->insert(29,$insert);
                         if($res!=false){
                             $data['message']="Insert successful.";
                             $data['status']=true;
@@ -224,8 +227,13 @@ class Employee extends CI_Controller {
             $request = json_decode(json_encode($_POST), FALSE);
             $postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
+            $current_date= Date('Y-m-d');
             if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
                 $where="isactive=true";
+            }else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
+                $where="isactive=false";
+            }else if(isset($status) && $status!=null){
+                $where="DATE(createdat) = DATE('$current_date')";
             }else{
                 $where="1=1";
             }
@@ -303,8 +311,7 @@ class Employee extends CI_Controller {
                             $data['status']=false;
                         }
                     }else if($request->txtid==0){
-                        $insert[0]['entryby']=2;
-//                        $insert[0]['entryby']=$this->session->login['userid'];
+                        $insert[0]['entryby']=$this->session->login['userid'];
                         $insert[0]['createdat']=date("Y-m-d H:i:s");
                         $res=$this->Model_Db->insert(35,$insert);
                         if($res!=false){

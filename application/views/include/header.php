@@ -12,6 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--    <script type="text/javascript" src="--><?//= base_url('assets/jss/jquery-3.4.1.min.js')?><!--"></script>-->
 <!--    <link rel="stylesheet" href="--><?//= base_url('assets/css/bootstrap.css') ?><!--">-->
 <!--    <link rel="stylesheet" href="--><?//= base_url('assets/css/custom.css')?><!--">-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script type="text/javascript" src="<?= base_url('assets/vendor/jquery-3.2.1.min.js')?>"></script>
     <!--demo-css-->
     <link href="<?= base_url('assets/css/font-face.css')?>" rel="stylesheet" media="all">
