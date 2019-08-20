@@ -34,11 +34,11 @@ $datenow = date("Y-m-d H:i:s");
                     <br>
                     <hr>
                     <form action="">
-                        <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
-                        <button type="submit" class="btn btn-sm">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="employeeTypeReport(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="employeeTypeReport(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="employeeTypeReport(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="employeeTypeReport(4)">Inactive Entries</button>
+                        <button type="button" class="btn btn-sm" onclick="employeeTypeReport(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -60,7 +60,8 @@ $datenow = date("Y-m-d H:i:s");
                     </div>
                 </div>
                 <div class="box-content">
-                    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                    <div class="table-responsive">
+                        <table class="table  table-striped table-bordered bootstrap-datatable datatable  table-earning">
                         <thead>
                         <tr>
                             <th>Sl#</th>
@@ -72,6 +73,7 @@ $datenow = date("Y-m-d H:i:s");
                         <tbody id="load_employee_type">
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -81,7 +83,6 @@ $datenow = date("Y-m-d H:i:s");
         // load_company_type();
     });
     $("#employeeTypeForm").submit(function(e){
-        $("#employeeType_report").show();
         e.preventDefault();
         var frm = $("#employeeTypeForm").serialize();
         $.ajax({
@@ -91,105 +92,103 @@ $datenow = date("Y-m-d H:i:s");
             data:frm,
             success:function(data){
                 if(data!=false){
-                    console.log(data);
+                    employeeTypeReport(1);
                     $('#typename').val("");
-                }else{
-                    console.log(data);
                 }
-                recentEntries();
             }
         });
     });
-    function recentEntries(){
-        $("#employeeType_report").show();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Employee/report_employee_type/1')?>",
-            crossDomain:true,
-            // data:{creatdate:datenow},
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+    function employeeTypeReport(id){
+        if(id==1){
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Employee/report_employee_type')?>",
+                crossDomain:true,
+                data:{onlyrecent:1},
+                // data:{creatdate:datenow},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_employee_type").html(html);
                     }
-                    $("#load_employee_type").html(html);
                 }
-            }
-        });
-    }
-    function allEntries(){
-        $("#employeeType_report").show();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Employee/report_employee_type')?>",
-            crossDomain:true,
-            // data:{creatdate:datenow},
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+            });
+        }else if(id==2){
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Employee/report_employee_type')?>",
+                crossDomain:true,
+                // data:{creatdate:datenow},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_employee_type").html(html);
                     }
-                    $("#load_employee_type").html(html);
                 }
-            }
-        });
-    }
-    function activeEntries(){
-        $("#employeeType_report").show();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Employee/report_employee_type')?>",
-            crossDomain:true,
-            data:{onlyactive:1},
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+            });
+        }else if(id==3){
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Employee/report_employee_type')?>",
+                crossDomain:true,
+                data:{onlyactive:1},
+                // data:{creatdate:datenow},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_employee_type").html(html);
                     }
-                    $("#load_employee_type").html(html);
                 }
-            }
-        });
-    }
-    function inactiveEntries(){
-        $("#employeeType_report").show();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Employee/report_employee_type')?>",
-            crossDomain:true,
-            data:{onlyinactive:1},
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+            });
+        }else if(id==4){
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Employee/report_employee_type')?>",
+                crossDomain:true,
+                data:{onlyinactive:1},
+                // data:{creatdate:datenow},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_employee_type").html(html);
                     }
-                    $("#load_employee_type").html(html);
                 }
-            }
-        });
+            });
+        }else if(id==5){
+            alert('This report is not available right now.');
+        }
+
     }
 </script>

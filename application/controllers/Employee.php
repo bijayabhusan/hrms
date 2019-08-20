@@ -81,6 +81,7 @@ class Employee extends CI_Controller {
             $data=array();
             $where="isactive=true";
             $res=$this->Model_Db->select(15,null,$where);
+            $data[]="<option value=''>Select</option>";
             if($res!=false){
                 foreach ($res as $r){
                     $data[]="<option value='$r->id'>$r->typename</option>";
@@ -95,7 +96,7 @@ class Employee extends CI_Controller {
             exit();
         }
     }
-    public function report_employee_type($status=null){
+    public function report_employee_type(){
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
@@ -106,7 +107,7 @@ class Employee extends CI_Controller {
 				$where="isactive=true";
 			}else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
 				$where="isactive=false";
-			}else if(isset($status) && $status!=null){
+			}else if(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
 				$where="DATE(createdat) = DATE('$current_date')";
 			}else{
 				$where="1=1";
@@ -140,11 +141,11 @@ class Employee extends CI_Controller {
 //            $postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
             $status=true;
-//            if(isset($request->typename) && preg_match("/^[a-zA-Z ]{3,20}$/",$request->typename)){
-//                $insert[0]['typename']=$request->typename;
-//            }else{
-//                $status=false;
-//            }
+            if(isset($request->typename) && preg_match("/^[a-zA-Z ]{3,20}$/",$request->typename)){
+                $insert[0]['typename']=$request->typename;
+            }else{
+                $status=false;
+            }
             if(isset($request->isactive) && preg_match("/[0,1]{1}/",$request->isactive)){
                 if($request->isactive==1){
                     $insert[0]['isactive']=true;
@@ -207,6 +208,7 @@ class Employee extends CI_Controller {
             $data=array();
             $where="isactive=true";
             $res=$this->Model_Db->select(31,null,$where);
+            $data[]="<option value=''>Select</option>";
             if($res!=false){
                 foreach ($res as $r){
                     $data[]="<option value='$r->id'>$r->fname"."&nbsp;"."$r->mname"."&nbsp;"."$r->lname</option>";
@@ -349,8 +351,13 @@ class Employee extends CI_Controller {
             $request = json_decode(json_encode($_POST), FALSE);
             $postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
+            $current_date=Date('Y-m-d');
             if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
                 $where="isactive=true";
+            }else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
+                $where="isactive=false";
+            }else if(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
+                $where="DATE(createdat) = DATE('$current_date')";
             }else{
                 $where="1=1";
             }

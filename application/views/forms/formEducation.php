@@ -32,11 +32,11 @@
                     <br>
                     <hr>
                     <form action="">
-                        <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
-                        <button type="submit" class="btn btn-sm">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="educationEventFire(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="educationEventFire(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="educationEventFire(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="educationEventFire(4)">Inactive Entries</button>
+                        <button type="button" class="btn btn-sm" onclick="educationEventFire(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -60,7 +60,8 @@
                     </div>
                 </div>
                 <div class="box-content">
-                    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                    <div class="table-responsive">
+                        <table class="table  table-striped table-bordered bootstrap-datatable datatable  table-earning">
                         <thead>
                         <tr>
                             <th>Sl#</th>
@@ -72,6 +73,7 @@
                         <tbody id="load_education">
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -97,30 +99,97 @@
                 }else{
                     console.log(data);
                 }
-                load_education();
+                educationEventFire(1);
             }
 
         });
     });
-    function load_education(){
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Education/report_education')?>",
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].educationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                    }
-                    $("#load_education").html(html);
-                }
-            }
-        });
+    function educationEventFire(id){
+       if(id==1){
+           $.ajax({
+               type:'post',
+               url:"<?= base_url('Education/report_education')?>",
+               crossDomain:true,
+               data:{onlyrecent:1},
+               success:function(data){
+                   var jsondata = JSON.parse(data);
+                   if(data!=false){
+                       var j=0;
+                       var z = jsondata.length;
+                       // alert(z);
+                       var html = "";
+                       for(var i=0; i<z; i++){
+                           j++;
+                           html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].educationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                       }
+                       $("#load_education").html(html);
+                   }
+               }
+           });
+       }else if(id==2){
+           $.ajax({
+               type:'post',
+               url:"<?= base_url('Education/report_education')?>",
+               crossDomain:true,
+               success:function(data){
+                   var jsondata = JSON.parse(data);
+                   if(data!=false){
+                       var j=0;
+                       var z = jsondata.length;
+                       // alert(z);
+                       var html = "";
+                       for(var i=0; i<z; i++){
+                           j++;
+                           html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].educationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                       }
+                       $("#load_education").html(html);
+                   }
+               }
+           });
+       }else if(id==3){
+           $.ajax({
+               type:'post',
+               url:"<?= base_url('Education/report_education')?>",
+               crossDomain:true,
+               data:{onlyactive:1},
+               success:function(data){
+                   var jsondata = JSON.parse(data);
+                   if(data!=false){
+                       var j=0;
+                       var z = jsondata.length;
+                       // alert(z);
+                       var html = "";
+                       for(var i=0; i<z; i++){
+                           j++;
+                           html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].educationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                       }
+                       $("#load_education").html(html);
+                   }
+               }
+           });
+       }else if(id==4){
+           $.ajax({
+               type:'post',
+               url:"<?= base_url('Education/report_education')?>",
+               crossDomain:true,
+               data:{onlyinactive:1},
+               success:function(data){
+                   var jsondata = JSON.parse(data);
+                   if(data!=false){
+                       var j=0;
+                       var z = jsondata.length;
+                       // alert(z);
+                       var html = "";
+                       for(var i=0; i<z; i++){
+                           j++;
+                           html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].educationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                       }
+                       $("#load_education").html(html);
+                   }
+               }
+           });
+       }else if(id==5){
+           alert('This report is not available right now');
+       }
     };
 </script>

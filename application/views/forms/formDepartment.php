@@ -32,18 +32,16 @@
                 <br>
                 <hr>
                 <form action="">
-                    <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
-                    <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
-                    <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
-                    <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
-                    <button type="submit" class="btn btn-sm">Details View</button>
+                    <button type="button" class="btn  btn-sm" onclick="departmentReport(1)">Recent Entries</button>
+                    <button type="button" class="btn  btn-sm" onclick="departmentReport(2)">All Entries</button>
+                    <button type="button" class="btn  btn-sm" onclick="departmentReport(3)">Active Entries</button>
+                    <button type="button" class="btn  btn-sm" onclick="departmentReport(4)">Inactive Entries</button>
+                    <button type="button" class="btn btn-sm" onclick="departmentReport(5)">Details View</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
@@ -60,7 +58,8 @@
                 </div>
             </div>
             <div class="box-content">
-                <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                <div class="table-responsive">
+                    <table class="table  table-striped table-bordered bootstrap-datatable datatable  table-earning">
                     <thead>
                     <tr>
                         <th>Sl#</th>
@@ -72,11 +71,11 @@
                     <tbody id="load_department">
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
     $(function () {
         // load_department();
@@ -92,104 +91,105 @@
             data:frm,
             success:function(data){
                 if(data!=false){
-                    console.log(data);
+                    departmentReport(1);
                     $('#departmentname').val("");
                 }else{
                     console.log(data);
                 }
-                recentEntries();
             }
-
         });
     });
-    function recentEntries(){
-        $("#department_report").show();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Department/report_department/1')?>",
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].departmentname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+    function departmentReport(id){
+        if(id==1){
+            $("#department_report").show();
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Department/report_department')?>",
+                data:{onlyrecent:1},
+                crossDomain:true,
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].departmentname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_department").html(html);
                     }
-                    $("#load_department").html(html);
                 }
-            }
-        });
-    }
-    function allEntries(){
-        $("#department_report").show();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Department/report_department')?>",
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].departmentname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+            });
+        }else if(id==2){
+            $("#department_report").show();
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Department/report_department')?>",
+                crossDomain:true,
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].departmentname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_department").html(html);
                     }
-                    $("#load_department").html(html);
                 }
-            }
-        });
-    }
-    function activeEntries(){
-        $("#department_report").show();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Department/report_department')?>",
-            crossDomain:true,
-            data:{onlyactive:1},
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].departmentname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+            });
+        }else if(id==3){
+            $("#department_report").show();
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Department/report_department')?>",
+                crossDomain:true,
+                data:{onlyactive:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].departmentname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_department").html(html);
                     }
-                    $("#load_department").html(html);
                 }
-            }
-        });
-    }
-    function inactiveEntries(){
-        $("#department_report").show();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Department/report_department')?>",
-            crossDomain:true,
-            data:{onlyinactive:1},
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].departmentname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+            });
+        }else if(id==4){
+            $("#department_report").show();
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Department/report_department')?>",
+                crossDomain:true,
+                data:{onlyinactive:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].departmentname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_department").html(html);
                     }
-                    $("#load_department").html(html);
                 }
-            }
-        });
+            });
+        }else if(id==5){
+         alert('This report is not available right now.');
+        }
+
     }
 </script>

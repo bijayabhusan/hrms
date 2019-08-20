@@ -8,7 +8,7 @@ defined("BASEPATH") or exit("No direct script access allowed.");
                <div class="section__content section__content--p30">
                    <div class="container-fluid">
                        <div class="header-wrap2 ">
-                           <div class="header-button-item">
+                           <div class="header-button-item pull-left">
                                <a href="<?= base_url('Dashboard/')?>">
                                    <h3 style="color:#fff;">HRMS</h3>
                                </a>

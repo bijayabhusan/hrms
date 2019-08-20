@@ -1,5 +1,4 @@
 <div class="col-sm-10">
-
     <div class="row">
         <div class="box col-md-12">
             <div class="box-inner">
@@ -31,11 +30,11 @@
                     <br>
                     <hr>
                     <form action="">
-                        <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
-                        <button type="submit" class="btn btn-sm">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(4)">Inactive Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -57,7 +56,8 @@
                     </div>
                 </div>
                 <div class="box-content">
-                    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                    <div class="table-responsive">
+                        <table class="table  table-striped table-bordered bootstrap-datatable datatable  table-earning">
                         <thead>
                         <tr>
                             <th>Sl#</th>
@@ -69,6 +69,7 @@
                         <tbody id="load_year">
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,64 +77,8 @@
 </div>
 </div>
 </div>
-<!--<div class="container" style="margin-top: 14%;min-height: 500px;">-->
-<!--    <div class="hd">-->
-<!--        <div class="hot">-->
-<!---->
-<!--            <span class="sun"></span>-->
-<!--            <span class="sunx"></span>-->
-<!--        </div>-->
-<!--        <div class="cloudy">-->
-<!--            <span class="cloud"></span>-->
-<!--            <span class="cloudx"></span>-->
-<!--        </div>-->
-<!--        <div class="stormy">-->
-<!--            <ul>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--            </ul>-->
-<!--            <span class="snowe"></span>-->
-<!--            <span class="snowex"></span>-->
-<!--            <span class="stick"></span>-->
-<!--            <span class="stick2"></span>-->
-<!--        </div>-->
-<!--        <div class="breezy">-->
-<!--            <ul>-->
-<!---->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--            </ul>-->
-<!--            <span class="cloudr"></span>-->
-<!---->
-<!---->
-<!--        </div>-->
-<!--        <div class="night">-->
-<!--            <span class="moon"></span>-->
-<!--            <span class="spot1"></span>-->
-<!--            <span class="spot2"></span>-->
-<!--            <ul>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--                <li></li>-->
-<!--            </ul>-->
-<!---->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 <script>
     $(function () {
-        load_year();
     })
     $("#yearForm").submit(function(e){
         e.preventDefault();
@@ -144,33 +89,53 @@
             data:frm,
             success:function(data){
                if(data!=false){
-                   load_year();
+                   reportFunction(1);
                }
             }
 
         });
     });
-    function load_year() {
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('Year/report_year')?>",
-                data:{onlyactive:1},
-                success:function(data){
-                    if(data!=false){
-                        jsondata = JSON.parse(data);
-                        var j=0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].year+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                        }
-                        $("#load_year").html(html);
-
-                    }
-                }
-
-            });
+    function reportFunction(id) {
+        var data = '';
+        if(id==1){
+            data= '1';
+        }else if(id==2){
+            data= '2';
+        }else if(id==3){
+            data= '3';
+        }else if(id==4){
+            data = '4';
+        }
+        loadAjaxForReport(data);
     }
+    function loadAjaxForReport(data){
+        $.ajax({
+            type:'post',
+            url:"<?= base_url('Year/report_year')?>",
+            data:{checkparams:data},
+            success:function(data){
+                if(data!=false){
+                    jsondata = JSON.parse(data);
+                    var j=0;
+                    var z = jsondata.length;
+                    // alert(z);
+                    var html = "";
+                    var isactive='';
+                    for(var i=0; i<z; i++){
+                        j++;
+                        var check_isactive =jsondata[i].isactive;
+                        if(check_isactive=='t'){
+                            isactive= "<i class='fa fa-toggle-off'></i>";
+                        }else{
+                            isactive= "<i class='fa fa-toggle-on'></i>";
+                        }
+                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].year+"</td><td>"+isactive+"</td><td>Edit</td></tr>");
+                    }
+                    $("#load_year").html(html);
+
+                }
+            }
+
+        });
+     }
 </script>

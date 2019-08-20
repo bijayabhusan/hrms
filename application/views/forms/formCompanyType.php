@@ -34,11 +34,11 @@ $datenow = date("Y-m-d H:i:s");
                     <br>
                     <hr>
                     <form action="">
-                        <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
-                        <button type="submit" class="btn btn-sm">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="companyTypeReport(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="companyTypeReport(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="companyTypeReport(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="companyTypeReport(4)">Inactive Entries</button>
+                        <button type="button" class="btn btn-sm" onclick="companyTypeReport(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -60,7 +60,8 @@ $datenow = date("Y-m-d H:i:s");
                 </div>
             </div>
             <div class="box-content">
-                <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                <div class="table-responsive">
+                    <table class="table  table-striped table-bordered bootstrap-datatable datatable  table-earning">
                     <thead>
                     <tr>
                         <th>Sl#</th>
@@ -72,6 +73,7 @@ $datenow = date("Y-m-d H:i:s");
                     <tbody id="load_company_type">
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>
@@ -79,7 +81,7 @@ $datenow = date("Y-m-d H:i:s");
 <script>
     $(function () {
         // load_company_type();
-        recentEntries();
+        // recentEntries();
     });
     $("#companyTypeForm").submit(function(e){
         e.preventDefault();
@@ -96,100 +98,106 @@ $datenow = date("Y-m-d H:i:s");
                 }else{
                     console.log(data);
                 }
-                recentEntries();
+                companyTypeReport(1);
             }
         });
     });
-    function allEntries(){
-        var datenow = "<?= $datenow?>";
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Company/report_company_type')?>",
-            crossDomain:true,
-            // data:{onlyactive:1},
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+    function companyTypeReport(id){
+        if(id==1){
+            var datenow = "<?= $datenow?>";
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Company/report_company_type')?>",
+                crossDomain:true,
+                data:{onlyrecent:1},
+                // data:{onlyactive:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_company_type").html(html);
                     }
-                    $("#load_company_type").html(html);
                 }
-            }
-        });
+            });
+        }else if(id==2){
+            var datenow = "<?= $datenow?>";
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Company/report_company_type')?>",
+                crossDomain:true,
+                // data:{onlyactive:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_company_type").html(html);
+                    }
+                }
+            });
+        }else if(id==3){
+            var datenow = "<?= $datenow?>";
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Company/report_company_type')?>",
+                crossDomain:true,
+                data:{onlyactive:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_company_type").html(html);
+                    }
+                }
+            });
+        }else if(id==4){
+            var datenow = "<?= $datenow?>";
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Company/report_company_type')?>",
+                crossDomain:true,
+                data:{onlyinactive:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_company_type").html(html);
+                    }
+                }
+            });
+        }else if(id==5){
+            alert('This report is not avalilable right now');
+        }
+
     }
     // function allEntries() {
     //     $("#companyTypeReport").toggle();
     // }
-    function recentEntries() {
-    $.ajax({
-        type:'post',
-        url:"<?= base_url('Company/report_company_type/1')?>",
-        crossDomain:true,
-        // data:{onlyactive:1},
-        success:function(data){
-            var jsondata = JSON.parse(data);
-            if(data!=false){
-                var j=0;
-                var z = jsondata.length;
-                // alert(z);
-                var html = "";
-                for(var i=0; i<z; i++){
-                    j++;
-                    html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                }
-                $("#load_company_type").html(html);
-            }
-        }
-    });
-    }
-    function activeEntries() {
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Company/report_company_type')?>",
-            crossDomain:true,
-            data:{onlyactive:1},
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                    }
-                    $("#load_company_type").html(html);
-                }
-            }
-        });
-    }
-    function inactiveEntries() {
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Company/report_company_type')?>",
-            crossDomain:true,
-            data:{onlyinactive:0},
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].typename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                    }
-                    $("#load_company_type").html(html);
-                }
-            }
-        });
-    }
 </script>

@@ -81,6 +81,7 @@ class Designation extends CI_Controller {
             $data=array();
             $where="isactive=true";
             $res=$this->Model_Db->select(25,null,$where);
+            $data[]="<option value=''>Select</option>";
             if($res!=false){
                 foreach ($res as $r){
                     $data[]="<option value='$r->id'>$r->designationname</option>";
@@ -95,7 +96,7 @@ class Designation extends CI_Controller {
             exit();
         }
     }
-    public function report_designation($status=null){
+    public function report_designation(){
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
@@ -106,7 +107,7 @@ class Designation extends CI_Controller {
 				$where="isactive=true";
 			}else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
 				$where="isactive=false";
-			}else if(isset($status) && $status!=null){
+			}else if(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
 				$where="DATE(createdat)=DATE('$current_date')";
 			}else{
 				$where="1=1";

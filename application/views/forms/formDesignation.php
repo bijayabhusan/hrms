@@ -1,10 +1,8 @@
-
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well">
                 <h2><i class="fa fa-angle-double-right "></i>Create Designation</h2>
-
                 <div class="box-icon">
                     <a href="#" class="btn btn-setting btn-round btn-default"><i
                                 class="fa fa-cog"></i></a>
@@ -25,31 +23,28 @@
                     </div>
                     <br>
                     <div class="form-group text-right">
-                        <button type="reset" class="btn btn-danger btn-sm">reset</button>
+                        <button type="reset" class="btn btn-danger btn-sm">Reset</button>
                         <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                     </div>
                 </form>
                 <br>
                 <hr>
                 <form action="">
-                    <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
-                    <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
-                    <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
-                    <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
-                    <button type="submit" class="btn btn-sm">Details View</button>
+                    <button type="button" class="btn  btn-sm" onclick="designationReport(1)">Recent Entries</button>
+                    <button type="button" class="btn  btn-sm" onclick="designationReport(2)">All Entries</button>
+                    <button type="button" class="btn  btn-sm" onclick="designationReport(3)">Active Entries</button>
+                    <button type="button" class="btn  btn-sm" onclick="designationReport(4)">Inactive Entries</button>
+                    <button type="button" class="btn btn-sm" onclick="designationReport(5)">Details View</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well">
                 <h2><i class="fa fa-angle-double-right "></i> Report</h2>
-
                 <div class="box-icon">
                     <a href="#" class="btn btn-setting btn-round btn-default"><i
                                 class="fa fa-cog"></i></a>
@@ -60,7 +55,8 @@
                 </div>
             </div>
             <div class="box-content">
-                <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                <div class="table-responsive">
+                    <table class="table  table-striped table-bordered bootstrap-datatable datatable  table-earning">
                     <thead>
                     <tr>
                         <th>Sl#</th>
@@ -72,6 +68,7 @@
                     <tbody id="load_designation">
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>
@@ -82,7 +79,7 @@
         // recentEntries();
     });
     $("#designationForm").submit(function(e){
-        $("#designation_report").show();
+        // $("#designation_report").show();
         e.preventDefault();
         var frm = $("#designationForm").serialize();
         $.ajax({
@@ -93,102 +90,101 @@
             success:function(data){
                 if(data!=false){
                     $('#designationname').val("");
-                }else{
-                    console.log(data);
+                    designationReport(1);
                 }
-                recentEntries();
             }
         });
     });
-    function recentEntries(){
-        $("#designation_report").show();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Designation/report_designation/1')?>",
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].designationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+    function designationReport(id){
+        if(id==1){
+            // $("#designation_report").show();
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Designation/report_designation')?>",
+                crossDomain:true,
+                data:{onlyrecent:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].designationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_designation").html(html);
                     }
-                    $("#load_designation").html(html);
                 }
-            }
-        });
-    };
-    function allEntries(){
-        $("#designation_report").show();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Designation/report_designation')?>",
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].designationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+            });
+        }else if(id==2){
+            // $("#designation_report").show();
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Designation/report_designation')?>",
+                crossDomain:true,
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].designationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_designation").html(html);
                     }
-                    $("#load_designation").html(html);
                 }
-            }
-        });
-    };
-    function activeEntries(){
-        $("#designation_report").show();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Designation/report_designation')?>",
-            crossDomain:true,
-            data:{onlyactive:1},
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].designationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+            });
+        }else if(id==3){
+            // $("#designation_report").show();
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Designation/report_designation')?>",
+                crossDomain:true,
+                data:{onlyactive:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].designationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_designation").html(html);
                     }
-                    $("#load_designation").html(html);
                 }
-            }
-        });
-    };
-    function inactiveEntries(){
-        $("#designation_report").show();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Designation/report_designation')?>",
-            crossDomain:true,
-            data:{onlyinactive:1},
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].designationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+            });
+        }else if(id==4){
+            // $("#designation_report").show();
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Designation/report_designation')?>",
+                crossDomain:true,
+                data:{onlyinactive:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].designationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_designation").html(html);
                     }
-                    $("#load_designation").html(html);
                 }
-            }
-        });
-    };
-
+            });
+        }else if(id==5){
+            alert("This report is not available right now.");
+        }
+   };
 </script>

@@ -82,6 +82,7 @@ class State extends CI_Controller {
             $data=array();
             $where="isactive=true";
             $res=$this->Model_Db->select(7,null,$where);
+            $data[]="<option value=''>Select</option>";
             if($res!=false){
                 foreach ($res as $r){
                     $data[]="<option value='$r->id'>$r->statename</option>";
@@ -102,8 +103,13 @@ class State extends CI_Controller {
             $request = json_decode(json_encode($_POST), FALSE);
 			$postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
+            $current_date=Date('Y-m-d');
 			if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
 				$where="isactive=true";
+			}else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
+				$where="isactive=false";
+			}else if(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
+				$where="DATE(createdat)=DATE('$current_date')";
 			}else{
 				$where="1=1";
 			}

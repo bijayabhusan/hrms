@@ -70,7 +70,7 @@ class MaritalStatus extends CI_Controller {
 
             exit();
         }catch (Exception $e){
-            $data['message']= "Message:".$e->getMessage();
+            $data['message']= "Message:".$e->getCode();
             $data['status']=false;
             $data['error']=true;
             echo json_encode($data);
@@ -82,6 +82,7 @@ class MaritalStatus extends CI_Controller {
             $data=array();
             $where="isactive=true";
             $res=$this->Model_Db->select(19,null,$where);
+            $data[]="<option value=''>Select</option>";
             if($res!=false){
                 foreach ($res as $r){
                     $data[]="<option value='$r->id'>$r->statusname</option>";
@@ -102,8 +103,13 @@ class MaritalStatus extends CI_Controller {
 //			$postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
             $request= json_decode(json_encode($_POST), false);
+            $current_date=Date('Y-m-d');
 			if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
 				$where="isactive=true";
+			}elseif(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
+				$where="isactive=false";
+			}elseif(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
+				$where="DATE(createdat)=DATE('$current_date')";
 			}else{
 				$where="1=1";
 			}

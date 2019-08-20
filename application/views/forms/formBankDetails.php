@@ -36,11 +36,11 @@ $datenow = date("Y-m-d H:i:s");
                     <br>
                     <hr>
                     <form action="">
-                        <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
-                        <button type="submit" class="btn btn-sm">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="bankReport(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="bankReport(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="bankReport(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="bankReport(4)">Inactive Entries</button>
+                        <button type="button" class="btn btn-sm" onclick="bankReport(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -62,7 +62,8 @@ $datenow = date("Y-m-d H:i:s");
                     </div>
                 </div>
                 <div class="box-content">
-                    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                    <div class="table-responsive">
+                        <table class="table  table-striped table-bordered bootstrap-datatable datatable  table-earning">
                         <thead>
                         <tr>
                             <th>Sl#</th>
@@ -74,6 +75,7 @@ $datenow = date("Y-m-d H:i:s");
                         <tbody id="load_bank_names">
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -83,7 +85,7 @@ $datenow = date("Y-m-d H:i:s");
 </div>
 <script>
     $(function () {
-        load_bank_details();
+        // load_bank_details();
     });
     $("#frmBankName").submit(function(e){
         e.preventDefault();
@@ -100,29 +102,96 @@ $datenow = date("Y-m-d H:i:s");
                 }else{
                     console.log(data);
                 }
-                load_bank_details();
+                bankReport(1);
             }
         });
     });
-    function load_bank_details(){
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Bank/report_bank_details')?>",
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].bankname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                    }
-                    $("#load_bank_names").html(html);
-                }
-            }
-        });
+    function bankReport(id){
+      if(id==1){
+          $.ajax({
+              type:'post',
+              url:"<?= base_url('Bank/report_bank_details')?>",
+              crossDomain:true,
+              data:{onlyrecent:1},
+              success:function(data){
+                  var jsondata = JSON.parse(data);
+                  if(data!=false){
+                      var j=0;
+                      var z = jsondata.length;
+                      // alert(z);
+                      var html = "";
+                      for(var i=0; i<z; i++){
+                          j++;
+                          html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].bankname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                      }
+                      $("#load_bank_names").html(html);
+                  }
+              }
+          });
+      }else if(id==2){
+          $.ajax({
+              type:'post',
+              url:"<?= base_url('Bank/report_bank_details')?>",
+              crossDomain:true,
+              success:function(data){
+                  var jsondata = JSON.parse(data);
+                  if(data!=false){
+                      var j=0;
+                      var z = jsondata.length;
+                      // alert(z);
+                      var html = "";
+                      for(var i=0; i<z; i++){
+                          j++;
+                          html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].bankname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                      }
+                      $("#load_bank_names").html(html);
+                  }
+              }
+          });
+      }else if(id==3){
+          $.ajax({
+              type:'post',
+              url:"<?= base_url('Bank/report_bank_details')?>",
+              crossDomain:true,
+              data:{onlyactive:1},
+              success:function(data){
+                  var jsondata = JSON.parse(data);
+                  if(data!=false){
+                      var j=0;
+                      var z = jsondata.length;
+                      // alert(z);
+                      var html = "";
+                      for(var i=0; i<z; i++){
+                          j++;
+                          html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].bankname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                      }
+                      $("#load_bank_names").html(html);
+                  }
+              }
+          });
+      }else if(id==4){
+          $.ajax({
+              type:'post',
+              url:"<?= base_url('Bank/report_bank_details')?>",
+              crossDomain:true,
+              data:{onlyinactive:1},
+              success:function(data){
+                  var jsondata = JSON.parse(data);
+                  if(data!=false){
+                      var j=0;
+                      var z = jsondata.length;
+                      // alert(z);
+                      var html = "";
+                      for(var i=0; i<z; i++){
+                          j++;
+                          html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].bankname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                      }
+                      $("#load_bank_names").html(html);
+                  }
+              }
+          });
+      }else if(id==5){
+          alert('This report is not available right now');
+      }
     }
 </script>

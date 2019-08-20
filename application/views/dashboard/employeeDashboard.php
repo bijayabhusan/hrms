@@ -20,6 +20,7 @@
                             <li onclick="loadEmployeeType()"><i class="fa fa-check-square "></i> &nbsp; Employee Type</li>
                             <li onclick="loadNewEmployee()"><i class="fa fa-check-square "></i> &nbsp; New Eployee</li>
                             <li onclick="loadEmployeeBankDetails()"><i class="fa fa-check-square "></i> &nbsp; Bank Details</li>
+                            <li onclick="loadDepartmentMapping()"><i class="fa fa-check-square "></i> &nbsp; Department Mapping</li>
                             <li onclick="loadAttendance()"><i class="fa fa-check-square "></i> &nbsp; Attendance</li>
                         </ul>
                     </div>
@@ -86,6 +87,15 @@
             function employeeAttendance() {
                 $.ajax({
                     url:"<?= base_url('Forms/employeeAttendance')?>",
+                    type:"post",
+                    success:function (d) {
+                        $("#load_employee_pages").html(d);
+                    }
+                });
+            }
+            function loadDepartmentMapping() {
+                $.ajax({
+                    url:"<?= base_url('Forms/mapping_company_department')?>",
                     type:"post",
                     success:function (d) {
                         $("#load_employee_pages").html(d);

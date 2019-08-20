@@ -39,7 +39,6 @@ class Company extends CI_Controller {
         }
     }
 
-
     public function create_company_type(){
         try{
             $request = json_decode(json_encode($_POST), FALSE);
@@ -251,7 +250,7 @@ class Company extends CI_Controller {
             $data=array();
             $where="isactive=true";
             $res=$this->Model_Db->select(11,null,$where);
-
+            $data[]="<option value=''>Select</option>";
             if($res!=false){
                 foreach ($res as $r){
                     $data[]="<option value='$r->id'>$r->typename</option>";
@@ -266,7 +265,7 @@ class Company extends CI_Controller {
             exit();
         }
     }
-    public function report_company_type($status=null){
+    public function report_company_type(){
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
@@ -280,7 +279,7 @@ class Company extends CI_Controller {
                 $where="isactive=true";
             }else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
                 $where="isactive=false";
-            }else if(isset($status) && $status!=null){
+            }else if(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
                 $where="DATE(createdat)=DATE('$current_date')";
             }else{
                 $where="1=1";
@@ -326,6 +325,7 @@ class Company extends CI_Controller {
                 exit();
             }
             $res=$this->Model_Db->select(13,null,$where);
+            $data[]="<option value=''>Select</option>";
             if($res!=false){
                     foreach ($res as $r){
                         $data[]="<option value='$r->id'>$r->companyname</option>";
@@ -340,7 +340,7 @@ class Company extends CI_Controller {
             exit();
         }
     }
-    public function report_company($status=null){
+    public function report_company(){
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
@@ -352,7 +352,7 @@ class Company extends CI_Controller {
 				$where="isactive=true";
 			}else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
 				$where="isactive=false";
-			}else if(isset($status) && $status!=null){
+			}else if(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
 				$where="DATE(createdat)=DATE('$current_date')";
 			}else{
 				$where="1=1";

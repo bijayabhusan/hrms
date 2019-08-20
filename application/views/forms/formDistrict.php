@@ -39,11 +39,11 @@
                     <br>
                     <hr>
                     <form action="">
-                        <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
-                        <button type="submit" class="btn btn-sm">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="districtEventFire(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="districtEventFire(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="districtEventFire(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="districtEventFire(4)">Inactive Entries</button>
+                        <button type="button" class="btn btn-sm" onclick="districtEventFire(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -67,7 +67,8 @@
                     </div>
                 </div>
                 <div class="box-content">
-                    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                    <div class="table-responsive">
+                        <table class="table  table-striped table-bordered bootstrap-datatable datatable  table-earning">
                         <thead>
                         <tr>
                             <th>Sl#</th>
@@ -79,6 +80,7 @@
                         <tbody id="load_district">
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -104,7 +106,7 @@
                 }else{
                     console.log(data);
                 }
-                load_district();
+                districtEventFire(1);
             }
         });
     });
@@ -123,28 +125,98 @@
     $("#stateid").change(function () {
         load_district();
     });
-    function load_district(){
-        var stateid = $('#stateid').val();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('District/report_district')?>",
-            data:{stateid:stateid},
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].distname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+    function districtEventFire(id){
+        if(id==1){
+            var stateid = $('#stateid').val();
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('District/report_district')?>",
+                data:{stateid:stateid,onlyrecent: 1},
+                crossDomain:true,
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].distname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_district").html(html);
                     }
-                    $("#load_district").html(html);
                 }
-            }
-        });
+            });
+        }else if(id==2){
+            var stateid = $('#stateid').val();
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('District/report_district')?>",
+                data:{stateid:stateid},
+                crossDomain:true,
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].distname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_district").html(html);
+                    }
+                }
+            });
+        }else if(id==3){
+            var stateid = $('#stateid').val();
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('District/report_district')?>",
+                data:{stateid:stateid,onlyactive:1},
+                crossDomain:true,
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].distname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_district").html(html);
+                    }
+                }
+            });
+        }else if(id==4){
+            var stateid = $('#stateid').val();
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('District/report_district')?>",
+                data:{stateid:stateid,onlyinactive:1},
+                crossDomain:true,
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].distname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_district").html(html);
+                    }
+                }
+            });
+        }else if(id==5){
+            alert('This report is not available now.');
+        }
     }
 
 </script>

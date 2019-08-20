@@ -17,6 +17,7 @@
                 </div>
                 <div class="box-content">
                     <form  class="" id="stateForm" autocomplete="off">
+                        <br>
                         <div class="form-group">
                             <input type="hidden" id="txtid" name="txtid" value="0">
                             <label for="statename" class="control-label mb-1">State Name</label>
@@ -24,19 +25,20 @@
                             <input type="hidden" id="isactive" name="isactive" value='1' class="form-control">
                             <small class="errormsg_statename"></small>
                         </div>
-                        <div class="form-actions form-group">
-                            <button type="reset" class="btn btn-primary btn-sm">reset</button>
+                        <br>
+                        <div class="text-right form-group">
+                            <button type="reset" class="btn btn-danger btn-sm">Reset</button>
                             <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                         </div>
                     </form>
                     <br>
                     <hr>
                     <form action="">
-                        <button type="reset" class="btn  btn-sm" onclick="eventFire(1)">Recent Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="eventFire(2)">All Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="eventFire(3)">Active Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="eventFire(4)">Inactive Entries</button>
-                        <button type="submit" class="btn btn-sm">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="stateEventFire(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="stateEventFire(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="stateEventFire(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="stateEventFire(4)">Inactive Entries</button>
+                        <button type="button" class="btn btn-sm" onclick="stateEventFire(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -58,7 +60,8 @@
                     </div>
                 </div>
                 <div class="box-content">
-                    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                    <div class="table-responsive">
+                        <table class="table  table-striped table-bordered bootstrap-datatable datatable  table-earning">
                         <thead>
                         <tr>
                             <th>Sl#</th>
@@ -70,6 +73,7 @@
                         <tbody id="load_state">
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,7 +83,7 @@
 </div>
 <script>
     $(function () {
-        load_state();
+        // load_state();
     });
     $("#stateForm").submit(function(e){
         e.preventDefault();
@@ -98,30 +102,119 @@
                     console.log(data);
                 }
 
-                load_state();
+                stateEventFire(1);
             }
 
         });
     });
-    function load_state(){
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('State/report_state')?>",
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+
+    function stateEventFire(id) {
+
+        if(id==1){
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('State/report_state')?>",
+                crossDomain:true,
+                data:{onlyrecent:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_state").html(html);
                     }
-                    $("#load_state").html(html);
                 }
-            }
-        });
-    };
+            });
+        }else if(id==2){
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('State/report_state')?>",
+                crossDomain:true,
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_state").html(html);
+                    }
+                }
+            });
+        }else if(id==3){
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('State/report_state')?>",
+                crossDomain:true,
+                data:{onlyactive:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_state").html(html);
+                    }
+                }
+            });
+        }else if(id==4) {
+            $.ajax({
+                type: 'post',
+                url: "<?= base_url('State/report_state')?>",
+                crossDomain: true,
+                data: {onlyinactive: 1},
+                success: function (data) {
+                    var jsondata = JSON.parse(data);
+                    if (data != false) {
+                        var j = 0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for (var i = 0; i < z; i++) {
+                            j++;
+                            html += ("<tr> <td>" + j + "</td><td>" + jsondata[i].statename + "</td><td>" + jsondata[i].isactive + "</td><td>Edit</td></tr>");
+                        }
+                        $("#load_state").html(html);
+                    }
+                }
+            });
+        }
+        //}else if(id==5){
+        //    $("#hide_for_details_view").hide();
+        //    $.ajax({
+        //        type:'post',
+        //        url:"<?//= base_url('State/report_state')?>//",
+        //        crossDomain:true,
+        //        success:function(data){
+        //            var jsondata = JSON.parse(data);
+        //            if(data!=false){
+        //                var j=0;
+        //                var z = jsondata.length;
+        //                // alert(z);
+        //                var html = "";
+        //                for(var i=0; i<z; i++){
+        //                    j++;
+        //                    html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+        //                }
+        //                $("#load_state").html(html);
+        //            }
+        //        }
+        //    });
+        //}
+    }
 </script>

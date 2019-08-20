@@ -35,11 +35,11 @@ $datenow = date("Y-m-d H:i:s");
                         <br>
                         <hr>
                         <form action="">
-                            <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
-                            <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
-                            <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
-                            <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
-                            <button type="submit" class="btn btn-sm">Details View</button>
+                            <button type="button" class="btn  btn-sm" onclick="genderReport(1)">Recent Entries</button>
+                            <button type="button" class="btn  btn-sm" onclick="genderReport(2)">All Entries</button>
+                            <button type="button" class="btn  btn-sm" onclick="genderReport(3)">Active Entries</button>
+                            <button type="button" class="btn  btn-sm" onclick="genderReport(4)">Inactive Entries</button>
+                            <button type="button" class="btn btn-sm" onclick="genderReport(5)">Details View</button>
                         </form>
                     </div>
                 </div>
@@ -61,7 +61,8 @@ $datenow = date("Y-m-d H:i:s");
                         </div>
                     </div>
                     <div class="box-content">
-                        <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                        <div class="table-responsive">
+                            <table class="table  table-striped table-bordered bootstrap-datatable datatable  table-earning">
                             <thead>
                             <tr>
                                 <th>Sl#</th>
@@ -73,6 +74,7 @@ $datenow = date("Y-m-d H:i:s");
                             <tbody id="load_gendername">
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -83,7 +85,7 @@ $datenow = date("Y-m-d H:i:s");
 
 <script>
     $(function () {
-        load_gender();
+        // load_gender();
     });
     $("#genderForm").submit(function(e){
         e.preventDefault();
@@ -100,29 +102,96 @@ $datenow = date("Y-m-d H:i:s");
                 }else{
                     console.log(data);
                 }
-                load_gender();
+                genderReport(1);
             }
         });
     });
-    function load_gender(){
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Gender/report_gender')?>",
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].gendername+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                    }
-                    $("#load_gendername").html(html);
-                }
-            }
-        });
+    function genderReport(id){
+     if(id==1){
+         $.ajax({
+             type:'post',
+             url:"<?= base_url('Gender/report_gender')?>",
+             crossDomain:true,
+             data:{onlyrecent:1},
+             success:function(data){
+                 var jsondata = JSON.parse(data);
+                 if(data!=false){
+                     var j=0;
+                     var z = jsondata.length;
+                     // alert(z);
+                     var html = "";
+                     for(var i=0; i<z; i++){
+                         j++;
+                         html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].gendername+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                     }
+                     $("#load_gendername").html(html);
+                 }
+             }
+         });
+     }else if(id==2){
+         $.ajax({
+             type:'post',
+             url:"<?= base_url('Gender/report_gender')?>",
+             crossDomain:true,
+             success:function(data){
+                 var jsondata = JSON.parse(data);
+                 if(data!=false){
+                     var j=0;
+                     var z = jsondata.length;
+                     // alert(z);
+                     var html = "";
+                     for(var i=0; i<z; i++){
+                         j++;
+                         html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].gendername+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                     }
+                     $("#load_gendername").html(html);
+                 }
+             }
+         });
+     }else if(id==3){
+         $.ajax({
+             type:'post',
+             url:"<?= base_url('Gender/report_gender')?>",
+             crossDomain:true,
+             data:{onlyactive:1},
+             success:function(data){
+                 var jsondata = JSON.parse(data);
+                 if(data!=false){
+                     var j=0;
+                     var z = jsondata.length;
+                     // alert(z);
+                     var html = "";
+                     for(var i=0; i<z; i++){
+                         j++;
+                         html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].gendername+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                     }
+                     $("#load_gendername").html(html);
+                 }
+             }
+         });
+     }else if(id==4){
+         $.ajax({
+             type:'post',
+             url:"<?= base_url('Gender/report_gender')?>",
+             crossDomain:true,
+             data:{onlyinactive:1},
+             success:function(data){
+                 var jsondata = JSON.parse(data);
+                 if(data!=false){
+                     var j=0;
+                     var z = jsondata.length;
+                     // alert(z);
+                     var html = "";
+                     for(var i=0; i<z; i++){
+                         j++;
+                         html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].gendername+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                     }
+                     $("#load_gendername").html(html);
+                 }
+             }
+         });
+     }else if(id==5){
+      alert('This report is not available right now');
+     }
     }
 </script>

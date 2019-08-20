@@ -113,6 +113,7 @@ class Create extends CI_Controller {
                 exit();
             }
             $res=$this->Model_Db->select(3,null,$where);
+            $data[]="<option value=''>Select</option>";
             if($res!=false){
                 foreach ($res as $r){
                     $data[]="<option value='$r->id'>$r->name</option>";

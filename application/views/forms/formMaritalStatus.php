@@ -33,14 +33,15 @@ $datenow = date("Y-m-d H:i:s");
                             <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                         </div>
                     </form>
+<!--                    <div class="text-center notice" style="display: none;"><img src="--><?//=base_url('assets/images/hrms_loader.gif')?><!--" alt=""></div>-->
                     <br>
                     <hr>
                     <form action="">
-                        <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
-                        <button type="submit" class="btn btn-sm">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="maritalStatusReport(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="maritalStatusReport(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="maritalStatusReport(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="maritalStatusReport(4)">Inactive Entries</button>
+                        <button type="button" class="btn btn-sm" onclick="maritalStatusReport(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -64,7 +65,8 @@ $datenow = date("Y-m-d H:i:s");
                     </div>
                 </div>
                 <div class="box-content">
-                    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                    <div class="table-responsive">
+                        <table class="table  table-striped table-bordered bootstrap-datatable datatable  table-earning">
                         <thead>
                         <tr>
                             <th>Sl#</th>
@@ -76,6 +78,7 @@ $datenow = date("Y-m-d H:i:s");
                         <tbody id="load_status_names">
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -85,7 +88,7 @@ $datenow = date("Y-m-d H:i:s");
 </div>
 <script>
     $(function () {
-        load_status_name();
+        // load_status_name();
     });
     $("#maritalStatusForm").submit(function(e){
         e.preventDefault();
@@ -99,32 +102,100 @@ $datenow = date("Y-m-d H:i:s");
                 if(data!=false){
                     console.log(data);
                     $('#statusname').val("");
+                    $(".notice").show();
                 }else{
                     console.log(data);
                 }
-                load_status_name();
+                maritalStatusReport(1);
             }
         });
     });
-    function load_status_name(){
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('MaritalStatus/report_marital_status')?>",
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statusname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                    }
-                    $("#load_status_names").html(html);
-                }
-            }
-        });
+    function maritalStatusReport(id){
+      if(id==1){
+          $.ajax({
+              type:'post',
+              url:"<?= base_url('MaritalStatus/report_marital_status')?>",
+              crossDomain:true,
+              data:{onlyrecent:1},
+              success:function(data){
+                  var jsondata = JSON.parse(data);
+                  if(data!=false){
+                      var j=0;
+                      var z = jsondata.length;
+                      // alert(z);
+                      var html = "";
+                      for(var i=0; i<z; i++){
+                          j++;
+                          html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statusname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                      }
+                      $("#load_status_names").html(html);
+                  }
+              }
+          });
+      }else if(id==2){
+          $.ajax({
+              type:'post',
+              url:"<?= base_url('MaritalStatus/report_marital_status')?>",
+              crossDomain:true,
+              success:function(data){
+                  var jsondata = JSON.parse(data);
+                  if(data!=false){
+                      var j=0;
+                      var z = jsondata.length;
+                      // alert(z);
+                      var html = "";
+                      for(var i=0; i<z; i++){
+                          j++;
+                          html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statusname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                      }
+                      $("#load_status_names").html(html);
+                  }
+              }
+          });
+      }else if(id==3){
+          $.ajax({
+              type:'post',
+              url:"<?= base_url('MaritalStatus/report_marital_status')?>",
+              crossDomain:true,
+              data:{onlyactive:1},
+              success:function(data){
+                  var jsondata = JSON.parse(data);
+                  if(data!=false){
+                      var j=0;
+                      var z = jsondata.length;
+                      // alert(z);
+                      var html = "";
+                      for(var i=0; i<z; i++){
+                          j++;
+                          html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statusname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                      }
+                      $("#load_status_names").html(html);
+                  }
+              }
+          });
+      }else if(id==4){
+          $.ajax({
+              type:'post',
+              url:"<?= base_url('MaritalStatus/report_marital_status')?>",
+              crossDomain:true,
+              data:{onlyinactive:1},
+              success:function(data){
+                  var jsondata = JSON.parse(data);
+                  if(data!=false){
+                      var j=0;
+                      var z = jsondata.length;
+                      // alert(z);
+                      var html = "";
+                      for(var i=0; i<z; i++){
+                          j++;
+                          html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statusname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                      }
+                      $("#load_status_names").html(html);
+                  }
+              }
+          });
+      }else if(id==5){
+       alert('This report is not available right now');
+      }
     }
 </script>

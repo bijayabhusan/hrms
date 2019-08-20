@@ -19,12 +19,12 @@
                             <label for="" class="control-label mb-1">Employee Name</label>
                             <input type="hidden" id="txtid" name="txtid" value="0">
                             <input type="hidden" id="isactive" name="isactive" value="1">
-                            <select id="employeename" name="employeename" class="form-control" aria-required="true" aria-invalid="false" >
+                            <select id="employeename" name="employeename" class="select" aria-required="true" aria-invalid="false" >
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="employeebankname" class="control-label mb-1">Bank Name</label>
-                            <select id="employeebankname" name="employeebankname" class="form-control" aria-required="true" aria-invalid="false" >
+                            <select id="employeebankname" name="employeebankname" class="select" aria-required="true" aria-invalid="false" >
                             </select>
                         </div>
                         <div class="form-group">
@@ -43,11 +43,11 @@
                     <br>
                     <hr>
                     <form action="">
-                        <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
-                        <button type="submit" class="btn btn-sm">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="employeeBankDetailsReport(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="employeeBankDetailsReport(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="employeeBankDetailsReport(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="employeeBankDetailsReport(4)">Inactive Entries</button>
+                        <button type="button" class="btn btn-sm" onclick="employeeBankDetailsReport(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -69,7 +69,8 @@
                     </div>
                 </div>
                 <div class="box-content">
-                    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                    <div class="table-responsive">
+                        <table class="table  table-striped table-bordered bootstrap-datatable datatable  table-earning">
                         <thead>
                         <tr>
                             <th>Sl#</th>
@@ -84,6 +85,7 @@
                         <tbody id="load_bank_employee">
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -140,90 +142,93 @@
     $("#stateid").change(function () {
         load_district();
     });
-    function recentEntries(){
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Employee/report_employee_bank_details/1')?>",
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+    function employeeBankDetailsReport(id){
+        if(id==1){
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Employee/report_employee_bank_details')?>",
+                crossDomain:true,
+                data:{onlyrecent:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_bank_employee").html(html);
                     }
-                    $("#load_bank_employee").html(html);
                 }
-            }
-        });
-    }
-    function allEntries(){
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Employee/report_employee_bank_details')?>",
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+            });
+        }else if(id==2){
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Employee/report_employee_bank_details')?>",
+                crossDomain:true,
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_bank_employee").html(html);
                     }
-                    $("#load_bank_employee").html(html);
                 }
-            }
-        });
-    }
-    function activeEntries(){
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Employee/report_employee_bank_details')?>",
-            crossDomain:true,
-            data:{onlyactive:1},
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+            });
+        }else if(id==3){
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Employee/report_employee_bank_details')?>",
+                crossDomain:true,
+                data:{onlyactive:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_bank_employee").html(html);
                     }
-                    $("#load_bank_employee").html(html);
                 }
-            }
-        });
-    }
-    function inactiveEntries(){
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Employee/report_employee_bank_details')?>",
-            crossDomain:true,
-            data:{onlyinactive:1},
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+            });
+        }else if(id==4){
+            $.ajax({
+                type:'post',
+                url:"<?= base_url('Employee/report_employee_bank_details')?>",
+                crossDomain:true,
+                data:{onlyinactive:1},
+                success:function(data){
+                    var jsondata = JSON.parse(data);
+                    if(data!=false){
+                        var j=0;
+                        var z = jsondata.length;
+                        // alert(z);
+                        var html = "";
+                        for(var i=0; i<z; i++){
+                            j++;
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                        }
+                        $("#load_bank_employee").html(html);
                     }
-                    $("#load_bank_employee").html(html);
                 }
-            }
-        });
+            });
+        }else if(id==5){
+         alert('This report is not available right now.');
+        }
+
     }
 </script>

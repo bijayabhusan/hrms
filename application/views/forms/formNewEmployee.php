@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="employeetype" class="control-label mb-1">Employee Type</label>
-                                    <select id="employeetype" name="employeetype" class="form-control" aria-required="true" aria-invalid="false" >
+                                    <select id="employeetype" name="employeetype" class="select" aria-required="true" aria-invalid="false" >
                                         <option value="">Select</option>
                                     </select>
                                 </div>
@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="employeeeducation" class="control-label mb-1">Education</label>
-                                    <select id="employeeeducation" name="employeeeducation" class="form-control" aria-required="true" aria-invalid="false" >
+                                    <select id="employeeeducation" name="employeeeducation" class="select" aria-required="true" aria-invalid="false" >
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="employeegender" class="control-label mb-1">Gender</label>
-                                    <select id="employeegender" name="employeegender" class="form-control" aria-required="true" aria-invalid="false" >
+                                    <select id="employeegender" name="employeegender" class="select" aria-required="true" aria-invalid="false" >
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="employeedepartment" class="control-label mb-1">Department</label>
-                                    <select id="employeedepartment" name="employeedepartment" class="form-control" aria-required="true" aria-invalid="false" >
+                                    <select id="employeedepartment" name="employeedepartment" class="select" aria-required="true" aria-invalid="false" >
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -96,7 +96,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="employeegender" class="control-label mb-1">Marital Status</label>
-                                    <select id="employeemaritalstatus" name="employeemaritalstatus" class="form-control" aria-required="true" aria-invalid="false" >
+                                    <select id="employeemaritalstatus" name="employeemaritalstatus" class="select" aria-required="true" aria-invalid="false" >
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="employeepostion" class="control-label mb-1">Designation</label>
-                                    <select id="employeeposition" name="employeeposition" class="form-control" aria-required="true" aria-invalid="false" ></select>
+                                    <select id="employeeposition" name="employeeposition" class="select" aria-required="true" aria-invalid="false" ></select>
                                 </div>
                                 <div class="form-group">
                                     <label for="employeemobile" class="control-label mb-1">Mobile</label>
@@ -132,11 +132,11 @@
                     <br>
                     <hr>
                     <form action="">
-                        <button type="reset" class="btn  btn-sm" onclick="recentEntries()">Recent Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="allEntries()">All Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="activeEntries()">Active Entries</button>
-                        <button type="reset" class="btn  btn-sm" onclick="inactiveEntries()">Inactive Entries</button>
-                        <button type="submit" class="btn btn-sm">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="newEmployeeReport(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="newEmployeeReport(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="newEmployeeReport(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="newEmployeeReport(4)">Inactive Entries</button>
+                        <button type="button" class="btn btn-sm" onclick="newEmployeeReport(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -158,7 +158,8 @@
                     </div>
                 </div>
                 <div class="box-content">
-                    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                    <div class="table-responsive">
+                        <table class="table  table-striped table-bordered bootstrap-datatable datatable  table-earning">
                         <thead style="font-size: 10px;">
                         <tr>
                             <th>Sl#</th>
@@ -188,6 +189,7 @@
                         <tbody id="load_employeess">
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -303,100 +305,113 @@
 
         });
     });
-    function recentEntries(){
-        $("#newEmployee_report").show();
-        // var companyid = $("#companytype").val();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Employee/report_employee/1')?>",
-            // data:{typeid:companyid},
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyname+"</td><td>"+jsondata[i].companyshortname +"</td><td>"+jsondata[i].address+"</td><td>"+jsondata[i].pincode +"</td><td>"+jsondata[i].gstno +"</td><td>"+jsondata[i].url+"</td><td>"+jsondata[i].emailid+"</td><td>"+jsondata[i].mobile +"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+    function newEmployeeReport(id){
+        if(id==1){
+            var typename = $("#employeetype").val();
+            if(typename == ''){
+                alert('Please select employee type.');
+            }else{
+                $.ajax({
+                    type:'post',
+                    url:"<?= base_url('Employee/report_employee')?>",
+                    data:{typename:typename,onlyrecent:1},
+                    crossDomain:true,
+                    success:function(data){
+                        var jsondata = JSON.parse(data);
+                        if(data!=false){
+                            var j=0;
+                            var z = jsondata.length;
+                            alert(z);
+                            var html = "";
+                            for(var i=0; i<z; i++){
+                                j++;
+                                html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyname+"</td><td>"+jsondata[i].companyshortname +"</td><td>"+jsondata[i].address+"</td><td>"+jsondata[i].pincode +"</td><td>"+jsondata[i].gstno +"</td><td>"+jsondata[i].url+"</td><td>"+jsondata[i].emailid+"</td><td>"+jsondata[i].mobile +"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                            }
+                            $("#load_employeess").html(html);
+                        }
                     }
-                    $("#load_employeess").html(html);
-                }
+                });
             }
-        });
-    }
-    function allEntries(){
-        $("#newEmployee_report").show();
-        // var companyid = $("#companytype").val();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Employee/report_employee')?>",
-            // data:{typeid:companyid,onlyactive:1},
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyname+"</td><td>"+jsondata[i].companyshortname +"</td><td>"+jsondata[i].address+"</td><td>"+jsondata[i].pincode +"</td><td>"+jsondata[i].gstno +"</td><td>"+jsondata[i].url+"</td><td>"+jsondata[i].emailid+"</td><td>"+jsondata[i].mobile +"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+        }else if(id==2){
+            var typename = $("#employeetype").val();
+            if(typename == ''){
+                alert('Please select employee type.');
+            }else {
+                $.ajax({
+                    type: 'post',
+                    url: "<?= base_url('Employee/report_employee')?>",
+                    data: {typename: typename},
+                    crossDomain: true,
+                    success: function (data) {
+                        var jsondata = JSON.parse(data);
+                        if (data != false) {
+                            var j = 0;
+                            var z = jsondata.length;
+                            alert(z);
+                            var html = "";
+                            for (var i = 0; i < z; i++) {
+                                j++;
+                                html += ("<tr> <td>" + j + "</td><td>" + jsondata[i].companyname + "</td><td>" + jsondata[i].companyshortname + "</td><td>" + jsondata[i].address + "</td><td>" + jsondata[i].pincode + "</td><td>" + jsondata[i].gstno + "</td><td>" + jsondata[i].url + "</td><td>" + jsondata[i].emailid + "</td><td>" + jsondata[i].mobile + "</td><td>" + jsondata[i].isactive + "</td><td>Edit</td></tr>");
+                            }
+                            $("#load_employeess").html(html);
+                        }
                     }
-                    $("#load_employeess").html(html);
-                }
+                });
             }
-        });
-    }
-    function activeEntries(){
-        $("#newEmployee_report").show();
-        // var companyid = $("#companytype").val();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Employee/report_employee')?>",
-            data:{onlyactive:1},
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyname+"</td><td>"+jsondata[i].companyshortname +"</td><td>"+jsondata[i].address+"</td><td>"+jsondata[i].pincode +"</td><td>"+jsondata[i].gstno +"</td><td>"+jsondata[i].url+"</td><td>"+jsondata[i].emailid+"</td><td>"+jsondata[i].mobile +"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+        }else if(id==3){
+            var typename = $("#employeetype").val();
+            if(typename == ''){
+                alert('Please select employee type.');
+            }else {
+                $.ajax({
+                    type: 'post',
+                    url: "<?= base_url('Employee/report_employee')?>",
+                    data: {typename: typename, onlyactive: 1},
+                    crossDomain: true,
+                    success: function (data) {
+                        var jsondata = JSON.parse(data);
+                        if (data != false) {
+                            var j = 0;
+                            var z = jsondata.length;
+                            alert(z);
+                            var html = "";
+                            for (var i = 0; i < z; i++) {
+                                j++;
+                                html += ("<tr> <td>" + j + "</td><td>" + jsondata[i].companyname + "</td><td>" + jsondata[i].companyshortname + "</td><td>" + jsondata[i].address + "</td><td>" + jsondata[i].pincode + "</td><td>" + jsondata[i].gstno + "</td><td>" + jsondata[i].url + "</td><td>" + jsondata[i].emailid + "</td><td>" + jsondata[i].mobile + "</td><td>" + jsondata[i].isactive + "</td><td>Edit</td></tr>");
+                            }
+                            $("#load_employeess").html(html);
+                        }
                     }
-                    $("#load_employeess").html(html);
-                }
+                });
             }
-        });
-    }
-    function inactiveEntries(){
-        $("#newEmployee_report").show();
-        // var companyid = $("#companytype").val();
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('Employee/report_employee')?>",
-            data:{onlyinactive:1},
-            crossDomain:true,
-            success:function(data){
-                var jsondata = JSON.parse(data);
-                if(data!=false){
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    for(var i=0; i<z; i++){
-                        j++;
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyname+"</td><td>"+jsondata[i].companyshortname +"</td><td>"+jsondata[i].address+"</td><td>"+jsondata[i].pincode +"</td><td>"+jsondata[i].gstno +"</td><td>"+jsondata[i].url+"</td><td>"+jsondata[i].emailid+"</td><td>"+jsondata[i].mobile +"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+        }else if(id==4){
+            var typename = $("#employeetype").val();
+            if(typename == ''){
+                alert('Please select employee type.');
+            }else {
+                $.ajax({
+                    type: 'post',
+                    url: "<?= base_url('Employee/report_employee')?>",
+                    data: {typename: typename, onlyinactive: 1},
+                    crossDomain: true,
+                    success: function (data) {
+                        var jsondata = JSON.parse(data);
+                        if (data != false) {
+                            var j = 0;
+                            var z = jsondata.length;
+                            alert(z);
+                            var html = "";
+                            for (var i = 0; i < z; i++) {
+                                j++;
+                                html += ("<tr> <td>" + j + "</td><td>" + jsondata[i].companyname + "</td><td>" + jsondata[i].companyshortname + "</td><td>" + jsondata[i].address + "</td><td>" + jsondata[i].pincode + "</td><td>" + jsondata[i].gstno + "</td><td>" + jsondata[i].url + "</td><td>" + jsondata[i].emailid + "</td><td>" + jsondata[i].mobile + "</td><td>" + jsondata[i].isactive + "</td><td>Edit</td></tr>");
+                            }
+                            $("#load_employeess").html(html);
+                        }
                     }
-                    $("#load_employeess").html(html);
-                }
+                });
             }
-        });
+        }else if(id==5){
+            alert('This report is not available right now.');
+        }
     }
 </script>

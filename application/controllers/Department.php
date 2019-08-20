@@ -81,6 +81,7 @@ class Department extends CI_Controller {
             $data=array();
             $where="isactive=true";
             $res=$this->Model_Db->select(23,null,$where);
+            $data[]="<option value=''>Select</option>";
             if($res!=false){
                 foreach ($res as $r){
                     $data[]="<option value='$r->id'>$r->departmentname</option>";
@@ -95,19 +96,19 @@ class Department extends CI_Controller {
             exit();
         }
     }
-    public function report_department($status=null){
+    public function report_department(){
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
 			$postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
             $current_date=date("Y-m-d");
-            if(isset($status) && $status!=null){
-                $where="DATE(createdat)=DATE('$current_date')";
-            }else if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
+            if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
 				$where="isactive=true";
 			}else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
                 $where="isactive=false";
+            }else if(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
+                $where="DATE(createdat)=DATE('$current_date')";
             }else{
 				$where="1=1";
 			}
@@ -208,14 +209,14 @@ class Department extends CI_Controller {
             exit();
         }
     }
-    public function report_department_mapping($status=null){
+    public function report_department_mapping(){
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
             $postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
             $current_date=date("Y-m-d");
-            if(isset($status) && $status!=null){
+            if(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
                 $where="DATE(createdat)=DATE('$current_date')";
             }else if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
                 $where="isactive=true";

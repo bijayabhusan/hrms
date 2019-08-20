@@ -124,16 +124,57 @@ class Year extends CI_Controller
             exit();
         }
     }
+    public function load_year(){
+        try{
+            $data=array();
+            $where="isactive=true";
+            $res=$this->Model_Db->select(37,null,$where);
+            $data[]="<option value=''>Select</option>";
+            if($res!=false){
+                foreach ($res as $r){
+                    $data[]="<option value='$r->id'>$r->year</option>";
+                }
+            }
+            echo json_encode($data);
+        }catch (Exception $e){
+            $data['message']= "Message:".$e->getMessage();
+            $data['status']=false;
+            $data['error']=true;
+            echo json_encode($data);
+            exit();
+        }
+    }
     public function report_year(){
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
 //            $postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
-            if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
-                $where="isactive=true";
-            }else{
-                $where="1=1";
+//            if(isset($request->checkparams) && is_numeric($request->checkparams) && $request->checkparams == 1){
+//                $where="DATE(createdat)=DATE('$current_date')";
+//            }else if(isset($request->checkparams) && is_numeric($request->checkparams) && $request->checkparams==2){
+//                $where="1=1";
+//            }else if(isset($request->checkparams) && is_numeric($request->checkparams) && $request->checkparams == 3){
+//                $where="isactive=true";
+//            }else if(isset($request->checkparams) && is_numeric($request->checkparams) && $request->checkparams == 4){
+//                $where="isactive=false";
+//            }
+            $current_date=Date('Y-m-d');
+            if(isset($request->checkparams) && is_numeric($request->checkparams)){
+                switch ($request->checkparams){
+                    case 1:
+                        $where="DATE(createdat)=DATE('$current_date')";
+                        break;
+                    case 2:
+                        $where="1=1";
+                        break;
+                    case 3:
+                        $where="isactive=true";
+                        break;
+                    case 4:
+                        $where="isactive=false";
+                        break;
+                }
             }
             $res=$this->Model_Db->select(37,null,$where);
             if($res!=false){

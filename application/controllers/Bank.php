@@ -122,7 +122,7 @@ class Bank extends CI_Controller
             $data=array();
             $where="isactive=true";
             $res=$this->Model_Db->select(33,null,$where);
-
+            $data[]="<option value=''>Select</option>";
             if($res!=false){
                 foreach ($res as $r){
                     $data[]="<option value='$r->id'>$r->bankname</option>";
@@ -137,7 +137,7 @@ class Bank extends CI_Controller
             exit();
         }
     }
-    public function report_bank_details($status=null){
+    public function report_bank_details(){
         try{
             $data=array();
             $request = json_decode(json_encode($_POST), FALSE);
@@ -148,8 +148,8 @@ class Bank extends CI_Controller
             if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
                 $where="isactive=true";
             }else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
-                $where="isactive=true";
-            }else if(isset($status) && $status!=null){
+                $where="isactive=false";
+            }else if(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
                 $where="DATE(createdat) = DATE('$current_date')";
             }else{
                 $where="1=1";

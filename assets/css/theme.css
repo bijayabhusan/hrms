@@ -2298,7 +2298,8 @@ section {
 
 .header-desktop2 {
     height: 60px;
-    background: #4272d7;
+    /*background: #4272d7;*/
+    background:#3090C7;
     position: fixed;
     z-index: 1001;
     top: 0;
@@ -4234,15 +4235,16 @@ section {
 }
 
 .table-earning thead th {
-    background: #333;
-    font-size: 16px;
+    background: #00b5e9;
+    font-size: 13px;
     color: #fff;
     vertical-align: middle;
     font-weight: 400;
-    text-transform: capitalize;
+    text-transform: uppercase;
     line-height: 1;
-    padding: 22px 40px;
+    padding: 15px 16px;
     white-space: nowrap;
+    text-align: center;
 }
 
 .table-earning thead th.text-right {
@@ -4251,9 +4253,12 @@ section {
 }
 
 .table-earning tbody td {
-    color: #808080;
-    padding: 12px 40px;
+    color: #000;
+    padding: 15px 16px;
     white-space: nowrap;
+    text-transform: uppercase;
+    font-size: 12px;
+    text-align: center;
 }
 
 .table-earning tbody td.text-right {
@@ -15177,17 +15182,37 @@ label{
 /*}*/
 
 input[type=text]{
-border-radius: 10px;
+border-radius: 7px;
+    height: 30px;
+    font-size: 12px;
 }
-input[type=select]{
-    border-radius: 10px;
+input[type=email]{
+border-radius: 7px;
+    height: 30px;
+    font-size: 12px;
 }
-
+input[type=date]{
+border-radius: 7px;
+    height: 30px;
+    font-size: 12px;
+}
+select{
+    border-radius: 7px;
+    width: 100%;
+    padding: auto;
+    height: 30px;
+    font-size: 12px;
+}
+textarea{
+    border-radius: 7px;
+    height: 35px;
+    font-size: 12px;
+}
 
 /*charisma*/
-
-select {
-    background-color: #fff;
+textarea{
+    border-radius: 10px;
+    color:red;
 }
 
 .ch-container {
@@ -15642,6 +15667,7 @@ ul.ajax-loaders {
 
 .main-menu > li {
     margin-top: 0 !important;
+    cursor: pointer;
 }
 
 .sidebar-nav .nav-header {
@@ -15919,4 +15945,19 @@ ul.github-buttons li {
 .mc_embed_signup #mce-success-response {color:#529214; display:none;}
 .mc_embed_signup label.error {display:block; float:none; width:auto; margin-left:1.05em; text-align:left; padding:.5em 0;}
 
+.fa{
+    color:#3090C7;
+}
+.js-sidebar-btn .zmdi{
+    color:#ffffff;
+}
+.zmdi{
+    color:#3090C7;
+}
+.js-item-menu .zmdi{
+    color:#ffffff;
+}
+.form-fa-item .fa{
+    color:#ffffff;
+}
 
