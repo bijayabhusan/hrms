@@ -1,3 +1,7 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$cname = $this->uri->segment(2);
+?>
 <div class="col-sm-10">
     <div class="row">
         <div class="box col-md-12">
@@ -77,9 +81,10 @@
 </div>
 </div>
 </div>
+<?php
+
+?>
 <script>
-    $(function () {
-    })
     $("#yearForm").submit(function(e){
         e.preventDefault();
         var frm = $("#yearForm").serialize();
@@ -92,27 +97,13 @@
                    reportFunction(1);
                }
             }
-
         });
     });
-    function reportFunction(id) {
-        var data = '';
-        if(id==1){
-            data= '1';
-        }else if(id==2){
-            data= '2';
-        }else if(id==3){
-            data= '3';
-        }else if(id==4){
-            data = '4';
-        }
-        loadAjaxForReport(data);
-    }
-    function loadAjaxForReport(data){
+    function loadAjaxForReport(id){
         $.ajax({
             type:'post',
             url:"<?= base_url('Year/report_year')?>",
-            data:{checkparams:data},
+            data:{checkparams:id},
             success:function(data){
                 if(data!=false){
                     jsondata = JSON.parse(data);
@@ -123,19 +114,20 @@
                     var isactive='';
                     for(var i=0; i<z; i++){
                         j++;
-                        var check_isactive =jsondata[i].isactive;
-                        if(check_isactive=='t'){
-                            isactive= "<i class='fa fa-toggle-off'></i>";
+                        var checkId = jsondata[i].id;
+                        var checkIsactive = jsondata[i].isactive;
+                        var updatedid = '"<?= $cname ?>"';
+                        var urlid = '"../Common/record_active_deactive"';
+                        if(checkIsactive=='t'){
+                            isactive= "<button id='action"+checkId+"' onclick='editIsactive(1,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-on fa-2x'></i></button>";
                         }else{
-                            isactive= "<i class='fa fa-toggle-on'></i>";
+                            isactive= "<button id='action"+checkId+"' onclick='editIsactive(0,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-off fa-2x' ></i></button>";
                         }
                         html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].year+"</td><td>"+isactive+"</td><td>Edit</td></tr>");
                     }
                     $("#load_year").html(html);
-
                 }
             }
-
         });
      }
 </script>

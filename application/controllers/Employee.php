@@ -138,13 +138,129 @@ class Employee extends CI_Controller {
             $data=array();
             $insert=array();
             $request = json_decode(json_encode($_POST), FALSE);
+//            print_r($request);
 //            $postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
             $status=true;
-            if(isset($request->typename) && preg_match("/^[a-zA-Z ]{3,20}$/",$request->typename)){
-                $insert[0]['typename']=$request->typename;
+            if(isset($request->slno) && preg_match("/^[0-9]{0,20}$/",$request->slno)){
+                $insert[0]['slno']=$request->slno;
             }else{
                 $status=false;
+            }
+            if(isset($request->departmentmappingid) && is_numeric($request->departmentmappingid)){
+                $insert[0]['departmentmappingid']=$request->departmentmappingid;
+            }else{
+                $status=false;
+            }
+            if(isset($request->designationid) && is_numeric($request->designationid)){
+                $insert[0]['designationid']=$request->designationid;
+            }else{
+                $status=false;
+            }
+            if(isset($request->doj) && preg_match("/[0-9-]{10}/",$request->doj)){
+                $insert[0]['doj']=$request->doj;
+            }else{
+                $status=false;
+            }
+            if(isset($request->dol) && preg_match("/[0-9-]{10}/",$request->dol)){
+                $insert[0]['dol']=$request->dol;
+            }else{
+                $insert[0]['dol']=null;
+            }
+            if(isset($request->empid) && preg_match("/^[a-zA-Z0-9]{0,20}$/",$request->empid)){
+                $insert[0]['empid']=$request->empid;
+            }else{
+                $insert[0]['empid']="";
+            }
+            if(isset($request->fname) && preg_match("/^[a-zA-Z ]{0,20}$/",$request->fname)){
+                $insert[0]['fname']=$request->fname;
+            }else{
+                $status=false;
+            }
+            if(isset($request->mname) && preg_match("/^[a-zA-Z ]{0,20}$/",$request->mname)){
+                $insert[0]['mname']=$request->mname;
+            }else{
+                $insert[0]['mname']="";
+            }
+            if(isset($request->genderid) && is_numeric($request->genderid)){
+                $insert[0]['genderid']=$request->genderid;
+            }else{
+                $status=false;
+            }
+            if(isset($request->lname) && preg_match("/^[a-zA-Z ]{0,20}$/",$request->lname)){
+                $insert[0]['lname']=$request->lname;
+            }else{
+                $insert[0]['lname']="";
+            }
+            if(isset($request->mobile) && preg_match("/[6,7,8,9]{1}+[0-9]{9}/",$request->mobile)){
+                $insert[0]['mobile']=$request->mobile;
+            }else{
+                $status=false;
+            }
+            if(isset($request->emailid) && preg_match("/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/",$request->emailid)){
+                $insert[0]['emailid']=$request->emailid;
+            }else{
+                $insert[0]['emailid']="";
+            }
+            if(isset($request->fathername) && preg_match("/[a-zA-Z ]{0,60}/",$request->fathername)){
+                $insert[0]['fathername']=$request->fathername;
+            }else{
+                $insert[0]['fathername']="";
+            }
+            if(isset($request->mothername) && preg_match("/[a-zA-Z ]{0,60}/",$request->mothername)){
+                $insert[0]['mothername']=$request->mothername;
+            }else{
+                $insert[0]['mothername']="";
+            }
+            if(isset($request->maritalstatusid) && is_numeric($request->maritalstatusid)){
+                $insert[0]['maritalstatusid']=$request->maritalstatusid;
+            }else{
+                $insert[0]['maritalstatusid']=null;
+            }
+            if(isset($request->spousename) && preg_match("/[a-zA-Z ]{0,60}/",$request->spousename)){
+                $insert[0]['spousename']=$request->spousename;
+            }else{
+                $insert[0]['spousename']="";
+            }
+            if(isset($request->educationid) && is_numeric($request->educationid)){
+                $insert[0]['educationid']=$request->educationid;
+            }else{
+                $status=false;
+            }
+            if(isset($request->address) && preg_match("/[a-zA-Z ()-:,]{5,60}/",$request->address)){
+                $insert[0]['address']=$request->address;
+            }else{
+                $status=false;
+            }
+            if(isset($request->districtid) && is_numeric($request->districtid)){
+                $insert[0]['districtid']=$request->districtid;
+            }else{
+                $status=false;
+            }
+            if(isset($request->dob) && preg_match("/[0-9-]{10}/",$request->dob)){
+                $insert[0]['dob']=$request->dob;
+            }else{
+                $status=false;
+            }
+            if(isset($request->epfno) && is_numeric($request->epfno)){
+                $insert[0]['epfno']=$request->epfno;
+            }else{
+                $insert[0]['epfno']="";
+            }
+            if(isset($request->esifno) && is_numeric($request->esifno)){
+                $insert[0]['esifno']=$request->esifno;
+            }else{
+                $insert[0]['esifno']="";
+            }
+            if(isset($request->panno) && preg_match("/[A-Z0-9]{0,60}/",$request->panno)){
+                $insert[0]['panno']=$request->panno;
+            }else{
+                $insert[0]['panno']="";
+            }
+            if(isset($request->aadharno) && is_numeric($request->aadharno)){
+                $insert[0]['aadharno']=$request->aadharno;
+            }else{
+                $insert[0]['aadharno']='';
             }
             if(isset($request->isactive) && preg_match("/[0,1]{1}/",$request->isactive)){
                 if($request->isactive==1){
@@ -157,6 +273,7 @@ class Employee extends CI_Controller {
             }else{
                 $status=false;
             }
+//            print_r($status);
             if($status){
                 if(isset($request->txtid) && is_numeric($request->txtid)){
                     if($request->txtid>0){
@@ -182,15 +299,15 @@ class Employee extends CI_Controller {
                             $data['status']=false;
                         }
                     }else{
-                        $data['message']="Insufficient/Invalid data.";
+                        $data['message']="Insufficient/*Invalid data.";
                         $data['status']=false;
                     }
                 }else{
-                    $data['message']="Insufficient/Invalid data.";
+                    $data['message']="Insufficient/&Invalid data.";
                     $data['status']=false;
                 }
             }else{
-                $data['message']="Insufficient/Invalid data.";
+                $data['message']="Insufficient/^Invalid data.";
                 $data['status']=false;
             }
             echo json_encode($data);
@@ -230,25 +347,64 @@ class Employee extends CI_Controller {
             $postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
             $current_date= Date('Y-m-d');
-            if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
-                $where="isactive=true";
-            }else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
-                $where="isactive=false";
-            }else if(isset($status) && $status!=null){
-                $where="DATE(createdat) = DATE('$current_date')";
-            }else{
-                $where="1=1";
-            }
-            $res=$this->Model_Db->select(31,null,$where);
-            if($res!=false){
-                foreach ($res as $r){
-                    $data[]=array(
-                        'id'=>$r->id,
-                        'bankname'=>$r->bankname,
-                        'creationdate'=>$r->createdat,
-                        'lastmodifiedon'=>$r->updatedat,
-                        'isactive'=>$r->isactive
-                    );
+//            if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
+//                $where="isactive=true";
+//            }else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
+//                $where="isactive=false";
+//            }else if(isset($status) && $status!=null){
+//                $where="DATE(createdat) = DATE('$current_date')";
+//            }else{
+//                $where="1=1";
+//            }
+            if(isset($request->checkparams) && is_numeric($request->checkparams)) {
+                switch ($request->checkparams) {
+                    case 1:
+                        $where = "DATE(createdat)=DATE('$current_date')";
+                        break;
+                    case 2:
+                        $where = "1=1";
+                        break;
+                    case 3:
+                        $where = "isactive=true";
+                        break;
+                    case 4:
+                        $where = "isactive=false";
+                        break;
+                }
+                $res = $this->Model_Db->select(29, null, $where);
+                if ($res != false) {
+                    foreach ($res as $r) {
+                        $data[] = array(
+                            'id' => $r->id,
+                            'slno' => $r->slno,
+                            'departmentmappingid' => $r->departmentmappingid,
+                            'designationid' => $r->designationid,
+                            'doj' => $r->doj,
+                            'dol' => $r->dol,
+                            'empid' => $r->empid,
+                            'fname' => $r->fname,
+                            'mname' => $r->mname,
+                            'lname' => $r->lname,
+                            'genderid' => $r->genderid,
+                            'mobile' => $r->mobile,
+                            'emailid' => $r->emailid,
+                            'fathername' => $r->fathername,
+                            'mothername' => $r->mothername,
+                            'maritalstatusid' => $r->maritalstatusid,
+                            'spousename' => $r->spousename,
+                            'educationid' => $r->educationid,
+                            'address' => $r->address,
+                            'districtid' => $r->districtid,
+                            'dob' => $r->dob,
+                            'epfno' => $r->epfno,
+                            'esifno' => $r->esifno,
+                            'panno' => $r->panno,
+                            'aadharno' => $r->aadharno,
+                            'creationdate' => $r->createdat,
+                            'lastmodifiedon' => $r->updatedat,
+                            'isactive' => $r->isactive
+                        );
+                    }
                 }
             }
             echo json_encode($data);

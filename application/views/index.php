@@ -1,8 +1,5 @@
 <?php
-defined("BASEPATH") or exit("No direct script access allowed.");
-//if(isset($_SESSION['login'])) {
-//    print_r($_SESSION['login']);
-//}
+defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="row">
     <div class="container">
@@ -70,6 +67,7 @@ defined("BASEPATH") or exit("No direct script access allowed.");
         </div>
     </div>
 </div>
+
 <script>
 
     $("#frmLogin").submit(function (e) {

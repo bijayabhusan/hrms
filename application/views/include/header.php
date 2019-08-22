@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$cname = $this->uri->segment(2);
 ?>
 <!DOCTYPE html>
 <html lang="en">

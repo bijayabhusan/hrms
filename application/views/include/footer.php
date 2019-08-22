@@ -37,6 +37,7 @@ defined("BASEPATH") or exit("No direct script access allowed.");
 <!-- Main JS-->
 <script type="text/javascript" src="<?= base_url('assets/js/main.js')?>"></script>
 <script type="text/javascript" src="<?= base_url('assets/js/custom.js')?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/js/function.js')?>"></script>
 <script>
     function loadCompany() {
         window.location.href="<?= base_url('Forms/companyDashboard')?>";
@@ -71,7 +72,12 @@ defined("BASEPATH") or exit("No direct script access allowed.");
     function formDashboard() {
         window.location.href="<?= base_url('Forms/')?>";
     }
+    //updatedid = <?//= $cname?>//;
+    // alert(updatedid);
 </script>
+<?php
+//$cname = $this->uri->segment(2);
+//?>
 </div>
 </div>
 </body>

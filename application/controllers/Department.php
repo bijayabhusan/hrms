@@ -247,4 +247,24 @@ class Department extends CI_Controller {
             exit();
         }
     }
+    public function load_department_mapping(){
+        try{
+            $data=array();
+            $where="isactive=true";
+            $res=$this->Model_Db->select(27,null,$where);
+            $data[]="<option value=''>Select</option>";
+            if($res!=false){
+                foreach ($res as $r){
+                    $data[]="<option value='$r->id'>$r->departmentid</option>";
+                }
+            }
+            echo json_encode($data);
+        }catch (Exception $e){
+            $data['message']= "Message:".$e->getMessage();
+            $data['status']=false;
+            $data['error']=true;
+            echo json_encode($data);
+            exit();
+        }
+    }
 }

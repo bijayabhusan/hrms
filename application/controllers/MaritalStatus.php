@@ -104,15 +104,31 @@ class MaritalStatus extends CI_Controller {
 //			$request = json_decode($postdata);
             $request= json_decode(json_encode($_POST), false);
             $current_date=Date('Y-m-d');
-			if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
-				$where="isactive=true";
-			}elseif(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
-				$where="isactive=false";
-			}elseif(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
-				$where="DATE(createdat)=DATE('$current_date')";
-			}else{
-				$where="1=1";
-			}
+//			if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
+//				$where="isactive=true";
+//			}elseif(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
+//				$where="isactive=false";
+//			}elseif(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
+//				$where="DATE(createdat)=DATE('$current_date')";
+//			}else{
+//				$where="1=1";
+//			}
+            if(isset($request->checkparams) && is_numeric($request->checkparams)){
+                switch ($request->checkparams){
+                    case 1:
+                        $where="DATE(createdat)=DATE('$current_date')";
+                        break;
+                    case 2:
+                        $where="1=1";
+                        break;
+                    case 3:
+                        $where="isactive=true";
+                        break;
+                    case 4:
+                        $where="isactive=false";
+                        break;
+                }
+            }
             $res=$this->Model_Db->select(19,null,$where);
             if($res!=false){
                 foreach ($res as $r){

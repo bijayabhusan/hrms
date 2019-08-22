@@ -1,5 +1,5 @@
 <?php
-$cname = $this->uri->segment(2);
+$datenow = date("Y-m-d H:i:s");
 ?>
 <div class="col-sm-10">
 
@@ -87,6 +87,9 @@ $cname = $this->uri->segment(2);
 </div>
 </div>
 <script>
+    $(function () {
+        // load_status_name();
+    });
     $("#maritalStatusForm").submit(function(e){
         e.preventDefault();
         var frm = $("#maritalStatusForm").serialize();
@@ -107,7 +110,8 @@ $cname = $this->uri->segment(2);
             }
         });
     });
-    //function loadAjaxForReport(id){
+    //function maritalStatusReport(id){
+    //  if(id==1){
     //      $.ajax({
     //          type:'post',
     //          url:"<?//= base_url('MaritalStatus/report_marital_status')?>//",
@@ -120,67 +124,16 @@ $cname = $this->uri->segment(2);
     //                  var z = jsondata.length;
     //                  // alert(z);
     //                  var html = "";
-    //                  var isactive='';
     //                  for(var i=0; i<z; i++){
     //                      j++;
-    //                      var checkId = jsondata[i].id;
-    //                      var checkIsactive = jsondata[i].isactive;
-    //                      var updatedid = '"<?//= $cname ?>//"';
-    //                      var urlid = '"<?//=base_url('Common/record_active_deactive')?>//"';
-    //                      if(checkIsactive=='t'){
-    //                          isactive= "<button id='action"+checkId+"' onclick='editIsactive(1,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-on fa-2x'></i></button>";
-    //                      }else{
-    //                          isactive= "<button id='action"+checkId+"' onclick='editIsactive(0,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-off fa-2x' ></i></button>";
-    //                      }
     //                      html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statusname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
     //                  }
     //                  $("#load_status_names").html(html);
     //              }
     //          }
     //      });
+    //  }
     //}
-    //function reportFunction(id) {
-    //    var data = '';
-    //    if(id==1){
-    //        data= '1';
-    //    }else if(id==2){
-    //        data= '2';
-    //    }else if(id==3){
-    //        data= '3';
-    //    }else if(id==4){
-    //        data = '4';
-    //    }
-    //    loadAjaxForReport(data);
-    //}
-    function loadAjaxForReport(id){
-        $.ajax({
-            type:'post',
-            url:"<?= base_url('MaritalStatus/report_marital_status')?>",
-            data:{checkparams:id},
-            success:function(data){
-                if(data!=false){
-                    jsondata = JSON.parse(data);
-                    var j=0;
-                    var z = jsondata.length;
-                    // alert(z);
-                    var html = "";
-                    var isactive='';
-                    for(var i=0; i<z; i++){
-                        j++;
-                        var checkId = jsondata[i].id;
-                        var checkIsactive = jsondata[i].isactive;
-                         var updatedid = '"<?= $cname ?>"';
-                        var urlid = '"../Common/record_active_deactive"';
-                        if(checkIsactive=='t'){
-                            isactive= "<button id='action"+checkId+"' onclick='editIsactive(1,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-on fa-2x'></i></button>";
-                        }else{
-                            isactive= "<button id='action"+checkId+"' onclick='editIsactive(0,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-off fa-2x' ></i></button>";
-                        }
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statusname+"</td><td>"+isactive+"</td><td>Edit</td></tr>");
-                    }
-                    $("#load_status_names").html(html);
-                }
-            }
-        });
-    }
+
+
 </script>

@@ -1,7 +1,6 @@
 <?php
 defined("BASEPATH") or exit("No direct script access allowed.");
 ?>
-
    <div class="container">
        <div class="row">
            <header class="header-desktop2">
@@ -113,5 +112,6 @@ defined("BASEPATH") or exit("No direct script access allowed.");
            </header>
        </div>
    </div>
+
 <script>
 </script>

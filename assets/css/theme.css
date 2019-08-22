@@ -15130,7 +15130,7 @@ section {
     }
 }
 label{
-    color:red;
+    color:#00aced;
 }
 /*::placeholder {*/
 /*  color:green;*/
@@ -15193,6 +15193,11 @@ border-radius: 7px;
 }
 input[type=date]{
 border-radius: 7px;
+    height: 30px;
+    font-size: 12px;
+}
+input[type=password]{
+    border-radius: 7px;
     height: 30px;
     font-size: 12px;
 }

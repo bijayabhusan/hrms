@@ -16,7 +16,7 @@
                 <div class="box-content">
                     <form  class="" id="newCompanyForm" autocomplete="off">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="companyname" class="control-label mb-1">Company Name</label>
                                     <input type="hidden" id="txtid" name="txtid" value="0">
@@ -24,60 +24,79 @@
                                     <input id="companyname" name="companyname" type="text" onclick="charachters_validate('companyname')" class="form-control" aria-required="true" aria-invalid="false" minlength="5" maxlength="60" placeholder="Enter company name" required>
                                     <small class="errormsg_companyname"></small>
                                 </div>
+                            </div>
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="companytype" class="control-label mb-1">Company Type</label>
                                     <select id="companytype" name="companytype" class="select" required>
                                         <option value="">Select</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="companyshortname" class="control-label mb-1">Company Short Name</label>
                                     <input id="companyshortname" name="companyshortname" type="text" onclick="charachters_validate('companyshortname')" class="form-control" minlength="5" maxlength="5" placeholder="Enter company short name" required>
                                     <small class="errormsg_companyshortname"></small>
                                 </div>
+                            </div>
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="establishedon" class="control-label mb-1">Established On</label>
                                     <input id="establishedon" name="establishedon" type="date" class="form-control"  required>
                                 </div>
+                            </div>
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="gstno" class="control-label mb-1">GST Number</label>
                                     <input id="gstno" name="gstno" type="text" onclick="alfa_numeric('gstno')" class="form-control text-uppercase"  minlength="15" maxlength="15" placeholder="Enter GST number" autocapitalize="characters" required>
                                     <small class="errormsg_gstno"></small>
                                 </div>
+                            </div>
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="address" class="control-label mb-1">Address</label>
                                     <textarea id="address" name="address" onclick="alfa_numeric('address')" rows="1" class="form-control text-area"  placeholder="Enter company address" required autocomplete="off" minlength="5" maxlength="60"></textarea>
                                     <small class="errormsg_address"></small>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                        <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="state" class="control-label mb-1">State</label>
                                     <select id="stateid"  name="stateid" class="select" required>
                                     </select>
                                 </div>
+                        </div>
+                        <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="distid" class="control-label mb-1">District</label>
                                     <select id="distid" name="distid" class="select"  required>
                                         <option value="">Select</option>
                                     </select>
                                 </div>
-
+                        </div>
+                        <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="pincode" class="control-label mb-1 errlable">Pincode</label>
                                     <input id="pincode" name="pincode" type="text" onclick="number_validate('pincode')" class="form-control"  minlength="6" maxlength="6"   placeholder="Enter pincode" required autocomplete="off">
                                     <small class="errormsg_pincode"></small>
                                 </div>
+                        </div>
+                        <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="url" class="control-label mb-1">Url</label>
                                     <input id="url" name="url" type="text" onclick="url_validate('url')" class="form-control" placeholder="Enter company url" required>
                                     <small class="errormsg_url"></small>
                                 </div>
+                        </div>
+                        <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="companyemail" class="control-label mb-1">email</label>
                                     <input id="companyemail" name="companyemail" type="email" onclick="email_validate('companyemail')" class="form-control" placeholder="Enter company email" required>
                                     <small class="errormsg_companyemail"></small>
                                 </div>
+                        </div>
+                        <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="mobile" class="control-label mb-1">Mobile</label>
                                     <input id="mobile" name="mobile" type="text" onclick="number_validate('mobile')" class="form-control" minlength="10" maxlength="10" placeholder="Enter company contact number" required>
