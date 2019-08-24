@@ -1,9 +1,12 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$cname = $this->uri->segment(2);
+?>
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well">
                 <h2><i class="fa fa-angle-double-right "></i> Department Mapping</h2>
-
                 <div class="box-icon">
                     <a href="#" class="btn btn-setting btn-round btn-default"><i
                                 class="fa fa-cog"></i></a>
@@ -50,11 +53,11 @@
                 <br>
                 <hr>
                 <form action="">
-                    <button type="button" class="btn  btn-sm" onclick="companyDepartmentMappingReport(1)">Recent Entries</button>
-                    <button type="button" class="btn  btn-sm" onclick="companyDepartmentMappingReport(2)">All Entries</button>
-                    <button type="button" class="btn  btn-sm" onclick="companyDepartmentMappingReport(3)">Active Entries</button>
-                    <button type="button" class="btn  btn-sm" onclick="companyDepartmentMappingReport(4)">Inactive Entries</button>
-                    <button type="button" class="btn btn-sm" onclick="companyDepartmentMappingReport(5)">Details View</button>
+                    <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
+                    <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
+                    <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
+                    <button type="button" class="btn  btn-sm" onclick="reportFunction(4)">Inactive Entries</button>
+                    <button type="button" class="btn btn-sm" onclick="reportFunction(5)">Details View</button>
                 </form>
             </div>
         </div>
@@ -101,7 +104,6 @@
     $(function () {
         load_department();
         load_companytype();
-        // load_company();
     });
     $("#departmentMappingForm").submit(function(e){
         $("#department_mapping_report").show();
@@ -118,7 +120,7 @@
                 }else{
                     console.log(data);
                 }
-                recentEntries();
+                reportFunction(1);
             }
         });
     });
@@ -168,92 +170,36 @@
     $("#companytype").change(function () {
         load_company();
     });
-    function companyDepartmentMappingReport(id){
-        if(id==1){
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('Department/report_department_mapping')?>",
-                crossDomain:true,
-                data:{onlyrecent:1},
-                success:function(data){
-                    var jsondata = JSON.parse(data);
-                    if(data!=false){
-                        var j=0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyid+"</td><td>"+ jsondata[i].departmentid+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+    function loadAjaxForReport(data) {
+        $.ajax({
+            type: 'post',
+            url: "<?= base_url('Department/report_department_mapping')?>",
+            crossDomain: true,
+            data: {checkparams:data},
+            success: function (data) {
+                var jsondata = JSON.parse(data);
+                if (data != false) {
+                    var j = 0;
+                    var z = jsondata.length;
+                    // alert(z);
+                    var html = "";
+                    var isactive = "";
+                    for (var i = 0; i < z; i++) {
+                        j++;
+                        var checkId = jsondata[i].id;
+                        var checkIsactive = jsondata[i].isactive;
+                        var updatedid = '"<?= $cname ?>"';
+                        var urlid = '"../Common/record_active_deactive"';
+                        if (checkIsactive == 't') {
+                            isactive = "<button id='action" + checkId + "' onclick='editIsactive(1," + checkId + "," + updatedid + "," + urlid + ")'><i class='fa fa-toggle-on fa-2x'></i></button>";
+                        } else {
+                            isactive = "<button id='action" + checkId + "' onclick='editIsactive(0," + checkId + "," + updatedid + "," + urlid + ")'><i class='fa fa-toggle-off fa-2x' ></i></button>";
                         }
-                        $("#load_department_mapping").html(html);
+                        html += ("<tr> <td>" + j + "</td><td>" + jsondata[i].companyid + "</td><td>" + jsondata[i].departmentid + "</td><td>" + isactive + "</td><td>Edit</td></tr>");
                     }
+                    $("#load_department_mapping").html(html);
                 }
-            });
-        }else if(id==2){
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('Department/report_department_mapping')?>",
-                crossDomain:true,
-                success:function(data){
-                    var jsondata = JSON.parse(data);
-                    if(data!=false){
-                        var j=0;
-                        var z = jsondata.length;
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyid+"</td><td>"+ jsondata[i].departmentid+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                        }
-                        $("#load_department_mapping").html(html);
-                    }
-                }
-            });
-        }else if(id==3){
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('Department/report_department_mapping')?>",
-                crossDomain:true,
-                data:{onlyactive:1},
-                success:function(data){
-                    var jsondata = JSON.parse(data);
-                    if(data!=false){
-                        var j=0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyid+"</td><td>"+ jsondata[i].departmentid+"</td><td>Edit</td></tr>");
-                        }
-                        $("#load_department_mapping").html(html);
-                    }
-                }
-            });
-        }else if(id==4){
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('Department/report_department_mapping')?>",
-                crossDomain:true,
-                data:{onlyinactive:1},
-                success:function(data){
-                    var jsondata = JSON.parse(data);
-                    if(data!=false){
-                        var j=0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyid+"</td><td>"+ jsondata[i].departmentid+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                        }
-                        $("#load_department_mapping").html(html);
-                    }
-                }
-            });
-        }else if(id==5){
-            alert('This report is not available right now.');
-        }
-
+            }
+        });
     }
 </script>

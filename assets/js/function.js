@@ -32,3 +32,14 @@ function reportFunction(id) {
     }
     loadAjaxForReport(data);
 }
+
+function checkIsactiveForEdit(checkIsactive,editisactiveval) {
+    if(checkIsactive=='t'){
+        return  editisactiveval=1;
+
+    }else{
+      return   editisactiveval=0;
+    }
+}
+
+

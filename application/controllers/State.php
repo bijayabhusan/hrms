@@ -104,15 +104,27 @@ class State extends CI_Controller {
 			$postdata = file_get_contents("php://input");
 //			$request = json_decode($postdata);
             $current_date=Date('Y-m-d');
-			if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
-				$where="isactive=true";
-			}else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
-				$where="isactive=false";
-			}else if(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
-				$where="DATE(createdat)=DATE('$current_date')";
-			}else{
-				$where="1=1";
-			}
+            if(isset($request->checkparams) && is_numeric($request->checkparams)) {
+                switch ($request->checkparams) {
+                    case 1:
+                        $where = "DATE(createdat)=DATE('$current_date')";
+                        break;
+                    case 2:
+                        $where = "1=1";
+                        break;
+                    case 3:
+                        $where = "isactive=true";
+                        break;
+                    case 4:
+                        $where = "isactive=false";
+                        break;
+                    default:
+                        $data['message']="ID not found";
+                        $data['status']=false;
+                        $data['error']=true;
+                        exit();
+                }
+            }
             $res=$this->Model_Db->select(7,null,$where);
             if($res!=false){
                 foreach ($res as $r){

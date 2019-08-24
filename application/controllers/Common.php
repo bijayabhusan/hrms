@@ -25,6 +25,30 @@ class Common extends CI_Controller
                     $tableid=19;
                 }else if($request->tableid == 'formNewEmployee'){
                     $tableid=29;
+                }else if($request->tableid == 'formEmployeeType'){
+                    $tableid=15;
+                }else if($request->tableid == 'formEmployeeBankDetails'){
+                    $tableid=35;
+                }else if($request->tableid == 'mapping_company_department'){
+                    $tableid=27;
+                }else if($request->tableid == 'formState'){
+                    $tableid=7;
+                }else if($request->tableid == 'formDistrict'){
+                    $tableid=9;
+                }else if($request->tableid == 'formEducation'){
+                    $tableid=21;
+                }else if($request->tableid == 'formBankDetails'){
+                    $tableid=33;
+                }else if($request->tableid == 'formGender'){
+                    $tableid=17;
+                }else if($request->tableid == 'loadCompanyType') {
+                    $tableid = 11;
+                }else if($request->tableid == 'loadNewCompany'){
+                    $tableid=13;
+                }else if($request->tableid == 'loadDepartment'){
+                    $tableid=23;
+                }else if($request->tableid == 'loadDesignation'){
+                    $tableid=25;
                 };
             }
             if(isset($request->isactive) && is_numeric($request->isactive)){

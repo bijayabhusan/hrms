@@ -1,5 +1,8 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$cname = $this->uri->segment(2);
+?>
 <div class="col-sm-10">
-
     <div class="row">
         <div class="box col-md-12">
             <div class="box-inner">
@@ -34,11 +37,11 @@
                     <br>
                     <hr>
                     <form action="">
-                        <button type="button" class="btn  btn-sm" onclick="stateEventFire(1)">Recent Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="stateEventFire(2)">All Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="stateEventFire(3)">Active Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="stateEventFire(4)">Inactive Entries</button>
-                        <button type="button" class="btn btn-sm" onclick="stateEventFire(5)">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(4)">Inactive Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -98,123 +101,57 @@
                 if(data!=false){
                     console.log(data);
                     $("#statename").val("");
+                    reportFunction(1);
                 }else{
                     console.log(data);
                 }
-
-                stateEventFire(1);
             }
-
         });
     });
-
-    function stateEventFire(id) {
-
-        if(id==1){
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('State/report_state')?>",
-                crossDomain:true,
-                data:{onlyrecent:1},
-                success:function(data){
-                    var jsondata = JSON.parse(data);
-                    if(data!=false){
-                        var j=0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+    function loadAjaxForReport(data) {
+        $.ajax({
+            type: 'post',
+            url: "<?= base_url('State/report_state')?>",
+            crossDomain: true,
+            data: {checkparams: data},
+            success: function (data) {
+                var jsondata = JSON.parse(data);
+                if (data != false) {
+                    var j = 0;
+                    var z = jsondata.length;
+                    // alert(z);
+                    var html = "";
+                    var isactive = "";
+                    for (var i = 0; i < z; i++) {
+                        j++;
+                        var checkId = jsondata[i].id;
+                        var checkIsactive = jsondata[i].isactive;
+                        var editisactive = JSON.stringify(checkIsactive);
+                        var state = jsondata[i].statename;
+                        var strState = JSON.stringify(state);
+                        var updatedid = '"<?= $cname ?>"';
+                        var urlid = '"../Common/record_active_deactive"';
+                        if (checkIsactive == 't') {
+                            isactive = "<button id='action" + checkId + "' onclick='editIsactive(1," + checkId + "," + updatedid + "," + urlid + ")'><i class='fa fa-toggle-on fa-2x'></i></button>";
+                        } else {
+                            isactive = "<button id='action" + checkId + "' onclick='editIsactive(0," + checkId + "," + updatedid + "," + urlid + ")'><i class='fa fa-toggle-off fa-2x' ></i></button>";
                         }
-                        $("#load_state").html(html);
+                        html += ("<tr> <td>" + j + "</td><td>" + jsondata[i].statename + "</td><td>" + isactive + "</td><td><button class='btn editBtn btn-sm' onclick='reportEditState(" +checkId+ "," +strState+ "," +editisactive+ ")'>Edit</button></td></tr>");
                     }
+                    $("#load_state").html(html);
                 }
-            });
-        }else if(id==2){
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('State/report_state')?>",
-                crossDomain:true,
-                success:function(data){
-                    var jsondata = JSON.parse(data);
-                    if(data!=false){
-                        var j=0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                        }
-                        $("#load_state").html(html);
-                    }
-                }
-            });
-        }else if(id==3){
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('State/report_state')?>",
-                crossDomain:true,
-                data:{onlyactive:1},
-                success:function(data){
-                    var jsondata = JSON.parse(data);
-                    if(data!=false){
-                        var j=0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                        }
-                        $("#load_state").html(html);
-                    }
-                }
-            });
-        }else if(id==4) {
-            $.ajax({
-                type: 'post',
-                url: "<?= base_url('State/report_state')?>",
-                crossDomain: true,
-                data: {onlyinactive: 1},
-                success: function (data) {
-                    var jsondata = JSON.parse(data);
-                    if (data != false) {
-                        var j = 0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for (var i = 0; i < z; i++) {
-                            j++;
-                            html += ("<tr> <td>" + j + "</td><td>" + jsondata[i].statename + "</td><td>" + jsondata[i].isactive + "</td><td>Edit</td></tr>");
-                        }
-                        $("#load_state").html(html);
-                    }
-                }
-            });
+            }
+        });
+    }
+    function reportEditState(id,strstate,isactive) {
+        if(isactive=='t'){
+            var isactiveval=1;
+        }else{
+            isactiveval=0;
         }
-        //}else if(id==5){
-        //    $("#hide_for_details_view").hide();
-        //    $.ajax({
-        //        type:'post',
-        //        url:"<?//= base_url('State/report_state')?>//",
-        //        crossDomain:true,
-        //        success:function(data){
-        //            var jsondata = JSON.parse(data);
-        //            if(data!=false){
-        //                var j=0;
-        //                var z = jsondata.length;
-        //                // alert(z);
-        //                var html = "";
-        //                for(var i=0; i<z; i++){
-        //                    j++;
-        //                    html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].statename+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-        //                }
-        //                $("#load_state").html(html);
-        //            }
-        //        }
-        //    });
-        //}
+        $('#txtid').val(id);
+        $('#statename').val(strstate);
+        $('#isactive').val(isactiveval);
+        $('#statename').focus();
     }
 </script>

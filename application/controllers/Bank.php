@@ -145,25 +145,37 @@ class Bank extends CI_Controller
 //			$request = json_decode($postdata);
 //            $datanow = date("Y-m-d H:i:s");
             $current_date=Date("Y-m-d");
-            if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
-                $where="isactive=true";
-            }else if(isset($request->onlyinactive) && is_numeric($request->onlyinactive)){
-                $where="isactive=false";
-            }else if(isset($request->onlyrecent) && is_numeric($request->onlyrecent)){
-                $where="DATE(createdat) = DATE('$current_date')";
-            }else{
-                $where="1=1";
-            }
-            $res=$this->Model_Db->select(33,null,$where);
-            if($res!=false){
-                foreach ($res as $r){
-                    $data[]=array(
-                        'id'=>$r->id,
-                        'bankname'=>$r->bankname,
-                        'creationdate'=>$r->createdat,
-                        'lastmodifiedon'=>$r->updatedat,
-                        'isactive'=>$r->isactive
-                    );
+            if(isset($request->checkparams) && is_numeric($request->checkparams)) {
+                switch ($request->checkparams) {
+                    case 1:
+                        $where = "DATE(createdat)=DATE('$current_date')";
+                        break;
+                    case 2:
+                        $where = "1=1";
+                        break;
+                    case 3:
+                        $where = "isactive=true";
+                        break;
+                    case 4:
+                        $where = "isactive=false";
+                        break;
+                    default:
+                        $data['message'] = "ID not found";
+                        $data['status'] = false;
+                        $data['error'] = true;
+                        exit();
+                }
+                $res = $this->Model_Db->select(33, null, $where);
+                if ($res != false) {
+                    foreach ($res as $r) {
+                        $data[] = array(
+                            'id' => $r->id,
+                            'bankname' => $r->bankname,
+                            'creationdate' => $r->createdat,
+                            'lastmodifiedon' => $r->updatedat,
+                            'isactive' => $r->isactive
+                        );
+                    }
                 }
             }
             echo json_encode($data);

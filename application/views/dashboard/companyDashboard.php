@@ -10,13 +10,9 @@
                     <ul class="nav nav-pills nav-stacked main-menu">
                         <li onclick="loadCompanyType()"><i class="fa fa-check-square "></i> &nbsp; Company Type</li>
                         <li onclick="loadNewCompany()"><i class="fa fa-check-square "></i> &nbsp; New Company</li>
-                        <li onclick="loadDepartment()"><i class="fa fa-check-square "></i> &nbsp; Department</li>
-                        <li onclick="loadDesignation()"><i class="fa fa-check-square "></i> &nbsp; Designation</li>
                     </ul>
                     <hr>
                     <ul class="nav nav-pills nav-stacked main-menu">
-                        <li onclick="loadCompanyType()"><i class="fa fa-check-square "></i> &nbsp; Company Type</li>
-                        <li onclick="loadNewCompany()"><i class="fa fa-check-square "></i> &nbsp; New Company</li>
                         <li onclick="loadDepartment()"><i class="fa fa-check-square "></i> &nbsp; Department</li>
                         <li onclick="loadDesignation()"><i class="fa fa-check-square "></i> &nbsp; Designation</li>
                     </ul>

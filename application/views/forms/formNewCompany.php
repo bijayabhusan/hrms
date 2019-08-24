@@ -1,9 +1,12 @@
-    <div class="row">
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$cname = $this->uri->segment(2);
+?>
+<div class="row">
         <div class="box col-md-12">
             <div class="box-inner">
                 <div class="box-header well">
                     <h2><i class="fa fa-angle-double-right "></i>Create New Company</h2>
-
                     <div class="box-icon">
                         <a href="#" class="btn btn-setting btn-round btn-default"><i
                                     class="fa fa-cog"></i></a>
@@ -113,11 +116,11 @@
                     <br>
                     <hr>
                     <form action="">
-                        <button type="button" class="btn  btn-sm" onclick="newCompanyReport(1)">Recent Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="newCompanyReport(2)">All Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="newCompanyReport(3)">Active Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="newCompanyReport(4)">Inactive Entries</button>
-                        <button type="button" class="btn btn-sm" onclick="newCompanyReport(5)">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(4)">Inactive Entries</button>
+                        <button type="button" class="btn btn-sm" onclick="reportFunction(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -181,7 +184,7 @@
             data:frm,
             success:function(data){
                 if(data!=false){
-                    newCompanyReport(1);
+                    reportFunction(1);
                 }
             }
         });
@@ -235,11 +238,7 @@
 
         });
     }
-    // $("#companytype").change(function () {
-    //     newCompanyReport(1);
-    // });
-    function newCompanyReport(id){
-        if(id==1){
+    function loadAjaxForReport(data){
             var companyid = $("#companytype").val();
             if(companyid==''){
                 alert('Please select company type.');
@@ -247,7 +246,7 @@
                 $.ajax({
                     type:'post',
                     url:"<?= base_url('Company/report_company')?>",
-                    data:{typeid:companyid,onlyrecent:1},
+                    data:{typeid:companyid,checkparams:data},
                     crossDomain:true,
                     success:function(data){
                         var jsondata = JSON.parse(data);
@@ -256,9 +255,19 @@
                             var z = jsondata.length;
                             // alert(z);
                             var html = "";
+                            var isactive="";
                             for(var i=0; i<z; i++){
                                 j++;
-                                html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyname+"</td><td>"+jsondata[i].companyshortname +"</td><td>"+jsondata[i].address+"</td><td>"+jsondata[i].pincode +"</td><td>"+jsondata[i].gstno +"</td><td>"+jsondata[i].url+"</td><td>"+jsondata[i].emailid+"</td><td>"+jsondata[i].mobile +"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                                var checkId = jsondata[i].id;
+                                var checkIsactive = jsondata[i].isactive;
+                                var updatedid = '"<?= $cname ?>"';
+                                var urlid = '"../Common/record_active_deactive"';
+                                if(checkIsactive=='t'){
+                                    isactive= "<button id='action"+checkId+"' onclick='editIsactive(1,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-on fa-2x'></i></button>";
+                                }else{
+                                    isactive= "<button id='action"+checkId+"' onclick='editIsactive(0,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-off fa-2x' ></i></button>";
+                                }
+                                html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].companyname+"</td><td>"+jsondata[i].companyshortname +"</td><td>"+jsondata[i].address+"</td><td>"+jsondata[i].pincode +"</td><td>"+jsondata[i].gstno +"</td><td>"+jsondata[i].url+"</td><td>"+jsondata[i].emailid+"</td><td>"+jsondata[i].mobile +"</td><td>"+isactive+"</td><td>Edit</td></tr>");
                             }
                             $("#load_company").html(html);
                         }else{
@@ -267,92 +276,5 @@
                     }
                 });
             }
-        }else if(id==2){
-            var companyid = $("#companytype").val();
-            if(companyid==''){
-                alert('Please select company type.');
-            }else {
-                $.ajax({
-                    type: 'post',
-                    url: "<?= base_url('Company/report_company')?>",
-                    data: {typeid: companyid},
-                    crossDomain: true,
-                    success: function (data) {
-                        var jsondata = JSON.parse(data);
-                        if (data != false) {
-                            var j = 0;
-                            var z = jsondata.length;
-                            // alert(z);
-                            var html = "";
-                            for (var i = 0; i < z; i++) {
-                                j++;
-                                html += ("<tr> <td>" + j + "</td><td>" + jsondata[i].companyname + "</td><td>" + jsondata[i].companyshortname + "</td><td>" + jsondata[i].address + "</td><td>" + jsondata[i].pincode + "</td><td>" + jsondata[i].gstno + "</td><td>" + jsondata[i].url + "</td><td>" + jsondata[i].emailid + "</td><td>" + jsondata[i].mobile + "</td><td>" + jsondata[i].isactive + "</td><td>Edit</td></tr>");
-                            }
-                            $("#load_company").html(html);
-                        } else {
-                            $("#newCompany_report").hide();
-                        }
-                    }
-                });
-            }
-        }else if(id==3){
-            var companyid = $("#companytype").val();
-            if(companyid==''){
-                alert('Please select company type.');
-            }else {
-                $.ajax({
-                    type: 'post',
-                    url: "<?= base_url('Company/report_company')?>",
-                    data: {typeid: companyid, onlyactive: 1},
-                    crossDomain: true,
-                    success: function (data) {
-                        var jsondata = JSON.parse(data);
-                        if (data != false) {
-                            var j = 0;
-                            var z = jsondata.length;
-                            // alert(z);
-                            var html = "";
-                            for (var i = 0; i < z; i++) {
-                                j++;
-                                html += ("<tr> <td>" + j + "</td><td>" + jsondata[i].companyname + "</td><td>" + jsondata[i].companyshortname + "</td><td>" + jsondata[i].address + "</td><td>" + jsondata[i].pincode + "</td><td>" + jsondata[i].gstno + "</td><td>" + jsondata[i].url + "</td><td>" + jsondata[i].emailid + "</td><td>" + jsondata[i].mobile + "</td><td>" + jsondata[i].isactive + "</td><td>Edit</td></tr>");
-                            }
-                            $("#load_company").html(html);
-                        } else {
-                            $("#newCompany_report").hide();
-                        }
-                    }
-                });
-            }
-        }else if(id==4){
-            var companyid = $("#companytype").val();
-            if(companyid==''){
-                alert('Please select company type.');
-            }else {
-                $.ajax({
-                    type: 'post',
-                    url: "<?= base_url('Company/report_company')?>",
-                    data: {typeid: companyid, onlyinactive: 1},
-                    crossDomain: true,
-                    success: function (data) {
-                        var jsondata = JSON.parse(data);
-                        if (data != false) {
-                            var j = 0;
-                            var z = jsondata.length;
-                            // alert(z);
-                            var html = "";
-                            for (var i = 0; i < z; i++) {
-                                j++;
-                                html += ("<tr> <td>" + j + "</td><td>" + jsondata[i].companyname + "</td><td>" + jsondata[i].companyshortname + "</td><td>" + jsondata[i].address + "</td><td>" + jsondata[i].pincode + "</td><td>" + jsondata[i].gstno + "</td><td>" + jsondata[i].url + "</td><td>" + jsondata[i].emailid + "</td><td>" + jsondata[i].mobile + "</td><td>" + jsondata[i].isactive + "</td><td>Edit</td></tr>");
-                            }
-                            $("#load_company").html(html);
-                        } else {
-                            $("#newCompany_report").hide();
-                        }
-                    }
-                });
-            }
-        }else if(id==5){
-           alert("This Report is not available right now");
-        }
     }
 </script>

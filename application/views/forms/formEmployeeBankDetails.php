@@ -1,4 +1,8 @@
-    <div class="row">
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$cname = $this->uri->segment(2);
+?>
+<div class="row">
         <div class="box col-md-12">
             <div class="box-inner">
                 <div class="box-header well">
@@ -19,7 +23,7 @@
                             <label for="" class="control-label mb-1">Employee Name</label>
                             <input type="hidden" id="txtid" name="txtid" value="0">
                             <input type="hidden" id="isactive" name="isactive" value="1">
-                            <select id="employeename" name="employeename" class="select" aria-required="true" aria-invalid="false" >
+                            <select id="employeename" name="employeename" class="select">
                             </select>
                         </div>
                         <div class="form-group">
@@ -43,11 +47,11 @@
                     <br>
                     <hr>
                     <form action="">
-                        <button type="button" class="btn  btn-sm" onclick="employeeBankDetailsReport(1)">Recent Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="employeeBankDetailsReport(2)">All Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="employeeBankDetailsReport(3)">Active Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="employeeBankDetailsReport(4)">Inactive Entries</button>
-                        <button type="button" class="btn btn-sm" onclick="employeeBankDetailsReport(5)">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(4)">Inactive Entries</button>
+                        <button type="button" class="btn btn-sm" onclick="reportFunction(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -94,6 +98,7 @@
     $(function () {
         // load_employee_bank_details();
         load_employee();
+        load_banks();
     });
     $("#frmBankDetails").submit(function(e){
         e.preventDefault();
@@ -107,10 +112,11 @@
                     console.log(data);
                     $("#bankaccountnumber").val('').focus();
                     $("#bankifscnumber").val('');
+                    reportFunction(1);
                 }else{
                     console.log(data);
                 }
-                recentEntries();
+
             }
         });
     });
@@ -122,7 +128,6 @@
                 var data = JSON.parse(data);
                 if(data!=false){
                     $("#employeename").html(data);
-                    load_banks();
                 }
             }
         });
@@ -142,13 +147,12 @@
     $("#stateid").change(function () {
         load_district();
     });
-    function employeeBankDetailsReport(id){
-        if(id==1){
+    function loadAjaxForReport(data){
             $.ajax({
                 type:'post',
                 url:"<?= base_url('Employee/report_employee_bank_details')?>",
                 crossDomain:true,
-                data:{onlyrecent:1},
+                data:{checkparams:data},
                 success:function(data){
                     var jsondata = JSON.parse(data);
                     if(data!=false){
@@ -156,79 +160,41 @@
                         var z = jsondata.length;
                         // alert(z);
                         var html = "";
+                        var isactive='';
                         for(var i=0; i<z; i++){
                             j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                            var checkId = jsondata[i].id;
+                            var checkIsactive = jsondata[i].isactive;
+                            var editisactive = JSON.stringify(checkIsactive);
+                            var employeename = jsondata[i].empid;
+                            var bankname = jsondata[i].bankid;
+                            var accountnumber = jsondata[i].acno;
+                            var ifscnumber = jsondata[i].ifsccode;
+                            var updatedid = '"<?= $cname ?>"';
+                            var urlid = '"../Common/record_active_deactive"';
+                            if(checkIsactive=='t'){
+                                isactive= "<button id='action"+checkId+"' onclick='editIsactive(1,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-on fa-2x'></i></button>";
+                            }else{
+                                isactive= "<button id='action"+checkId+"' onclick='editIsactive(0,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-off fa-2x' ></i></button>";
+                            }
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td>" +
+                                "<td>"+isactive+"</td><td><button class='btn editBtn btn-sm' onclick='reportEditEmployeeBankDetails(" +checkId+ "," +accountnumber+ "," +ifscnumber+ "," +editisactive+ ")'>Edit</button></td></tr>");
                         }
                         $("#load_bank_employee").html(html);
                     }
                 }
             });
-        }else if(id==2){
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('Employee/report_employee_bank_details')?>",
-                crossDomain:true,
-                success:function(data){
-                    var jsondata = JSON.parse(data);
-                    if(data!=false){
-                        var j=0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                        }
-                        $("#load_bank_employee").html(html);
-                    }
-                }
-            });
-        }else if(id==3){
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('Employee/report_employee_bank_details')?>",
-                crossDomain:true,
-                data:{onlyactive:1},
-                success:function(data){
-                    var jsondata = JSON.parse(data);
-                    if(data!=false){
-                        var j=0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                        }
-                        $("#load_bank_employee").html(html);
-                    }
-                }
-            });
-        }else if(id==4){
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('Employee/report_employee_bank_details')?>",
-                crossDomain:true,
-                data:{onlyinactive:1},
-                success:function(data){
-                    var jsondata = JSON.parse(data);
-                    if(data!=false){
-                        var j=0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].bankid+"</td><td>"+ jsondata[i].acno+"</td><td>"+ jsondata[i].ifsccode+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                        }
-                        $("#load_bank_employee").html(html);
-                    }
-                }
-            });
-        }else if(id==5){
-         alert('This report is not available right now.');
         }
-
+    function reportEditEmployeeBankDetails(id,ifscnumber,isactive) {
+        if(isactive=='t'){
+            var isactiveval=1;
+        }else{
+            isactiveval=0;
+        }
+        $('#txtid').val(id);
+        $('#bankaccountnumber').val(accountnumber);
+        $('#bankifscnumber').val(ifscnumber);
+        $('#isactive').val(isactiveval);
+        $('#bankaccountnumber').focus();
     }
 </script>

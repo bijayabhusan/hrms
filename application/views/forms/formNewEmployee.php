@@ -197,7 +197,7 @@ $cname = $this->uri->segment(2);
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="toggle_new_employee" style="display: none;">
         <div class="box col-md-12">
             <div class="box-inner">
                 <div class="box-header well">
@@ -377,6 +377,7 @@ $cname = $this->uri->segment(2);
         });
     }
     $("#newEmployeeForm").submit(function(e){
+        $('#toggle_new_employee').show();
         e.preventDefault();
         var frm = $("#newEmployeeForm").serialize();
         $.ajax({
@@ -393,9 +394,10 @@ $cname = $this->uri->segment(2);
         });
     });
     function loadAjaxForReport(id){
+        $('#toggle_new_employee').show();
                 $.ajax({
                     type:'post',
-                    url:"<?= base_url('Employee/report_employee')?>",
+                    url:"<?= base_url('Employee/report_temp_employee')?>",
                     data:{checkparams:id},
                     crossDomain:true,
                     success:function(data){
@@ -416,9 +418,9 @@ $cname = $this->uri->segment(2);
                                 }else{
                                     isactive= "<button id='action"+checkId+"' onclick='editIsactive(0,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-off fa-2x' ></i></button>";
                                 }
-                                html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].slno+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].departmentmappingid+"</td><td>"+ jsondata[i].designationid+"</td><td>"+ jsondata[i].fname+" "+jsondata[i].mname+" "+jsondata[i].lname+"</td>" +
-                                    "<td>"+ jsondata[i].genderid+"</td><td>"+ jsondata[i].dob+"</td><td>"+ jsondata[i].maritalstatusid+"</td><td>"+ jsondata[i].doj+"</td><td>"+ jsondata[i].dol+"</td><td>"+ jsondata[i].fathername+"</td><td>"+ jsondata[i].mothername+"</td>" +
-                                    "<td>"+ jsondata[i].spousename+"</td><td>"+ jsondata[i].address+"</td><td>"+ jsondata[i].emailid+"</td><td>"+ jsondata[i].mobile+"</td><td>"+ jsondata[i].districtid+"</td><td>"+ jsondata[i].educationid+"</td>" +
+                                html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].slno+"</td><td>"+ jsondata[i].empid+"</td><td>"+ jsondata[i].departmentname+"</td><td>"+ jsondata[i].designationname+"</td><td>"+ jsondata[i].fname+" "+jsondata[i].mname+" "+jsondata[i].lname+"</td>" +
+                                    "<td>"+ jsondata[i].gendername+"</td><td>"+ jsondata[i].dob+"</td><td>"+ jsondata[i].maritalstatusname+"</td><td>"+ jsondata[i].doj+"</td><td>"+ jsondata[i].dol+"</td><td>"+ jsondata[i].fathername+"</td><td>"+ jsondata[i].mothername+"</td>" +
+                                    "<td>"+ jsondata[i].spousename+"</td><td>"+ jsondata[i].address+"</td><td>"+ jsondata[i].emailid+"</td><td>"+ jsondata[i].mobile+"</td><td>"+ jsondata[i].distname+"</td><td>"+ jsondata[i].educationname+"</td>" +
                                     "<td>"+ jsondata[i].epfno+"</td><td>"+ jsondata[i].esifno+"</td><td>"+ jsondata[i].aadharno+"</td><td>"+ jsondata[i].panno+"</td><td>"+isactive+"</td><td>Edit</td></tr>");
                             }
                             $("#load_employeess").html(html);

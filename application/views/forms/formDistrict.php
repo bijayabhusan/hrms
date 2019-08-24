@@ -1,11 +1,13 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$cname = $this->uri->segment(2);
+?>
 <div class="col-sm-10">
-
     <div class="row">
         <div class="box col-md-12">
             <div class="box-inner">
                 <div class="box-header well">
                     <h2><i class="fa fa-angle-double-right "></i> Create District</h2>
-
                     <div class="box-icon">
                         <a href="#" class="btn btn-setting btn-round btn-default"><i
                                     class="fa fa-cog"></i></a>
@@ -39,18 +41,16 @@
                     <br>
                     <hr>
                     <form action="">
-                        <button type="button" class="btn  btn-sm" onclick="districtEventFire(1)">Recent Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="districtEventFire(2)">All Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="districtEventFire(3)">Active Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="districtEventFire(4)">Inactive Entries</button>
-                        <button type="button" class="btn btn-sm" onclick="districtEventFire(5)">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(4)">Inactive Entries</button>
+                        <button type="button" class="btn btn-sm" onclick="reportFunction(5)">Details View</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-
     <div class="row">
         <div class="box col-md-12">
             <div class="box-inner">
@@ -103,10 +103,10 @@
                 if(data!=false){
                     console.log(data);
                     $("#districtname").val('');
+                    reportFunction(1);
                 }else{
                     console.log(data);
                 }
-                districtEventFire(1);
             }
         });
     });
@@ -123,15 +123,14 @@
         });
     }
     $("#stateid").change(function () {
-        load_district();
+        reportFunction(1);
     });
-    function districtEventFire(id){
-        if(id==1){
+    function loadAjaxForReport(data){
             var stateid = $('#stateid').val();
             $.ajax({
                 type:'post',
                 url:"<?= base_url('District/report_district')?>",
-                data:{stateid:stateid,onlyrecent: 1},
+                data:{stateid:stateid,checkparams:data},
                 crossDomain:true,
                 success:function(data){
                     var jsondata = JSON.parse(data);
@@ -140,83 +139,37 @@
                         var z = jsondata.length;
                         // alert(z);
                         var html = "";
+                        var isactive='';
                         for(var i=0; i<z; i++){
                             j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].distname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                            var checkId = jsondata[i].id;
+                            var checkIsactive = jsondata[i].isactive;
+                            var editisactive = JSON.stringify(checkIsactive);
+                            var district = jsondata[i].distname;
+                            var strdistrict = JSON.stringify(district);
+                            var updatedid = '"<?= $cname ?>"';
+                            var urlid = '"../Common/record_active_deactive"';
+                            if(checkIsactive=='t'){
+                                isactive= "<button id='action"+checkId+"' onclick='editIsactive(1,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-on fa-2x'></i></button>";
+                            }else{
+                                isactive= "<button id='action"+checkId+"' onclick='editIsactive(0,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-off fa-2x' ></i></button>";
+                            }
+                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].distname+"</td><td>"+isactive+"</td><td><button class='btn editBtn btn-sm' onclick='reportEditDistrict(" +checkId+ "," +strdistrict+ "," +editisactive+ ")'>Edit</button></td></tr>");
                         }
                         $("#load_district").html(html);
                     }
                 }
             });
-        }else if(id==2){
-            var stateid = $('#stateid').val();
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('District/report_district')?>",
-                data:{stateid:stateid},
-                crossDomain:true,
-                success:function(data){
-                    var jsondata = JSON.parse(data);
-                    if(data!=false){
-                        var j=0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].distname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                        }
-                        $("#load_district").html(html);
-                    }
-                }
-            });
-        }else if(id==3){
-            var stateid = $('#stateid').val();
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('District/report_district')?>",
-                data:{stateid:stateid,onlyactive:1},
-                crossDomain:true,
-                success:function(data){
-                    var jsondata = JSON.parse(data);
-                    if(data!=false){
-                        var j=0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].distname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                        }
-                        $("#load_district").html(html);
-                    }
-                }
-            });
-        }else if(id==4){
-            var stateid = $('#stateid').val();
-            $.ajax({
-                type:'post',
-                url:"<?= base_url('District/report_district')?>",
-                data:{stateid:stateid,onlyinactive:1},
-                crossDomain:true,
-                success:function(data){
-                    var jsondata = JSON.parse(data);
-                    if(data!=false){
-                        var j=0;
-                        var z = jsondata.length;
-                        // alert(z);
-                        var html = "";
-                        for(var i=0; i<z; i++){
-                            j++;
-                            html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].distname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                        }
-                        $("#load_district").html(html);
-                    }
-                }
-            });
-        }else if(id==5){
-            alert('This report is not available now.');
         }
+    function reportEditDistrict(id,strdistrict,isactive) {
+        if(isactive=='t'){
+            var isactiveval=1;
+        }else{
+            isactiveval=0;
+        }
+        $('#txtid').val(id);
+        $('#distname').val(strdistrict);
+        $('#isactive').val(isactiveval);
+        $('#distname').focus();
     }
-
 </script>

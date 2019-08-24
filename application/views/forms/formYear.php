@@ -116,6 +116,8 @@ $cname = $this->uri->segment(2);
                         j++;
                         var checkId = jsondata[i].id;
                         var checkIsactive = jsondata[i].isactive;
+                        var editisactive = JSON.stringify(checkIsactive);
+                        var year = jsondata[i].year;
                         var updatedid = '"<?= $cname ?>"';
                         var urlid = '"../Common/record_active_deactive"';
                         if(checkIsactive=='t'){
@@ -123,11 +125,22 @@ $cname = $this->uri->segment(2);
                         }else{
                             isactive= "<button id='action"+checkId+"' onclick='editIsactive(0,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-off fa-2x' ></i></button>";
                         }
-                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].year+"</td><td>"+isactive+"</td><td>Edit</td></tr>");
+                        html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].year+"</td><td>"+isactive+"</td><td><button class='btn editBtn btn-sm' onclick='reportEditYear(" +checkId+ "," +year+ "," +editisactive+ ")'>Edit</button></td></tr>");
                     }
                     $("#load_year").html(html);
                 }
             }
         });
      }
+    function reportEditYear(id,year,isactive) {
+        if(isactive=='t'){
+            var isactiveval=1;
+        }else{
+            isactiveval=0;
+        }
+        $('#txtid').val(id);
+        $('#year').val(year);
+        $('#isactive').val(isactiveval);
+        $('#year').focus();
+    }
 </script>

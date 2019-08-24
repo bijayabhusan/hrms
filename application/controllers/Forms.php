@@ -28,6 +28,13 @@ class Forms extends CI_Controller {
             echo "Message:" . $e->getMessage();
         }
     }
+    public function employeeDashboardMenu(){
+        try{
+            $this->load->view('dashboard/employeeDashboardMenu');
+        }catch (Exception $e){
+            echo "Message:" . $e->getMessage();
+        }
+    }
     public function navbar(){
         try{
             $this->load->view('include/navbar');
@@ -114,7 +121,6 @@ class Forms extends CI_Controller {
             echo "Message:" .$e->getMessage();
         }
     }
-
     public function formCompanyType(){
         try{
             if($this->session->login['userid']) {
@@ -199,6 +205,7 @@ class Forms extends CI_Controller {
             if($this->session->login['userid']) {
             $this->header();
             $this->navbar();
+            $this->employeeDashboardMenu();
             $this->load->view('dashboard/employeeDashboard');
             $this->footer();
             }else{

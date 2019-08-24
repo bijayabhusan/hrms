@@ -1,11 +1,13 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$cname = $this->uri->segment(2);
+?>
 <div class="col-sm-10">
-
     <div class="row">
         <div class="box col-md-12">
             <div class="box-inner">
                 <div class="box-header well">
                     <h2><i class="fa fa-angle-double-right "></i> Create Education</h2>
-
                     <div class="box-icon">
                         <a href="#" class="btn btn-setting btn-round btn-default"><i
                                     class="fa fa-cog"></i></a>
@@ -32,11 +34,11 @@
                     <br>
                     <hr>
                     <form action="">
-                        <button type="button" class="btn  btn-sm" onclick="educationEventFire(1)">Recent Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="educationEventFire(2)">All Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="educationEventFire(3)">Active Entries</button>
-                        <button type="button" class="btn  btn-sm" onclick="educationEventFire(4)">Inactive Entries</button>
-                        <button type="button" class="btn btn-sm" onclick="educationEventFire(5)">Details View</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(4)">Inactive Entries</button>
+                        <button type="button" class="btn  btn-sm" onclick="reportFunction(5)">Details View</button>
                     </form>
                 </div>
             </div>
@@ -99,18 +101,17 @@
                 }else{
                     console.log(data);
                 }
-                educationEventFire(1);
+                reportFunction(1);
             }
 
         });
     });
-    function educationEventFire(id){
-       if(id==1){
+    function loadAjaxForReport(data){
            $.ajax({
                type:'post',
                url:"<?= base_url('Education/report_education')?>",
                crossDomain:true,
-               data:{onlyrecent:1},
+               data:{checkparams:data},
                success:function(data){
                    var jsondata = JSON.parse(data);
                    if(data!=false){
@@ -118,78 +119,37 @@
                        var z = jsondata.length;
                        // alert(z);
                        var html = "";
+                       var isactive="";
                        for(var i=0; i<z; i++){
                            j++;
-                           html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].educationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
+                           var checkId = jsondata[i].id;
+                           var checkIsactive = jsondata[i].isactive;
+                           var editisactive = JSON.stringify(checkIsactive);
+                           var education = jsondata[i].educationname;
+                           var streducation = JSON.stringify(education);
+                           var updatedid = '"<?= $cname ?>"';
+                           var urlid = '"../Common/record_active_deactive"';
+                           if(checkIsactive=='t'){
+                               isactive= "<button id='action"+checkId+"' onclick='editIsactive(1,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-on fa-2x'></i></button>";
+                           }else{
+                               isactive= "<button id='action"+checkId+"' onclick='editIsactive(0,"+checkId+","+updatedid+","+urlid+")'><i class='fa fa-toggle-off fa-2x' ></i></button>";
+                           }
+                           html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].educationname+"</td><td>"+isactive+"</td><td><button class='btn editBtn btn-sm' onclick='reportEditEducation(" +checkId+ "," +streducation+ "," +editisactive+ ")'>Edit</button></td></tr>");
                        }
                        $("#load_education").html(html);
                    }
                }
            });
-       }else if(id==2){
-           $.ajax({
-               type:'post',
-               url:"<?= base_url('Education/report_education')?>",
-               crossDomain:true,
-               success:function(data){
-                   var jsondata = JSON.parse(data);
-                   if(data!=false){
-                       var j=0;
-                       var z = jsondata.length;
-                       // alert(z);
-                       var html = "";
-                       for(var i=0; i<z; i++){
-                           j++;
-                           html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].educationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                       }
-                       $("#load_education").html(html);
-                   }
-               }
-           });
-       }else if(id==3){
-           $.ajax({
-               type:'post',
-               url:"<?= base_url('Education/report_education')?>",
-               crossDomain:true,
-               data:{onlyactive:1},
-               success:function(data){
-                   var jsondata = JSON.parse(data);
-                   if(data!=false){
-                       var j=0;
-                       var z = jsondata.length;
-                       // alert(z);
-                       var html = "";
-                       for(var i=0; i<z; i++){
-                           j++;
-                           html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].educationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                       }
-                       $("#load_education").html(html);
-                   }
-               }
-           });
-       }else if(id==4){
-           $.ajax({
-               type:'post',
-               url:"<?= base_url('Education/report_education')?>",
-               crossDomain:true,
-               data:{onlyinactive:1},
-               success:function(data){
-                   var jsondata = JSON.parse(data);
-                   if(data!=false){
-                       var j=0;
-                       var z = jsondata.length;
-                       // alert(z);
-                       var html = "";
-                       for(var i=0; i<z; i++){
-                           j++;
-                           html +=("<tr> <td>"+j+"</td><td>"+ jsondata[i].educationname+"</td><td>"+jsondata[i].isactive+"</td><td>Edit</td></tr>");
-                       }
-                       $("#load_education").html(html);
-                   }
-               }
-           });
-       }else if(id==5){
-           alert('This report is not available right now');
        }
-    };
+    function reportEditEducation(id,streducation,isactive) {
+        if(isactive=='t'){
+            var isactiveval=1;
+        }else{
+            isactiveval=0;
+        }
+        $('#txtid').val(id);
+        $('#educationname').val(streducation);
+        $('#isactive').val(isactiveval);
+        $('#educationname').focus();
+    }
 </script>
