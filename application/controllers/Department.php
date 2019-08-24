@@ -275,11 +275,11 @@ class Department extends CI_Controller {
         try{
             $data=array();
             $where="isactive=true";
-            $res=$this->Model_Db->select(27,null,$where);
+            $res=$this->Model_Db->select(28,null,$where);
             $data[]="<option value=''>Select</option>";
             if($res!=false){
                 foreach ($res as $r){
-                    $data[]="<option value='$r->id'>$r->departmentid</option>";
+                    $data[]="<option value='$r->id'>$r->departmentname</option>";
                 }
             }
             echo json_encode($data);

@@ -45,3 +45,19 @@ create view view_temp_employee
                 join tbl_district tdst on (tte.districtid = tdst.id)
                     join tbl_education te on (tte.educationid = te.id)
     );
+   create view view_department_mapping as
+    select  tdm.id,
+            tdm.companyid,
+            tc.companyname,
+            tdm.departmentid,
+            td.departmentname,
+            tdm.entryby,
+            tdm.createdat,
+            tdm.updatedby,
+            tdm.updatedat,
+            tdm.isactive
+           from(
+                  tbl_department_mapping tdm
+                  join tbl_company tc on tdm.companyid = tc.id
+                      join tbl_department td on tdm.departmentid = td.id
+                      );
