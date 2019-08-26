@@ -39,14 +39,14 @@ $cname = $this->uri->segment(2);
                             <label for="bankifscnumber" class="control-label mb-1">IFSC Number</label>
                             <input id="bankifscnumber" name="bankifscnumber" type="text" AUTOCAPITALIZE="characters" class="form-control" aria-required="true" aria-invalid="false" minlength="12" maxlength="12" placeholder="Enter ifsc code.">
                         </div>
-                        <div class="form-actions form-group text-center ">
+                        <div class="form-actions form-group text-center " style="margin-right: 20%;">
                             <button type="reset" class="btn btn-danger btn-sm">Reset</button>
                             <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                         </div>
                     </form>
                     <br>
                     <hr>
-                    <form action="">
+                    <form action="" class="reportBtn">
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>

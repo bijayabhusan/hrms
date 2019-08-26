@@ -22,19 +22,20 @@ $cname = $this->uri->segment(2);
                     <form  class="" id="yearForm" autocomplete="off">
                         <div class="form-group">
                             <input type="hidden" id="txtid" name="txtid" value="0">
-                            <label for="yearname" class="control-label mb-1">Add New Year</label>
-                            <input type="text" id="year" name="year" class="form-control" aria-required="true" aria-invalid="false">
+                            <label for="yearname" class="control-label mb-1">Add New Year<span class="red">*</span></label>
+                            <input type="text" id="year" name="year" class="form-control" aria-required="true" aria-invalid="false" placeholder="Enter year.">
                             <input type="hidden" id="isactive" name="isactive" value='1' class="form-control">
                         </div>
-                        <div class=" form-group text-right">
+                        <br>
+                        <div class=" form-group text-right" style="margin-right: 20%;">
                             <button type="reset" class="btn btn-danger btn-sm">Reset</button>
-                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                            <button type="submit" class="btn btn-primary btn-sm" id="createYear">Create</button>
                         </div>
                     </form>
                     <br>
                     <hr>
-                    <form action="">
-                        <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
+                    <form action="" class="reportBtn">
+                        <button type="button" class="btn  btn-sm " onclick="reportFunction(1)">Recent Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(4)">Inactive Entries</button>
@@ -94,7 +95,12 @@ $cname = $this->uri->segment(2);
             data:frm,
             success:function(data){
                if(data!=false){
-                   reportFunction(1);
+                   if($('#createYear').html()=='Update'){
+                       window.location.reload();
+                   }else{
+                        $('#yearname').val('');
+                       reportFunction(1);
+                   }
                }
             }
         });
@@ -142,5 +148,6 @@ $cname = $this->uri->segment(2);
         $('#year').val(year);
         $('#isactive').val(isactiveval);
         $('#year').focus();
+        $("#createYear").html('Update');
     }
 </script>

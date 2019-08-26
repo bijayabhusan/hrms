@@ -27,14 +27,14 @@ $cname = $this->uri->segment(2);
                         <small class="errormsg_departmentname"></small>
                     </div>
                     <br>
-                    <div class=" form-group text-right">
-                        <button type="reset" class="btn btn-danger btn-sm">reset</button>
-                        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                    <div class=" form-group text-right" style="margin-right: 20%;">
+                        <button type="reset" class="btn btn-danger btn-sm">Reset</button>
+                        <button type="submit" class="btn btn-primary btn-sm" id="createDepartment">Create</button>
                     </div>
                 </form>
                 <br>
                 <hr>
-                <form action="">
+                <form action="" class="reportBtn">
                     <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
                     <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
                     <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
@@ -94,8 +94,12 @@ $cname = $this->uri->segment(2);
             data:frm,
             success:function(data){
                 if(data!=false){
-                    reportFunction(1);
-                    $('#departmentname').val("");
+                    if($("#createDepartment").html()=='Update'){
+                        window.location.reload();
+                    }else{
+                        reportFunction(1);
+                        $('#departmentname').val("");
+                    }
                 }else{
                     console.log(data);
                 }
@@ -138,15 +142,16 @@ $cname = $this->uri->segment(2);
                 }
             });
        }
-           function reportEditDepartment(id,strdepartmentname,isactive) {
-               if(isactive=='t'){
-                   var isactiveval=1;
-               }else{
-                   isactiveval=0;
-               }
-               $('#txtid').val(id);
-               $('#departmentname').val(strdepartmentname);
-               $('#isactive').val(isactiveval);
-               $('#departmentname').focus();
-           }
+   function reportEditDepartment(id,strdepartmentname,isactive) {
+       if(isactive=='t'){
+           var isactiveval=1;
+       }else{
+           isactiveval=0;
+       }
+       $('#txtid').val(id);
+       $('#departmentname').val(strdepartmentname);
+       $('#isactive').val(isactiveval);
+       $('#departmentname').focus();
+       $("#createDepartment").html('Update');
+   }
 </script>

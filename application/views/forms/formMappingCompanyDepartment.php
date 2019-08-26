@@ -45,14 +45,14 @@ $cname = $this->uri->segment(2);
                         </div>
                     </div>
                     <br><br>
-                    <div class=" form-group text-right">
-                        <button type="reset" class="btn btn-danger btn-sm">reset</button>
-                        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                    <div class=" form-group text-right" style="margin-right: 20%;">
+                        <button type="reset" class="btn btn-danger btn-sm" >Reset</button>
+                        <button type="submit" class="btn btn-primary btn-sm" id="createDepartmentMapping">Create</button>
                     </div>
                 </form>
                 <br>
                 <hr>
-                <form action="">
+                <form action="" class="reportBtn">
                     <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
                     <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
                     <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
@@ -188,6 +188,9 @@ $cname = $this->uri->segment(2);
                         j++;
                         var checkId = jsondata[i].id;
                         var checkIsactive = jsondata[i].isactive;
+                        var editisactive = JSON.stringify(checkIsactive);
+                        var company = jsondata[i].companyid;
+                        var department = jsondata[i].departmentid;
                         var updatedid = '"<?= $cname ?>"';
                         var urlid = '"../Common/record_active_deactive"';
                         if (checkIsactive == 't') {
@@ -195,11 +198,23 @@ $cname = $this->uri->segment(2);
                         } else {
                             isactive = "<button id='action" + checkId + "' onclick='editIsactive(0," + checkId + "," + updatedid + "," + urlid + ")'><i class='fa fa-toggle-off fa-2x' ></i></button>";
                         }
-                        html += ("<tr> <td>" + j + "</td><td>" + jsondata[i].companyid + "</td><td>" + jsondata[i].departmentid + "</td><td>" + isactive + "</td><td>Edit</td></tr>");
+                        html += ("<tr> <td>" + j + "</td><td>" + jsondata[i].companyname + "</td><td>" + jsondata[i].departmentname + "</td><td>" + isactive + "</td><td><button class='btn editBtn btn-sm' onclick='reportEditDepartmentMapping("+checkId+","+company+","+department+","+editisactive+")'>Edit</button></td></tr>");
                     }
                     $("#load_department_mapping").html(html);
                 }
             }
         });
     }
+    function reportEditDepartmentMapping(id,company,department,isactive) {
+            if(isactive=='t'){
+                var isactiveval=1;
+            }else{
+                isactiveval=0;
+            }
+            $('#txtid').val(id);
+            $('#companyname option[value = 18]').attr('selected','selected');
+            $('#departmentname').val(department);
+            $('#isactive').val(isactiveval);
+            $('#createDepartmentMapping').html('Update');
+        }
 </script>

@@ -74,7 +74,7 @@ class Bank extends CI_Controller
             if($status){
                 if(isset($request->txtid) && is_numeric($request->txtid)){
                     if($request->txtid>0){
-                        $insert[0]['updatedby']=1;
+                        $insert[0]['updatedby']=$this->session->login['userid'];
                         $insert[0]['updatedat']=date("Y-m-d H:i:s");
                         $res=$this->Model_Db->update(33,$insert,"id",$request->txtid);
                         if($res!=false){

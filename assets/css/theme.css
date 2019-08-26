@@ -15969,4 +15969,7 @@ ul.github-buttons li {
     border:1px solid cornflowerblue;
     padding: 2px 15px;
 }
-
+.reportBtn button:hover{
+    border: 1px solid red;
+    border-radius: 7px;
+}

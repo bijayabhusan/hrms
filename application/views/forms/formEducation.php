@@ -21,19 +21,20 @@ $cname = $this->uri->segment(2);
                     <form  class="" id="educationForm" autocomplete="off">
                         <div class="form-group">
                             <input type="hidden" id="txtid" name="txtid" value="0">
-                            <label for="educationname" class="control-label mb-1">Education Name</label>
-                            <input type="text" id="educationname" name="educationname" class="form-control" onclick="charachters_validate('educationname')" minlength="3" maxlength="20" required>
+                            <label for="educationname" class="control-label mb-1">Education Name<span class="red">*</span></label>
+                            <input type="text" id="educationname" name="educationname" class="form-control" onclick="charachters_validate('educationname')" minlength="3" maxlength="20" placeholder="Enter education name." required>
                             <input type="hidden" id="isactive" name="isactive" value='1' class="form-control">
                             <small class="errormsg_educationname"></small>
                         </div>
-                        <div class="form-actions form-group">
-                            <button type="reset" class="btn btn-danger btn-sm">reset</button>
-                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                        <br>
+                        <div class="text-right" style="margin-right: 20%;">
+                            <button type="reset" class="btn btn-danger btn-sm">Reset</button>
+                            <button type="submit" class="btn btn-primary btn-sm" id="createEducation">Create</button>
                         </div>
                     </form>
                     <br>
                     <hr>
-                    <form action="">
+                    <form action="" class="reportBtn">
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
@@ -97,11 +98,15 @@ $cname = $this->uri->segment(2);
             success:function(data){
                 if(data!=false){
                     console.log(data);
-                    $('#educationname').val('');
+                    if($('#createEducation').html()=="Update"){
+                        window.location.reload();
+                    }else{
+                        $('#educationname').val('');
+                        reportFunction(1);
+                    }
                 }else{
                     console.log(data);
                 }
-                reportFunction(1);
             }
 
         });
@@ -151,5 +156,7 @@ $cname = $this->uri->segment(2);
         $('#educationname').val(streducation);
         $('#isactive').val(isactiveval);
         $('#educationname').focus();
+        $("#createEducation").html('Update');
+
     }
 </script>

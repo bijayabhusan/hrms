@@ -26,14 +26,14 @@ $cname = $this->uri->segment(2);
                         <small class="errormsg_designationname"></small>
                     </div>
                     <br>
-                    <div class="form-group text-right">
+                    <div class="form-group text-right" style="margin-right: 20%;">
                         <button type="reset" class="btn btn-danger btn-sm">Reset</button>
-                        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-sm" id="crateDesignation">Create</button>
                     </div>
                 </form>
                 <br>
                 <hr>
-                <form action="">
+                <form action="" class="reportBtn">
                     <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
                     <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
                     <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
@@ -79,9 +79,6 @@ $cname = $this->uri->segment(2);
 </div>
 
 <script>
-    $(function () {
-         editisactive =$('#isactive').val();
-    });
     $("#designationForm").submit(function(e){
         // $("#designation_report").show();
         e.preventDefault();
@@ -93,8 +90,12 @@ $cname = $this->uri->segment(2);
             data:frm,
             success:function(data){
                 if(data!=false){
-                    $('#designationname').val("");
-                    reportFunction(1);
+                    if($('#crateDesignation').html()=='Update'){
+                        window.location.reload();
+                    }else{
+                        $('#designationname').val("");
+                        reportFunction(1);
+                    }
                 }
             }
         });
@@ -119,6 +120,7 @@ $cname = $this->uri->segment(2);
                         var designationname = jsondata[i].designationname;
                         var strdesignationname = JSON.stringify(designationname);
                         var checkIsactive = jsondata[i].isactive;
+                        var editisactive = JSON.stringify(checkIsactive);
                         var updatedid = '"<?= $cname ?>"';
                         var urlid = '"../Common/record_active_deactive"';
                         if(checkIsactive=='t'){
@@ -144,5 +146,6 @@ $cname = $this->uri->segment(2);
         $('#designationname').val(strdesignationname);
         $('#isactive').val(isactiveval);
         $('#designationname').focus();
+        $('#crateDesignation').html('Update');
     }
 </script>

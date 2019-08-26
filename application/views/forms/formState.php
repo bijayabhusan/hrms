@@ -23,20 +23,20 @@ $cname = $this->uri->segment(2);
                         <br>
                         <div class="form-group">
                             <input type="hidden" id="txtid" name="txtid" value="0">
-                            <label for="statename" class="control-label mb-1">State Name</label>
-                            <input type="text" id="statename" name="statename" class="form-control" aria-required="true" aria-invalid="false" onclick="charachters_validate('statename')" minlength="3" maxlength="20" required>
+                            <label for="statename" class="control-label mb-1">State Name<span class="red">*</span></label>
+                            <input type="text" id="statename" name="statename" class="form-control" aria-required="true" aria-invalid="false" onclick="charachters_validate('statename')" minlength="3" maxlength="20" required placeholder="Enter state name">
                             <input type="hidden" id="isactive" name="isactive" value='1' class="form-control">
                             <small class="errormsg_statename"></small>
                         </div>
                         <br>
-                        <div class="text-right form-group">
+                        <div class="text-right form-group" style="margin-right: 20%;">
                             <button type="reset" class="btn btn-danger btn-sm">Reset</button>
-                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                            <button type="submit" class="btn btn-primary btn-sm" id="createState">Create</button>
                         </div>
                     </form>
                     <br>
                     <hr>
-                    <form action="">
+                    <form action="" class="reportBtn">
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
@@ -85,9 +85,6 @@ $cname = $this->uri->segment(2);
 </div>
 </div>
 <script>
-    $(function () {
-        // load_state();
-    });
     $("#stateForm").submit(function(e){
         e.preventDefault();
         var x = location.hostname;
@@ -99,12 +96,19 @@ $cname = $this->uri->segment(2);
             data:frm,
             success:function(data){
                 if(data!=false){
-                    console.log(data);
-                    $("#statename").val("");
-                    reportFunction(1);
+
+                    if($("#createState").html()=='Update'){
+                        window.location.reload();
+                        $("#statename").val("");
+                    }else{
+                        $("#statename").val("");
+                        reportFunction(1);
+                    }
+
                 }else{
                     console.log(data);
                 }
+
             }
         });
     });
@@ -153,5 +157,6 @@ $cname = $this->uri->segment(2);
         $('#statename').val(strstate);
         $('#isactive').val(isactiveval);
         $('#statename').focus();
-    }
+        $('#createState').html('Update');
+        }
 </script>

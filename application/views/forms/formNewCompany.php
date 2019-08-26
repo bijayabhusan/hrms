@@ -52,7 +52,7 @@ $cname = $this->uri->segment(2);
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="gstno" class="control-label mb-1">GST Number</label>
-                                    <input id="gstno" name="gstno" type="text" onclick="alfa_numeric('gstno')" class="form-control text-uppercase"  minlength="15" maxlength="15" placeholder="Enter GST number" autocapitalize="characters" required>
+                                    <input id="gstno" name="gstno" type="text" onclick="alfa_numeric('gstno')" class="form-control text-uppercase"  minlength="15" maxlength="15" placeholder="Enter GST number.e.g: 24ABCDE5047D101" autocapitalize="characters" required>
                                     <small class="errormsg_gstno"></small>
                                 </div>
                             </div>
@@ -108,14 +108,14 @@ $cname = $this->uri->segment(2);
                             </div>
                         </div>
                         <br>
-                        <div class="form-actions form-group text-center ">
+                        <div class="form-actions form-group text-right " style="margin-right: 20%;">
                             <button type="reset" class="btn btn-danger btn-sm">reset</button>
                             <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                         </div>
                     </form>
                     <br>
                     <hr>
-                    <form action="">
+                    <form action="" class="reportBtn">
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>

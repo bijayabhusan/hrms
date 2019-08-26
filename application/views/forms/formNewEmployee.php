@@ -23,13 +23,14 @@ $cname = $this->uri->segment(2);
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="slno" class="control-label mb-1">#Slno<span style="color:red;">*</span>.</label>
-                                    <input id="slno" name="slno" type="text" class="form-control" maxlength="20" placeholder="Enter serial number" required>
+                                    <input id="slno" name="slno" type="text" class="form-control" onclick="number_validate('slno')" maxlength="20" placeholder="Enter serial number" required>
+                                    <small class="errormsg_slno"></small>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeetype" class="control-label mb-1">Employee ICard Number<span style="color:red;">*</span></label>
-                                    <input type="text" id="empid" name="empid" class="form-control" maxlength="20" placeholder="Enter ICard Number" required>
+                                    <input type="text" id="empid" name="empid" class="form-control text-uppercase" maxlength="20" placeholder="Enter ICard Number"  required>
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -50,19 +51,19 @@ $cname = $this->uri->segment(2);
                                    <label for="employeefirstname" class="control-label mb-1">First Name<span style="color:red;">*</span></label>
                                    <input type="hidden" id="txtid" name="txtid" value="0">
                                    <input type="hidden" id="isactive" name="isactive" value="1">
-                                   <input id="fname" name="fname" type="text" class="form-control"  minlength="1" maxlength="50" placeholder="Enter first name" required>
+                                   <input id="fname" name="fname" type="text" class="form-control text-uppercase"  minlength="1" maxlength="50" placeholder="Enter first name" required>
                                </div>
                            </div>
                            <div class="col-sm-3">
                                <div class="form-group">
                                    <label for="employeemiddlename" class="control-label mb-1">Middle Name</label>
-                                   <input id="mname" name="mname" type="text" class="form-control" maxlength="50" placeholder="Enter middle name">
+                                   <input id="mname" name="mname" type="text" class="form-control text-uppercase" maxlength="50" placeholder="Enter middle name">
                                </div>
                            </div>
                            <div class="col-sm-3">
                                <div class="form-group">
                                    <label for="employeelastname" class="control-label mb-1">Last Name</label>
-                                   <input id="lname" name="lname" type="text" class="form-control"  maxlength="50" placeholder="Enter last name">
+                                   <input id="lname" name="lname" type="text" class="form-control text-uppercase"  maxlength="50" placeholder="Enter last name">
                                </div>
                            </div>
                             <div class="col-sm-3">
@@ -100,31 +101,31 @@ $cname = $this->uri->segment(2);
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeefathername" class="control-label mb-1">Father Name</label>
-                                    <input id="fathername" name="fathername" type="text" class="form-control" maxlength="20" placeholder="Enter father name">
+                                    <input id="fathername" name="fathername" type="text" class="form-control text-uppercase" maxlength="20" placeholder="Enter father name">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeemothername" class="control-label mb-1">Mother Name</label>
-                                    <input id="mothername" name="mothername" type="text" class="form-control" placeholder="Enter mother name">
+                                    <input id="mothername" name="mothername" type="text" class="form-control text-uppercase" placeholder="Enter mother name">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeespoucename" class="control-label mb-1">Spouse Name</label>
-                                    <input id="spousename" name="spousename" type="text" class="form-control" placeholder="Enter spouse name">
+                                    <input id="spousename" name="spousename" type="text" class="form-control text-uppercase" placeholder="Enter spouse name">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeeaddress" class="control-label mb-1">Address<span style="color:red;">*</span></label>
-                                    <textarea id="address" name="address" class="form-control"  required placeholder="Enter address"></textarea>
+                                    <textarea id="address" name="address" class="form-control text-uppercase"  required placeholder="Enter address"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeeemail" class="control-label mb-1">Email</label>
-                                    <input id="emailid" name="emailid" type="email" class="form-control">
+                                    <input id="emailid" name="emailid" type="email" class="form-control" placeholder="Enter email id.">
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -155,30 +156,34 @@ $cname = $this->uri->segment(2);
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeeepfnumber" class="control-label mb-1">EPF Number</label>
-                                    <input id="epfno" name="epfno" type="text" class="form-control" placeholder="Enter epf number">
+                                    <input id="epfno" name="epfno" type="text" class="form-control text-uppercase" placeholder="Enter epf number. e.g:KN/KRP/0054055/0000250" minlength="21" maxlength="21" onclick="epf_number_validate('epfno')">
+                                    <small class="errormsg_epfno"></small>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeeesinumber" class="control-label mb-1">ESI Number</label>
-                                    <input id="esifno" name="esifno" type="text" class="form-control" placeholder="Enter esi number">
+                                    <input id="esifno" name="esifno" type="text" class="form-control" onclick="number_validate('esifno')" placeholder="Enter esi number e.g. 31001234560000001" maxlength="17" minlength="17">
+                                    <small class="errormsg_esifno"></small>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeeaadharnumber" class="control-label mb-1">Aadhar Number</label>
-                                    <input id="aadharno" name="aadharno" type="text" class="form-control" placeholder="Enter aadhar number"  maxlength="12" minlength="12" >
+                                    <input id="aadharno" name="aadharno" type="text" class="form-control" onclick="number_validate('aadharno')" placeholder="Enter aadhar number"  maxlength="12" minlength="12" >
+                                    <small class="errormsg_aadharno"></small>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeepannumber" class="control-label mb-1">PAN Number</label>
-                                    <input id="panno" name="panno" type="text" class="form-control" placeholder="Enter pan number" autocapitalize="on">
+                                    <input id="panno" name="panno" type="text" class="form-control text-uppercase" onclick="alfa_numeric('panno')" maxlength="10" minlength="10" placeholder="Enter pan number" autocapitalize="on">
+                                    <small class="errormsg_panno"></small>
                                 </div>
                             </div>
                         </div>
                         <br>
-                        <div class=" text-center ">
+                        <div class=" text-center " style="margin-right: 20%;">
                             <button type="reset" class="btn btn-danger btn-sm">Reset</button>
                             <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                         </div>
@@ -186,7 +191,7 @@ $cname = $this->uri->segment(2);
                     </form>
                     <br>
                     <hr>
-                    <form action="">
+                    <form action="" class="reportBtn">
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>

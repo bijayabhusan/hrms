@@ -16,6 +16,9 @@
                         <li onclick="loadDepartment()"><i class="fa fa-check-square "></i> &nbsp; Department</li>
                         <li onclick="loadDesignation()"><i class="fa fa-check-square "></i> &nbsp; Designation</li>
                     </ul>
+                    <ul class="nav nav-pills nav-stacked main-menu">
+                        <li onclick="loadDepartmentMapping()"><i class="fa fa-check-square "></i> &nbsp; Department Mapping</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -99,7 +102,7 @@
                     }
                 });
             }
-            function mappingCompanyDept() {
+            function loadDepartmentMapping() {
                 $.ajax({
                     url:"<?= base_url('Forms/mapping_company_department')?>",
                     type:"post",

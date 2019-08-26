@@ -23,19 +23,19 @@ $cname = $this->uri->segment(2);
                             <div class="form-group">
                                 <input type="hidden" id="txtid" name="txtid" value="0">
                                 <label for="" class="control-label mb-1">Gender Name</label>
-                                <input type="text" id="gendername" name="gendername" onclick="charachters_validate('gendername')" minlength="5" maxlength="60" class="form-control" placeholder="Enter gender name" required>
+                                <input type="text" id="gendername" name="gendername" onclick="charachters_validate('gendername')" minlength="3" maxlength="20" class="form-control" placeholder="Enter gender name" required>
                                 <input type="hidden" id="isactive" name="isactive" value='1' class="form-control">
                                 <small class="errormsg_gendername"></small>
                             </div>
                             <br>
-                            <div class="form-actions form-group text-right">
+                            <div class="form-actions form-group text-right" style="margin-right: 20%;">
                                 <button type="reset" class="btn btn-danger btn-sm">Reset</button>
-                                <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                                <button type="submit" class="btn btn-primary btn-sm" id="createGender">Create</button>
                             </div>
                         </form>
                         <br>
                         <hr>
-                        <form action="">
+                        <form action="" class="reportBtn">
                             <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
                             <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
                             <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
@@ -98,12 +98,15 @@ $cname = $this->uri->segment(2);
             data:frm,
             success:function(data){
                 if(data!=false){
-                    console.log(data);
-                    $('#gendername').val("");
+                    if($("#createGender").html()=="Update"){
+                        window.location.reload();
+                    }else {
+                        $('#gendername').val("");
+                        reportFunction(1);
+                    }
                 }else{
                     console.log(data);
                 }
-                reportFunction(1);
             }
         });
     });
@@ -152,5 +155,6 @@ $cname = $this->uri->segment(2);
         $('#gendername').val(strgender);
         $('#isactive').val(isactiveval);
         $('#gendername').focus();
+        $("#createGender").html("Update");
     }
 </script>

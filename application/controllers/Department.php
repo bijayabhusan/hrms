@@ -188,8 +188,7 @@ class Department extends CI_Controller {
                             $data['status']=false;
                         }
                     }else if($request->txtid==0){
-                        $insert[0]['entryby']=2;
-//                        $insert[0]['entryby']=$this->session->login['userid'];
+                        $insert[0]['entryby']=$this->session->login['userid'];
                         $insert[0]['createdat']=date("Y-m-d H:i:s");
                         $res=$this->Model_Db->insert(27,$insert);
                         if($res!=false){
@@ -248,13 +247,15 @@ class Department extends CI_Controller {
                         $data['error'] = true;
                         exit();
                 }
-                $res = $this->Model_Db->select(27, null, $where);
+                $res = $this->Model_Db->select(28, null, $where);
                 if ($res != false) {
                     foreach ($res as $r) {
                         $data[] = array(
                             'id' => $r->id,
                             'companyid' => $r->companyid,
+                            'companyname'=>$r->companyname,
                             'departmentid' => $r->departmentid,
+                            'departmentname'=>$r->departmentname,
                             'creationdate' => $r->createdat,
                             'lastmodifiedon' => $r->updatedat,
                             'isactive' => $r->isactive
@@ -279,7 +280,7 @@ class Department extends CI_Controller {
             $data[]="<option value=''>Select</option>";
             if($res!=false){
                 foreach ($res as $r){
-                    $data[]="<option value='$r->id'>$r->departmentname</option>";
+                    $data[]="<option value='$r->id'>$r->companyname - $r->departmentname</option>";
                 }
             }
             echo json_encode($data);

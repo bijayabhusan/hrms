@@ -27,14 +27,14 @@ $cname = $this->uri->segment(2);
                             <small class="errormsg_companytypename"></small>
                         </div>
                         <br>
-                        <div class="form-actions form-group text-right">
+                        <div class="form-actions form-group text-right" style="margin-right: 20%;">
                             <button type="reset" class="btn btn-danger btn-sm">Reset</button>
-                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                            <button type="submit" class="btn btn-primary btn-sm" id="createCompanyType">Create</button>
                         </div>
                     </form>
                     <br>
                     <hr>
-                    <form action="">
+                    <form action="" class="reportBtn">
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(1)">Recent Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(2)">All Entries</button>
                         <button type="button" class="btn  btn-sm" onclick="reportFunction(3)">Active Entries</button>
@@ -90,12 +90,15 @@ $cname = $this->uri->segment(2);
             data:frm,
             success:function(data){
                 if(data!=false){
-                    console.log(data);
-                    $('#companytypename').val("");
+                    if($("#createCompanyType").html()=="Update"){
+                        window.location.reload();
+                    }else{
+                        $('#companytypename').val("");
+                        reportFunction(1);
+                    }
                 }else{
                     console.log(data);
                 }
-                reportFunction(1);
             }
         });
     });
@@ -145,5 +148,6 @@ $cname = $this->uri->segment(2);
         $('#companytypename').val(strcompanytype);
         $('#isactive').val(isactiveval);
         $('#designationname').focus();
+        $("#createCompanyType").html('Update');
     }
 </script>
