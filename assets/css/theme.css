@@ -15208,17 +15208,21 @@ select{
     height: 30px;
     font-size: 12px;
 }
-textarea{
+/*textarea{*/
+/*    border-radius: 7px;*/
+/*    height: 35px;*/
+/*    font-size: 8px;*/
+/*}*/
+.textarea{
+   font-size: 12px;
     border-radius: 7px;
     height: 35px;
-    font-size: 12px;
 }
-
 /*charisma*/
-textarea{
-    border-radius: 10px;
-    color:red;
-}
+/*textarea{*/
+/*    border-radius: 10px;*/
+/*    color:red;*/
+/*}*/
 
 .ch-container {
     padding: 0 15px;

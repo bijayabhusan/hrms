@@ -119,7 +119,7 @@ $cname = $this->uri->segment(2);
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeeaddress" class="control-label mb-1">Address<span style="color:red;">*</span></label>
-                                    <textarea id="address" name="address" class="form-control text-uppercase"  required placeholder="Enter address"></textarea>
+                                    <textarea id="address" name="address"  class="form-control text-uppercase textarea"  minlength="5" maxlength="60" required placeholder="Enter address"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -143,7 +143,9 @@ $cname = $this->uri->segment(2);
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="districtid" class="control-label mb-1">District<span style="color:red;">*</span></label>
-                                    <select id="districtid" name="districtid" class="select" required></select>
+                                    <select id="districtid" name="districtid" class="select" required>
+                                        <option value="">Select</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -183,7 +185,7 @@ $cname = $this->uri->segment(2);
                             </div>
                         </div>
                         <br>
-                        <div class=" text-center " style="margin-right: 20%;">
+                        <div class=" text-right" style="margin-right: 20%;">
                             <button type="reset" class="btn btn-danger btn-sm">Reset</button>
                             <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                         </div>

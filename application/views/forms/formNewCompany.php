@@ -59,7 +59,7 @@ $cname = $this->uri->segment(2);
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="address" class="control-label mb-1">Address</label>
-                                    <textarea id="address" name="address" onclick="alfa_numeric('address')" rows="1" class="form-control text-area"  placeholder="Enter company address" required autocomplete="off" minlength="5" maxlength="60"></textarea>
+                                    <textarea id="address" name="address" onclick="alfa_numeric('address')" rows="1" class="form-control textarea"  placeholder="Enter company address" required autocomplete="off" minlength="5" maxlength="60"></textarea>
                                     <small class="errormsg_address"></small>
                                 </div>
                             </div>
