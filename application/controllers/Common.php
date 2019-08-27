@@ -49,6 +49,10 @@ class Common extends CI_Controller
                     $tableid=23;
                 }else if($request->tableid == 'loadDesignation'){
                     $tableid=25;
+                }else if($request->tableid == 'formUsertype'){
+                    $tableid=1;
+                }else if($request->tableid == 'formUser'){
+                    $tableid=3;
                 };
             }
             if(isset($request->isactive) && is_numeric($request->isactive)){

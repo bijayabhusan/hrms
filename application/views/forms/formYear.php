@@ -20,7 +20,7 @@ $cname = $this->uri->segment(2);
                 <div class="box-content">
                     <br>
                     <form  class="" id="yearForm" autocomplete="off">
-                        <div class="form-group">
+                        <div class="form-group wow flash">
                             <input type="hidden" id="txtid" name="txtid" value="0">
                             <label for="yearname" class="control-label mb-1">Add New Year<span class="red">*</span></label>
                             <input type="text" id="year" name="year" class="form-control" aria-required="true" aria-invalid="false" placeholder="Enter year.">

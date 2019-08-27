@@ -20,7 +20,12 @@ class Create extends CI_Controller {
             }else{
                 $status=false;
             }
-            if(isset($request->username) && preg_match("/[a-zA-Z ]{5,60}/",$request->username)){
+            if(isset($request->name) && preg_match("/[a-zA-Z ]{5,60}/",$request->name)){
+                $insert[0]['name']=$request->name;
+            }else{
+                $status=false;
+            }
+            if(isset($request->username) && preg_match("/[a-zA-Z _@.]{5,15}/",$request->username)){
                 $insert[0]['name']=$request->username;
             }else{
                 $status=false;

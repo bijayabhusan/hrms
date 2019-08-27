@@ -97,8 +97,8 @@ class User extends CI_Controller {
                                     $data['message']="Password matched. Otp sent.";
                                     $data['status']=true;
                                     $data['userid']=$request->userid;
-                                    $otp=rand(324653,876532);
-//                                    $otp=123456;
+//                                    $otp=rand(324653,876532);
+                                    $otp=123456;
                                     $mobile=$this->session->tempuser['usermobile'];
                                     $message="Your login otp is - ".$otp.". Please do not share this with any one.";
                                     $this->load->library("Sms");
@@ -228,6 +228,332 @@ class User extends CI_Controller {
             $data['status']=false;
             $data['error']=true;
             redirect("Welcome/");
+            echo json_encode($data);
+            exit();
+        }
+    }
+    public function create_user(){
+        try{
+            $data=array();
+            $insert=array();
+            $status=true;
+            $request= json_decode(json_encode($_POST), false);
+            if(isset($request->usertypeid) && is_numeric($request->usertypeid)){
+                $insert[0]['usertypeid']=$request->usertypeid;
+            }else{
+                $status=false;
+                echo $request->usertypeid;
+            }
+            if(isset($request->username) && preg_match("/[a-zA-Z _@.]{5,15}/",$request->username)){
+                $insert[0]['name']=$request->username;
+            }else{
+                $status=false;
+                echo $request->username;
+            }
+            if(isset($request->fname) && preg_match("/[a-zA-Z ]{5,60}/",$request->fname)){
+                $insert[0]['fname']=$request->fname;
+            }else{
+                $status=false;
+                echo $request->fname;
+            }
+            if(isset($request->mname) && preg_match("/[a-zA-Z ]{5,60}/",$request->mname)){
+                $insert[0]['mname']=$request->mname;
+            }else{
+                $status=false;
+                echo $request->mname;
+            }
+            if(isset($request->lname) && preg_match("/[a-zA-Z ]{5,60}/",$request->lname)){
+                $insert[0]['lname']=$request->lname;
+            }else{
+                $status=false;
+                echo $request->lname;
+            }
+
+            if(isset($request->emailid) && preg_match("/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/",$request->emailid)){
+                $insert[0]['emailid']=$request->emailid;
+            }else{
+                $status=false;
+                echo $request->emailid;
+            }
+            if(isset($request->mobile) && preg_match("/^[6,7,8,9]{1}+[0-9]{9}$/",$request->mobile)){
+                $insert[0]['mobile']=$request->mobile;
+            }else{
+                $status=false;
+                echo $request->mobile;
+            }
+            if(isset($request->dob) && preg_match("/^[0-9/]{10}$/",$request->dob)){
+                $dob=date("Y-m-d",strtotime($request->dob));
+                $insert[0]['dob']=$request->dob;
+            }else{
+                $status=false;
+                echo $request->dob;
+            }
+            if(isset($request->isactive) && preg_match("/[0,1]{1}/",$request->isactive)){
+                if($request->isactive==1){
+                    $insert[0]['isactive']=true;
+                }else if($request->isactive==0){
+                    $insert[0]['isactive']=false;
+                }else{
+                    $status=false;
+                }
+            }else{
+                $status=false;
+            }
+            if($status){
+                if(isset($request->txtid) && is_numeric($request->txtid)){
+                    if($request->txtid>0){
+                        $insert[0]['updatedby']=$this->session->login['userid'];
+                        $insert[0]['updatedat']=date("Y-m-d H:i:s");
+                        $res=$this->Model_Db->update(3,$insert,"id",$request->txtid);
+                        if($res!=false){
+                            $data['message']="Update successful.";
+                            $data['status']=true;
+                        }else{
+                            $data['message']="Update failed.";
+                            $data['status']=false;
+                        }
+                    }else if($request->txtid==0){
+                        $insert[0]['entryby']=$this->session->login['userid'];
+                        $insert[0]['createdat']=date("Y-m-d H:i:s");
+                        $res=$this->Model_Db->insert(3,$insert);
+                        if($res!=false){
+                            $data['message']="Insert successful.";
+                            $data['status']=true;
+                        }else{
+                            $data['message']="Insert failed.";
+                            $data['status']=false;
+                        }
+                    }else{
+                        $data['message']="Insufficient/Invalid data.";
+                        $data['status']=false;
+                    }
+                }else{
+                    $data['message']="Insufficient/Invalid data.";
+                    $data['status']=false;
+                }
+            }else{
+                $data['message']="Insufficient/Invalid data.";
+                $data['status']=false;
+            }
+            echo json_encode($data);
+            exit();
+        }catch (Exception $e){
+            $data['message']= "Message:".$e->getMessage();
+            $data['status']=false;
+            $data['error']=true;
+            echo json_encode($data);
+            exit();
+        }
+    }
+    public function load_user(){
+        try{
+            $data=array();
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata);
+            $where="isactive=true";
+            if(isset($request->typeid) && is_numeric($request->typeid) && $request->typeid>0){
+                $where.=" and usertypeid=$request->typeid";
+            }else{
+                $data['message']="Bad request.";
+                $data['status']=false;
+                echo json_encode($data);
+                exit();
+            }
+            $res=$this->Model_Db->select(3,null,$where);
+            $data[]="<option value=''>Select</option>";
+            if($res!=false){
+                foreach ($res as $r){
+                    $data[]="<option value='$r->id'>$r->name</option>";
+                }
+            }
+            echo json_encode($data);
+        }catch (Exception $e){
+            $data['message']= "Message:".$e->getMessage();
+            $data['status']=false;
+            $data['error']=true;
+            echo json_encode($data);
+            exit();
+        }
+    }
+    public function report_user(){
+        try{
+            $data=array();
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata);
+            if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
+                $where="isactive=true";
+            }else{
+                $where="1=1";
+            }
+            $res=$this->Model_Db->select(3,null,$where);
+            if($res!=false){
+                foreach ($res as $r){
+                    $data[]=array(
+                        'id'=>$r->id,
+                        'usertypeid'=>$r->usertypeid,
+                        'fname'=>$r->fname,
+                        'mname'=>$r->mname,
+                        'lname'=>$r->lname,
+                        'username'=>$r->username,
+                        'emailid'=>$r->emailid,
+                        'mobile'=>$r->mobile,
+                        'dob'=>$r->dob,
+                        'creationdate'=>$r->createdat,
+                        'lastmodifiedon'=>$r->updatedat,
+                        'isactive'=>$r->isactive
+                    );
+                }
+            }
+            echo json_encode($data);
+        }catch (Exception $e){
+            $data['message']= "Message:".$e->getMessage();
+            $data['status']=false;
+            $data['error']=true;
+            echo json_encode($data);
+            exit();
+        }
+    }
+    public function create_user_type(){
+        try{
+            $data=array();
+            $insert=array();
+            $request= json_decode(json_encode($_POST), false);
+            $status=true;
+            if(isset($request->usertypename) && preg_match("/^[a-zA-Z ]{3,20}$/",$request->usertypename)){
+                $insert[0]['typename']=$request->usertypename;
+            }else{
+                $status=false;
+                echo $request->usertypename;
+            }
+            if(isset($request->usertypeshortname) && preg_match("/^[a-zA-Z]{2,5}$/",$request->usertypeshortname)){
+                $insert[0]['usertypeshortname']=$request->usertypeshortname;
+            }else{
+                $status=false;
+                echo $request->usertypeshortname;
+            }
+            if(isset($request->isactive) && preg_match("/[0,1]{1}/",$request->isactive)){
+                if($request->isactive==1){
+                    $insert[0]['isactive']=true;
+                }else if($request->isactive==0){
+                    $insert[0]['isactive']=false;
+                }else{
+                    $status=false;
+                }
+            }else{
+                $status=false;
+            }
+            if($status){
+                if(isset($request->txtid) && is_numeric($request->txtid)){
+                    if($request->txtid>0){
+                        $insert[0]['updatedby']=$this->session->login['userid'];
+                        $insert[0]['updatedat']=date("Y-m-d H:i:s");
+                        $res=$this->Model_Db->update(1,$insert,"id",$request->txtid);
+                        if($res!=false){
+                            $data['message']="Update successful.";
+                            $data['status']=true;
+                        }else{
+                            $data['message']="Update failed.";
+                            $data['status']=false;
+                        }
+                    }else if($request->txtid==0){
+                        $insert[0]['entryby']=$this->session->login['userid'];
+                        $insert[0]['createdat']=date("Y-m-d H:i:s");
+                        $res=$this->Model_Db->insert(1,$insert);
+                        if($res!=false){
+                            $data['message']="Insert successful.";
+                            $data['status']=true;
+                        }else{
+                            $data['message']="Insert failed.";
+                            $data['status']=false;
+                        }
+                    }else{
+                        $data['message']="Insufficient/Invalid data.";
+                        $data['status']=false;
+                    }
+                }else{
+                    $data['message']="Insufficient/Invalid data.";
+                    $data['status']=false;
+                }
+            }else{
+                $data['message']="Insufficient/Invalid data.";
+                $data['status']=false;
+            }
+            echo json_encode($data);
+            exit();
+        }catch (Exception $e){
+            $data['message']= "Message:".$e->getMessage();
+            $data['status']=false;
+            $data['error']=true;
+            echo json_encode($data);
+            exit();
+        }
+    }
+    public function load_user_type(){
+        try{
+            $data=array();
+            $where="isactive=true";
+            $res=$this->Model_Db->select(1,null,$where);
+            $data[]="<option value=''>Select</option>";
+            if($res!=false){
+                foreach ($res as $r){
+                    $data[]="<option value='$r->id'>$r->typename</option>";
+                }
+            }
+            echo json_encode($data);
+        }catch (Exception $e){
+            $data['message']= "Message:".$e->getMessage();
+            $data['status']=false;
+            $data['error']=true;
+            echo json_encode($data);
+            exit();
+        }
+    }
+    public function report_user_type(){
+        try{
+            $data=array();
+            $request= json_decode(json_encode($_POST), false);
+//			$postdata = file_get_contents("php://input");
+//			$request = json_decode($postdata);
+            $current_date=Date('Y-m-d');
+            if(isset($request->checkparams) && is_numeric($request->checkparams)) {
+                switch ($request->checkparams) {
+                    case 1:
+                        $where = "DATE(createdat)=DATE('$current_date')";
+                        break;
+                    case 2:
+                        $where = "1=1";
+                        break;
+                    case 3:
+                        $where = "isactive=true";
+                        break;
+                    case 4:
+                        $where = "isactive=false";
+                        break;
+                    default:
+                        $data['message'] = "ID not found";
+                        $data['status'] = false;
+                        $data['error'] = true;
+                        exit();
+                }
+                $res = $this->Model_Db->select(1, null, $where);
+                if ($res != false) {
+                    foreach ($res as $r) {
+                        $data[] = array(
+                            'id' => $r->id,
+                            'usertypename' => $r->typename,
+                            'usertypeshortname' => $r->usertypeshortname,
+                            'creationdate' => $r->createdat,
+                            'lastmodifiedon' => $r->updatedat,
+                            'isactive' => $r->isactive
+                        );
+                    }
+                }
+                echo json_encode($data);
+            }
+        }catch (Exception $e){
+            $data['message']= "Message:".$e->getMessage();
+            $data['status']=false;
+            $data['error']=true;
             echo json_encode($data);
             exit();
         }

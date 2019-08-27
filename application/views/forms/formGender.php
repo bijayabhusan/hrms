@@ -101,6 +101,10 @@ $cname = $this->uri->segment(2);
                     if($("#createGender").html()=="Update"){
                         window.location.reload();
                     }else {
+                        // var toast = new iqwerty.toast.Toast();
+                        // toast.setText('This is a basic toast message!')
+                        //     .setDuration(5000)
+                        //     .show();
                         $('#gendername').val("");
                         reportFunction(1);
                     }

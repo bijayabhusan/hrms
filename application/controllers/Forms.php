@@ -55,7 +55,44 @@ class Forms extends CI_Controller {
         }catch (Exception $e){
             echo "Message:" . $e->getMessage();
         }
+    }
+    public function formUserType(){
+        try{
+            if($this->session->login['userid']){
+                $this->load->view('forms/formUserType');
+            }else{
+                redirect('welcome/');
+            }
+        }catch (Exception $e){
+            echo "Message:" .$e->getMessage();
+        }
+    }
+    public function formUser(){
+        try{
+            if($this->session->login['userid']){
+                $this->load->view('forms/formUser');
+            }else{
+                redirect('welcome/');
+            }
 
+        }catch (Exception $e){
+            echo "Message:" .$e->getMessage();
+        }
+    }
+    public function userDashboard(){
+        try{
+            if($this->session->login['userid']){
+                $this->header();
+                $this->navbar();
+                $this->load->view('dashboard/userDashboard');
+                $this->footer();
+            }else{
+                redirect('welcome/');
+            }
+
+        }catch (Exception $e){
+            echo "Message:" .$e->getMessage();
+        }
     }
     public function companyDashboard(){
     try{

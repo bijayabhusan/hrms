@@ -122,42 +122,50 @@ class Company extends CI_Controller {
                 $insert[0]['companytypeid']=$request->companytype;
             }else{
                 $status=false;
+                echo $request->companytype;
             }
             if(isset($request->companyname) && preg_match("/[a-zA-Z ]{5,60}/",$request->companyname)){
                 $insert[0]['companyname']=$request->companyname;
             }else{
                 $status=false;
+                echo $request->companyname;
             }
             if(isset($request->companyshortname) && preg_match("/[a-zA-Z]{0,5}/",$request->companyshortname)){
                 $insert[0]['companyshortname']=$request->companyshortname;
             }else{
                 $status=false;
+                echo $request->companyshortname;
             }
             if(isset($request->establishedon) && preg_match("/^[0-9 -]{10}$/",$request->establishedon)){
                 $doe=date("Y-m-d",strtotime($request->establishedon));
                 $insert[0]['establishedon']=$doe;
             }else{
                 $status=false;
+                echo $request->establishedon;
             }
-            if(isset($request->gstno) && preg_match("/^[0-9]{2}+[A-Z0-9]{13}$/",$request->gstno)){
+            if(isset($request->gstno) && preg_match("/^[0-9]{2}[A-Z0-9]{13}$/",$request->gstno)){
                 $insert[0]['gstno']=$request->gstno;
             }else{
                 $status=false;
+                echo $request->gstno;
             }
             if(isset($request->address) && preg_match("/[a-zA-Z ()]{5,60}/",$request->address)){
                 $insert[0]['address']=$request->address;
             }else{
                 $status=false;
+                echo $request->address;
             }
             if(isset($request->distid) && preg_match("/[0-9]{1,2}/",$request->distid)){
                 $insert[0]['distid']=$request->distid;
             }else{
                 $status=false;
+                echo $request->distid;
             }
             if(isset($request->pincode) && preg_match("/[0-9]{6}/",$request->pincode)){
                 $insert[0]['pincode']=$request->pincode;
             }else{
                 $status=false;
+                echo $request->pincode;
             }
 //            if(isset($request->logo) && preg_match("/[0-9]{6}/",$request->logo)){
 //                $insert[0]['logo']=$request->logo;
@@ -187,7 +195,7 @@ class Company extends CI_Controller {
             }else{
                 $status=false;
             }
-            print_r($request);
+//            print_r($request);
             if($status){
                 if(isset($request->txtid) && is_numeric($request->txtid)){
                     if($request->txtid>0){

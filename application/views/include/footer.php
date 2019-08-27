@@ -72,6 +72,9 @@ defined("BASEPATH") or exit("No direct script access allowed.");
     function formDashboard() {
         window.location.href="<?= base_url('Forms/')?>";
     }
+    function loadUser() {
+        window.location.href="<?= base_url('Forms/userDashboard')?>";
+    }
     //updatedid = <?//= $cname?>//;
     // alert(updatedid);
 </script>

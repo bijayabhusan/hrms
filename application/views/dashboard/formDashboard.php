@@ -133,6 +133,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-2">
+                            <div class="card overview-item--c4" onclick="loadUser()">
+                                <div class="card-header">User</div>
+                                <div class="card-body form-fa-item">
+                                    <i class="fa fa-users fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

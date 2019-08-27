@@ -33,6 +33,7 @@ $cname = $this->uri->segment(2);
     <link href="<?= base_url('assets/vendor/select2/select2.min.css')?>" rel="stylesheet" media="all">
     <link href="<?= base_url('assets/vendor/perfect-scrollbar/perfect-scrollbar.css')?>" rel="stylesheet" media="all">
     <link href="<?= base_url('assets/vendor/vector-map/jqvmap.min.css')?>" rel="stylesheet" media="all">
+    <script src="<?= base_url('assets/vendor/js-toast-master/toast.js')?>"></script>
 
     <!-- Main CSS-->
     <link href="<?= base_url('assets/css/theme.css')?>" rel="stylesheet" media="all">
