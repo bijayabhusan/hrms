@@ -130,7 +130,7 @@ class Company extends CI_Controller {
                 $status=false;
                 echo $request->companyname;
             }
-            if(isset($request->companyshortname) && preg_match("/[a-zA-Z]{0,5}/",$request->companyshortname)){
+            if(isset($request->companyshortname) && preg_match("/[a-zA-Z]{2,5}/",$request->companyshortname)){
                 $insert[0]['companyshortname']=$request->companyshortname;
             }else{
                 $status=false;

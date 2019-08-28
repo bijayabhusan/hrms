@@ -49,7 +49,7 @@ class User extends CI_Controller {
                     }else{
                         $data['message']="Userid found.";
                         $data['userid']=$res[0]->id;
-                        $data['username']=$res[0]->name;
+                        $data['username']=$res[0]->username;
                         $data['usermobile']=$res[0]->mobile;
                         $data['userlogo']=$res[0]->logo;
                         $data['status']=true;
@@ -236,6 +236,7 @@ class User extends CI_Controller {
         try{
             $data=array();
             $insert=array();
+            $password=array();
             $status=true;
             $request= json_decode(json_encode($_POST), false);
             if(isset($request->usertypeid) && is_numeric($request->usertypeid)){
@@ -245,28 +246,26 @@ class User extends CI_Controller {
                 echo $request->usertypeid;
             }
             if(isset($request->username) && preg_match("/[a-zA-Z _@.]{5,15}/",$request->username)){
-                $insert[0]['name']=$request->username;
+                $insert[0]['username']=$request->username;
             }else{
                 $status=false;
                 echo $request->username;
             }
-            if(isset($request->fname) && preg_match("/[a-zA-Z ]{5,60}/",$request->fname)){
+            if(isset($request->fname) && preg_match("/[a-zA-Z]{2,60}/",$request->fname)){
                 $insert[0]['fname']=$request->fname;
             }else{
                 $status=false;
                 echo $request->fname;
             }
-            if(isset($request->mname) && preg_match("/[a-zA-Z ]{5,60}/",$request->mname)){
+            if(isset($request->mname) && preg_match("/[a-zA-Z]{2,60}/",$request->mname)){
                 $insert[0]['mname']=$request->mname;
             }else{
-                $status=false;
-                echo $request->mname;
+                $insert[0]['mname']="";
             }
-            if(isset($request->lname) && preg_match("/[a-zA-Z ]{5,60}/",$request->lname)){
+            if(isset($request->lname) && preg_match("/[a-zA-Z]{2,60}/",$request->lname)){
                 $insert[0]['lname']=$request->lname;
             }else{
-                $status=false;
-                echo $request->lname;
+                $insert[0]['lname']="";
             }
 
             if(isset($request->emailid) && preg_match("/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/",$request->emailid)){
@@ -281,13 +280,24 @@ class User extends CI_Controller {
                 $status=false;
                 echo $request->mobile;
             }
-            if(isset($request->dob) && preg_match("/^[0-9/]{10}$/",$request->dob)){
+            if(isset($request->dob) && preg_match("/^[0-9-]{10}$/",$request->dob)){
                 $dob=date("Y-m-d",strtotime($request->dob));
-                $insert[0]['dob']=$request->dob;
+                $insert[0]['dob']=$dob;
             }else{
                 $status=false;
-                echo $request->dob;
+               echo $request->dob;
             }
+//            if(isset($request->userpassword) && preg_match("/^[a-zA-Z0-9-_@.]{6,18}$/",$request->userpassword) && isset($request->reenteruserpassword) && preg_match("/^[a-zA-Z0-9-_@.]{6,18}$/",$request->reenteruserpassword)){
+//                if($request->userpassword == $request->reenteruserpassword){
+//                    $password[0]['password']=$request->mobile;
+//                }else{
+//                    $status=false;
+//                }
+//            }else{
+//                $status=false;
+//                echo $request->userpassword;
+//            }
+            $password[0]['password']=$request->mobile;
             if(isset($request->isactive) && preg_match("/[0,1]{1}/",$request->isactive)){
                 if($request->isactive==1){
                     $insert[0]['isactive']=true;
@@ -317,6 +327,18 @@ class User extends CI_Controller {
                         $insert[0]['createdat']=date("Y-m-d H:i:s");
                         $res=$this->Model_Db->insert(3,$insert);
                         if($res!=false){
+                            //note:-data insertion from tbl_user_authentication
+                            $password[0]['userid']=$res;
+                            $password[0]['entryby']=$this->session->login['userid'];
+                            $password[0]['createdat']=date("Y-m-d H:i:s");
+                            $result=$this->Model_Db->insert(5,$password);
+                            if($result!=false){
+                                $data['message']="Insert successful.";
+                                $data['status']=true;
+                            }else{
+                                $data['message']="Insertion faild .";
+                                $data['status']=false;
+                            }
                             $data['message']="Insert successful.";
                             $data['status']=true;
                         }else{
@@ -378,30 +400,52 @@ class User extends CI_Controller {
     public function report_user(){
         try{
             $data=array();
-            $postdata = file_get_contents("php://input");
-            $request = json_decode($postdata);
-            if(isset($request->onlyactive) && is_numeric($request->onlyactive)){
-                $where="isactive=true";
-            }else{
-                $where="1=1";
-            }
-            $res=$this->Model_Db->select(3,null,$where);
-            if($res!=false){
-                foreach ($res as $r){
-                    $data[]=array(
-                        'id'=>$r->id,
-                        'usertypeid'=>$r->usertypeid,
-                        'fname'=>$r->fname,
-                        'mname'=>$r->mname,
-                        'lname'=>$r->lname,
-                        'username'=>$r->username,
-                        'emailid'=>$r->emailid,
-                        'mobile'=>$r->mobile,
-                        'dob'=>$r->dob,
-                        'creationdate'=>$r->createdat,
-                        'lastmodifiedon'=>$r->updatedat,
-                        'isactive'=>$r->isactive
-                    );
+            $request= json_decode(json_encode($_POST), false);
+            $current_date=Date('Y-m-d');
+            if(isset($request->checkparams) && is_numeric($request->checkparams)) {
+                switch ($request->checkparams) {
+                    case 1:
+                        $where = "DATE(createdat)=DATE('$current_date')";
+                        break;
+                    case 2:
+                        $where ="1=1";
+                        break;
+                    case 3:
+                        $where ="isactive=true";
+                        break;
+                    case 4:
+                        $where ="isactive=false";
+                        break;
+                    default:
+                        $data['message'] = "ID not found";
+                        $data['status'] = false;
+                        $data['error'] = true;
+                        exit();
+                }
+                $res = $this->Model_Db->select(3, null, $where);
+                $result = $this->Model_Db->select(5,null,$where);
+
+                if ($res != false) {
+                    foreach ($res as $r) {
+//                        if($result != false){
+//                            foreach ($result as $rs) {
+                                $data[] = array(
+                                    'id' => $r->id,
+                                    'usertypeid' => $r->usertypeid,
+                                    'fname' => $r->fname,
+                                    'mname' => $r->mname,
+                                    'lname' => $r->lname,
+                                    'username' => $r->username,
+                                    'emailid' => $r->emailid,
+                                    'mobile' => $r->mobile,
+                                    'dob' => $r->dob,
+                                    'creationdate' => $r->createdat,
+                                    'lastmodifiedon' => $r->updatedat,
+                                    'isactive' => $r->isactive
+                                );
+//                            }
+//                        };
+                    }
                 }
             }
             echo json_encode($data);

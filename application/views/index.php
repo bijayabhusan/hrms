@@ -16,9 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
                     </div>
                     <div style="padding-top:30px" class="panel-body" >
-
                         <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-
                         <form method="post" class="form-horizontal" name="frmLogin" role="form" id="frmLogin">
                             <div style="margin-bottom: 25px">
                                 <input id="username" type="text" class="form-control" name="username"  autofocus  placeholder="username or email" required>
@@ -32,7 +30,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                         </form>
-
                         <form method="post" class="form-horizontal" name="frmPassword" role="form" id="frmPassword" style="display: none;">
                             <div style="margin-bottom: 25px">
                                 <!--                                <input type="hidden" id="userid" value="" hidden>-->
@@ -47,7 +44,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                         </form>
-
                         <form method="post" class="form-horizontal" name="frmOtp" role="form" id="frmOtp" style="display: none;">
                             <div style="margin-bottom: 25px">
                                 <input type="hidden" id="otp_check" name="otp_check" value="1">

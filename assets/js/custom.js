@@ -46,3 +46,11 @@ function epf_number_validate(id) {
         }
     });
 }
+function password_validate(id) {
+    $("#"+id).keypress(function (e) {
+        if (e.which != 8 && e.which != 0 && (e.which < 64 || e.which > 90) && (e.which < 97 || e.which > 122)&& (e.which < 44 || e.which > 57) && e.which != 32 && e.which != 38 && e.which != 40 && e.which != 41 &&  e.which != 47 &&  e.which != 95 ) {
+            $(".errormsg_"+id).html("Alphanumeric Only").css({'color':'red'}).show().fadeOut(2000);
+            return false;
+        }
+    });
+}

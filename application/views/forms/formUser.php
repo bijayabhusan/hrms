@@ -29,35 +29,28 @@ $cname = $this->uri->segment(2);
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <label for="" class="control-label mb-1">User ID</label>
-                                <input id="username" name="username" type="text" class="form-control"  maxlength="50" placeholder="Enter userid name">
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group">
                                 <input type="hidden" id="txtid" name="txtid" value="0">
                                 <input type="hidden" id="isactive" name="isactive" value="1">
                                 <label for="" class="control-label mb-1">First Name<span style="color:red;">*</span></label>
-                                <input id="fname" name="fname" type="text" class="form-control text-uppercase"  minlength="1" maxlength="50" placeholder="Enter first name" required>
+                                <input id="fname" name="fname" type="text" class="form-control"  minlength="2" maxlength="50" placeholder="Enter first name" required>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label for="" class="control-label mb-1">Middle Name</label>
-                                <input id="mname" name="mname" type="text" class="form-control text-uppercase" maxlength="50" placeholder="Enter middle name">
+                                <input id="mname" name="mname" type="text" class="form-control " minlength="0"  maxlength="50" placeholder="Enter middle name">
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label for="" class="control-label mb-1">Last Name</label>
-                                <input id="lname" name="lname" type="text" class="form-control text-uppercase"  maxlength="50" placeholder="Enter last name">
+                                <input id="lname" name="lname" type="text" class="form-control " minlength="0"  maxlength="50" placeholder="Enter last name">
                             </div>
                         </div>
-
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label for="employeedob" class="control-label mb-1">Date of Birth<span style="color:red;">*</span></label>
-                                <input id="dob" name="dob" type="date" class="form-control" required>
+                                <input type="date" id="dob" name="dob" minlength="10" maxlength="10"  class="form-control" required>
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -72,13 +65,33 @@ $cname = $this->uri->segment(2);
                                 <input id="mobile" name="mobile" type="text" class="form-control"  minlength="10" maxlength="10" placeholder="Enter mobile number" required>
                             </div>
                         </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="" class="control-label mb-1">User Name</label>
+                                <input id="username" name="username" type="text" class="form-control"  maxlength="50" placeholder="Enter username for login" title="Enter username for login">
+                            </div>
+                        </div>
+<!--                        <div class="col-sm-3">-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="" class="control-label mb-1">Password</label>-->
+<!--                                <input id="userpassword" name="userpassword" type="text" class="form-control" minlength="5"  maxlength="16" onclick="password_validate('userpassword')" placeholder="Enter Password" title="Enter username for login" required>-->
+<!--                                <small class="errormsg_userpassword"></small>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-sm-3">-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="" class="control-label mb-1">Re-Enter Password </label>-->
+<!--                                <input id="reenteruserpassword" name="reenteruserpassword" type="text" class="form-control" minlength="5" onclick="password_validate('reenteruserpassword')"  maxlength="16" placeholder="Enter Password" title="Enter username for login" required>-->
+<!--                                <small class="errormsg_reenteruserpassword"></small>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                     <br>
                     <div class=" text-right" style="margin-right: 20%;">
                         <button type="reset" class="btn btn-danger btn-sm">Reset</button>
-                        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-sm" id="createUser">Create</button>
+<!--                        <button type="submit" class="btn btn-primary btn-sm" id="createUserPassword" style="display: none;">Create Password</button>-->
                     </div>
-
                 </form>
                 <br>
                 <hr>
@@ -135,6 +148,7 @@ $cname = $this->uri->segment(2);
 <script>
     $(function () {
         load_user_type();
+        load_userid();
     });
     function load_user_type(){
         $.ajax({
@@ -149,7 +163,19 @@ $cname = $this->uri->segment(2);
             }
         });
     }
-
+    function load_userid(){
+        $.ajax({
+            type:'post',
+            url: "<?= base_url('User/load_userid')?>",
+            crossDomain:true,
+            success:function(data){
+                var data = JSON.parse(data);
+                if(data!=false){
+                    $("#userid").html(data);
+                }
+            }
+        });
+    }
     $("#newUserForm").submit(function(e){
         $('#toggle_new_user').show();
         e.preventDefault();
@@ -163,6 +189,16 @@ $cname = $this->uri->segment(2);
                 if(data!=false){
                     var josndata = JSON.parse(data);
                     reportFunction(1);
+                    $("#usertypeid").val("");
+                    $("#username").val("");
+                    $("#fname").val("");
+                    $("#mname").val("");
+                    $("#lname").val("");
+                    $("#dob").val("");
+                    $("#emailid").val("");
+                    $("#mobile").val("");
+                    $("#userpassword").val("");
+                    $("#reenteruserpassword").val("");
                 }
             }
         });
@@ -198,8 +234,10 @@ $cname = $this->uri->segment(2);
                             "<td>"+ jsondata[i].emailid+"</td><td>"+ jsondata[i].mobile+"</td><td>"+ jsondata[i].dob+"</td><td>"+isactive+"</td><td>Edit</td></tr>");
                     }
                     $("#load_user").html(html);
+
                 }
             }
         });
     }
+
 </script>

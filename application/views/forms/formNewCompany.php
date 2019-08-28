@@ -39,7 +39,7 @@ $cname = $this->uri->segment(2);
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="companyshortname" class="control-label mb-1">Company Short Name</label>
-                                    <input id="companyshortname" name="companyshortname" type="text" onclick="charachters_validate('companyshortname')" class="form-control" minlength="0" maxlength="5" placeholder="Enter company short name" required>
+                                    <input id="companyshortname" name="companyshortname" type="text" onclick="alfa_numeric('companyshortname')" class="form-control" minlength="2" maxlength="5" placeholder="Enter company short name" required>
                                     <small class="errormsg_companyshortname"></small>
                                 </div>
                             </div>
