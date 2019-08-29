@@ -23,7 +23,7 @@ $cname = $this->uri->segment(2);
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="slno" class="control-label mb-1">#Slno<span style="color:red;">*</span>.</label>
-                                    <input id="slno" name="slno" type="text" class="form-control" onclick="number_validate('slno')" maxlength="20" placeholder="Enter serial number" required>
+                                    <input id="slno" name="slno" type="text" class="form-control" onclick="alfa_numeric('slno')" maxlength="20" placeholder="Enter serial number" required>
                                     <small class="errormsg_slno"></small>
                                 </div>
                             </div>
@@ -51,19 +51,19 @@ $cname = $this->uri->segment(2);
                                    <label for="employeefirstname" class="control-label mb-1">First Name<span style="color:red;">*</span></label>
                                    <input type="hidden" id="txtid" name="txtid" value="0">
                                    <input type="hidden" id="isactive" name="isactive" value="1">
-                                   <input id="fname" name="fname" type="text" class="form-control text-uppercase"  minlength="1" maxlength="50" placeholder="Enter first name" required>
+                                   <input id="fname" name="fname" type="text" class="form-control"  minlength="1" maxlength="50" placeholder="Enter first name" required>
                                </div>
                            </div>
                            <div class="col-sm-3">
                                <div class="form-group">
                                    <label for="employeemiddlename" class="control-label mb-1">Middle Name</label>
-                                   <input id="mname" name="mname" type="text" class="form-control text-uppercase" maxlength="50" placeholder="Enter middle name">
+                                   <input id="mname" name="mname" type="text" class="form-control" maxlength="50" placeholder="Enter middle name">
                                </div>
                            </div>
                            <div class="col-sm-3">
                                <div class="form-group">
                                    <label for="employeelastname" class="control-label mb-1">Last Name</label>
-                                   <input id="lname" name="lname" type="text" class="form-control text-uppercase"  maxlength="50" placeholder="Enter last name">
+                                   <input id="lname" name="lname" type="text" class="form-control"  maxlength="50" placeholder="Enter last name">
                                </div>
                            </div>
                             <div class="col-sm-3">
@@ -101,25 +101,25 @@ $cname = $this->uri->segment(2);
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeefathername" class="control-label mb-1">Father Name</label>
-                                    <input id="fathername" name="fathername" type="text" class="form-control text-uppercase" maxlength="20" placeholder="Enter father name">
+                                    <input id="fathername" name="fathername" type="text" class="form-control" maxlength="20" placeholder="Enter father name">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeemothername" class="control-label mb-1">Mother Name</label>
-                                    <input id="mothername" name="mothername" type="text" class="form-control text-uppercase" placeholder="Enter mother name">
+                                    <input id="mothername" name="mothername" type="text" class="form-control" placeholder="Enter mother name">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeespoucename" class="control-label mb-1">Spouse Name</label>
-                                    <input id="spousename" name="spousename" type="text" class="form-control text-uppercase" placeholder="Enter spouse name">
+                                    <input id="spousename" name="spousename" type="text" class="form-control" placeholder="Enter spouse name">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="employeeaddress" class="control-label mb-1">Address<span style="color:red;">*</span></label>
-                                    <textarea id="address" name="address"  class="form-control text-uppercase textarea"  minlength="5" maxlength="60" required placeholder="Enter address"></textarea>
+                                    <textarea id="address" name="address"  class="form-control textarea"  minlength="5" maxlength="60" required placeholder="Enter address"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -142,8 +142,8 @@ $cname = $this->uri->segment(2);
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label for="districtid" class="control-label mb-1">District<span style="color:red;">*</span></label>
-                                    <select id="districtid" name="districtid" class="select" required>
+                                    <label for="distid" class="control-label mb-1">District<span style="color:red;">*</span></label>
+                                    <select id="distid" name="distid" class="select" required>
                                         <option value="">Select</option>
                                     </select>
                                 </div>
@@ -241,7 +241,6 @@ $cname = $this->uri->segment(2);
                             <th>Address</th>
                             <th>Email</th>
                             <th>Mobile</th>
-<!--                            <th>State</th>-->
                             <th>District</th>
                             <th>Education</th>
                             <th>Epf Number</th>
@@ -270,119 +269,11 @@ $cname = $this->uri->segment(2);
         load_gender();
         load_state();
     });
-    function load_employee_type(){
-        $.ajax({
-            type:'post',
-            url: "<?= base_url('Employee/load_employee_type')?>",
-            crossDomain:true,
-            success:function(data){
-                var data = JSON.parse(data);
-                if(data!=false){
-                    $("#empid").html(data);
-                }
-            }
 
-        });
-    }
-    function load_education(){
-        $.ajax({
-            type:'post',
-            url: "<?= base_url('Education/load_education')?>",
-            crossDomain:true,
-            success:function(data){
-                var data = JSON.parse(data);
-                if(data!=false){
-                    $("#educationid").html(data);
-                }
-            }
-        });
-    }
-    function load_department() {
-        $.ajax({
-            type: 'post',
-            url: "<?= base_url('Department/load_department_mapping')?>",
-            crossDomain: true,
-            success: function (data) {
-                var data = JSON.parse(data);
-                if (data != false) {
-                    $("#departmentmappingid").html(data);
-                }
-            }
-        });
-    }
-    function load_designation() {
-        $.ajax({
-            type: 'post',
-            url: "<?= base_url('Designation/load_designation')?>",
-            crossDomain: true,
-            success: function (data) {
-                var data = JSON.parse(data);
-                if (data != false) {
-                    $("#designationid").html(data);
-                }
-            }
-        });
-    }
-    function load_state(){
-
-        $.ajax({
-            type:'post',
-            url: "<?= base_url('State/load_state')?>",
-            crossDomain:true,
-            success:function(data){
-                var data = JSON.parse(data);
-                if(data!=false){
-                    $("#stateid").html(data);
-                }
-            }
-
-        });
-    }
     $('#stateid').change(function () {
         load_district();
     });
-    function load_district(){
-        var stateid = $("#stateid").val();
-        $.ajax({
-            type:'post',
-            url: "<?= base_url('District/load_district')?>",
-            data:{stateid:stateid},
-            crossDomain:true,
-            success:function(data){
-                var data = JSON.parse(data);
-                if(data!=false){
-                    $("#districtid").html(data);
-                }
-            }
 
-        });
-    }
-    function load_gender() {
-        $.ajax({
-            type: 'post',
-            url: "<?= base_url('Gender/load_gender')?>",
-            crossDomain: true,
-            success: function (data) {
-                var data = JSON.parse(data);
-                if (data != false) {
-                    $("#genderid").html(data);
-                }
-            }
-        });
-    }
-    function load_marital_status() {
-        $.ajax({
-            type: 'post',
-            url: "<?= base_url('MaritalStatus/load_marital_status')?>",
-            crossDomain: true,
-            success: function (data) {
-                var data = JSON.parse(data);
-                if (data != false) {
-                    $("#maritalstatusid").html(data);
-                }
-            }
-        });
-    }
     $("#newEmployeeForm").submit(function(e){
         $('#toggle_new_employee').show();
         e.preventDefault();

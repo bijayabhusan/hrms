@@ -143,11 +143,12 @@ class Company extends CI_Controller {
                 $status=false;
                 echo $request->establishedon;
             }
-            if(isset($request->gstno) && preg_match("/^[0-9]{2}[A-Z0-9]{13}$/",$request->gstno)){
-                $insert[0]['gstno']=$request->gstno;
+            $gst = strtoupper($request->gstno);
+            if(isset($gst) && preg_match("/^[0-9]{2}[A-Z0-9]{13}$/",$gst)){
+                $insert[0]['gstno']=$gst;
             }else{
                 $status=false;
-                echo $request->gstno;
+                echo $gst;
             }
             if(isset($request->address) && preg_match("/[a-zA-Z ()]{5,60}/",$request->address)){
                 $insert[0]['address']=$request->address;

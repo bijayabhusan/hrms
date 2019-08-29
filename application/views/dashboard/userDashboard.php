@@ -4,21 +4,32 @@
             <div class="box col-sm-2">
                 <div class="box-inner">
                     <div class="box-header well">
-                        <h2><i class="fa fa-angle-double-right "></i> User Forms</h2>
+                        <h2><i class="fa fa-angle-double-right "></i> Forms</h2>
                     </div>
                     <div class="box-content">
                         <ul class="nav nav-pills nav-stacked main-menu">
                             <li onclick="loadUserType()"><i class="fa fa-check-square "></i> &nbsp; User Type</li>
                             <li onclick="loadNewUser()"><i class="fa fa-check-square "></i> &nbsp; New User</li>
-                            <li onclick="loadUserAuthentication()"><i class="fa fa-check-square "></i> &nbsp; User Authentication</li>
                         </ul>
                         <hr>
                         <ul class="nav nav-pills nav-stacked main-menu">
-                                                    <li onclick="loadDepartment()"><i class="fa fa-check-square "></i> &nbsp; Department</li>
-                                                    <li onclick="loadDesignation()"><i class="fa fa-check-square "></i> &nbsp; Designation</li>
+                            <li onclick="loadPasswordChange()"><i class="zmdi zmdi-border-color"></i> &nbsp; Password Change</li>
                         </ul>
+                    </div>
+                </div>
+                <br>
+                <div class="box-inner">
+                    <div class="box-header well">
+                        <h2><i class="fa fa-angle-double-right "></i> Reports</h2>
+                    </div>
+                    <div class="box-content">
                         <ul class="nav nav-pills nav-stacked main-menu">
-                                                    <li onclick="loadDepartmentMapping()"><i class="fa fa-check-square "></i> &nbsp; Department Mapping</li>
+                            <li onclick="loadUserTypeReport()"><i class="fa fa-check-square "></i> &nbsp; User Type</li>
+                            <li onclick="loadNewUserReport()"><i class="fa fa-check-square "></i> &nbsp; New User</li>
+                        </ul>
+                        <hr>
+                        <ul class="nav nav-pills nav-stacked main-menu">
+                            <li onclick="loadUserPasswordReport()"><i class="fa fa-check-square "></i> &nbsp; User Authentication</li>
                         </ul>
                     </div>
                 </div>
@@ -54,31 +65,13 @@
 </div>
 
 <script>
-    function loadUserType() {
-        $.ajax({
-            url:"<?= base_url('Forms/formUsertype')?>",
-            type:"post",
-            success:function (d) {
-                $("#load_pages").html(d);
-            }
-        });
-    }
-    function loadNewUser() {
-        $.ajax({
-            url:"<?= base_url('Forms/formUser')?>",
-            type:"post",
-            success:function (d) {
-                $("#load_pages").html(d);
-            }
-        });
-    }
-    function loadUserAuthentication() {
-        $.ajax({
-            url:"<?= base_url('Forms/formUserAuthentication')?>",
-            type:"post",
-            success:function (d) {
-                $("#load_pages").html(d);
-            }
-        });
-    }
+function loadUserTypeReport() {
+    alert('Coming Soon');
+}
+function loadUserPasswordReport() {
+    alert('Coming Soon');
+}
+function loadNewUserReport() {
+    alert('Coming Soon');
+}
 </script>

@@ -6,7 +6,9 @@ class Forms extends CI_Controller {
     {
         parent::__construct();
     }
+    public function menu(){
 
+    }
     public function header(){
         try{
             $this->load->view('include/header');

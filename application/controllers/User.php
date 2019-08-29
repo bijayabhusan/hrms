@@ -97,8 +97,8 @@ class User extends CI_Controller {
                                     $data['message']="Password matched. Otp sent.";
                                     $data['status']=true;
                                     $data['userid']=$request->userid;
-//                                    $otp=rand(324653,876532);
-                                    $otp=123456;
+                                    $otp=rand(324653,876532);
+//                                    $otp=123456;
                                     $mobile=$this->session->tempuser['usermobile'];
                                     $message="Your login otp is - ".$otp.". Please do not share this with any one.";
                                     $this->load->library("Sms");
@@ -333,6 +333,11 @@ class User extends CI_Controller {
                             $password[0]['createdat']=date("Y-m-d H:i:s");
                             $result=$this->Model_Db->insert(5,$password);
                             if($result!=false){
+                                $mobile=$request->mobile;
+                                $userid=$request->username;
+                                $message="Your userid is - ".$userid.". And Password is ".$mobile.".";
+                                $this->load->library("Sms");
+                                $this->sms->send($mobile,$message);
                                 $data['message']="Insert successful.";
                                 $data['status']=true;
                             }else{

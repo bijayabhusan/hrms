@@ -47,7 +47,7 @@ $cname = $this->uri->segment(2);
     </div>
 
 
-    <div class="row">
+    <div class="row" id="reportEducation" style="display: none;">
         <div class="box col-md-12">
             <div class="box-inner">
                 <div class="box-header well">
@@ -102,6 +102,7 @@ $cname = $this->uri->segment(2);
                         window.location.reload();
                     }else{
                         $('#educationname').val('');
+                        $("#reportEducation").show();
                         reportFunction(1);
                     }
                 }else{
@@ -112,6 +113,7 @@ $cname = $this->uri->segment(2);
         });
     });
     function loadAjaxForReport(data){
+        $("#reportEducation").show();
            $.ajax({
                type:'post',
                url:"<?= base_url('Education/report_education')?>",

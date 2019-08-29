@@ -12,8 +12,8 @@ class Sms
 	public function send($contact,$message){
 		try{
 			//Login User Id and Password
-			$userId="milan.milan";
-			$password="YI5I7A9B";
+			$userId="atreya";
+			$password="atreya@123";
 
 			//Multiple mobiles numbers seperated by comma
 			$mobileNumber = "$contact";
@@ -38,8 +38,8 @@ class Sms
 
 //API URL
 //		 $url="http://sms.cheapsmsindia.in/smsapi.aspx?userid=$userId&pwd=$password&route=$route&senderid=$senderId&destination=$mobileNumber&message=$message";
-//		 $url="http://sms.thinksimple.co.in/vendorsms/pushsms.aspx?user=$userId&password=$password&msisdn=$contact&sid=$senderId&msg=$message&fl=0&gwid=2";
-            $url = "http://sms.thinksimple.co.in/app/smsapi/index.php?key=35D30255EDF0ED&campaign=8168&routeid=7&type=text&contacts=$contact&senderid=$senderId&msg=$message";
+		 //$url="http://sms.thinksimple.co.in/vendorsms/pushsms.aspx?user=$userId&password=$password&msisdn=$contact&sid=$senderId&msg=$message&fl=0&gwid=2";
+            $url = "http://sms.thinksimple.co.in/app/smsapi/index.php?key=55D5CD033A32F6&campaign=8168&routeid=$route&type=text&contacts=$contact&senderid=$senderId&msg=$message";
 // init the resource
 			$ch = curl_init();
 			curl_setopt_array($ch, array(

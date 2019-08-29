@@ -47,7 +47,7 @@ $cname = $this->uri->segment(2);
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="usertypereport" style="display: none;">
         <div class="box col-md-12">
             <div class="box-inner">
                 <div class="box-header well">
@@ -104,6 +104,7 @@ $cname = $this->uri->segment(2);
                     }else {
                         $('#usertypename').val("");
                         $('#usertypeshortname').val("");
+                        $('#usertypereport').show();
                         reportFunction(1);
                     }
                 }else{
@@ -113,6 +114,7 @@ $cname = $this->uri->segment(2);
         });
     });
     function loadAjaxForReport(data){
+        $('#usertypereport').show();
         $.ajax({
             type:'post',
             url:"<?= base_url('User/report_user_type')?>",

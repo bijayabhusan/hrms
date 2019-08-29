@@ -244,8 +244,8 @@ class Employee extends CI_Controller {
             }else{
                 $status=false;
             }
-            if(isset($request->districtid) && is_numeric($request->districtid)){
-                $insert[0]['districtid']=$request->districtid;
+            if(isset($request->distid) && is_numeric($request->distid)){
+                $insert[0]['districtid']=$request->distid;
             }else{
                 $status=false;
             }

@@ -30,49 +30,5 @@
     </div>
 </div>
         <script>
-            function loadEmployeeType() {
-                $.ajax({
-                    url:"<?= base_url('Forms/formEmployeeType')?>",
-                    type:"post",
-                    success:function (d) {
-                        $("#load_employee_pages").html(d);
-                    }
-                });
-            }
-            function loadNewEmployee() {
-                $.ajax({
-                    url:"<?= base_url('Forms/formNewEmployee')?>",
-                    type:"post",
-                    success:function (d) {
-                        $("#load_employee_pages").html(d);
-                    }
-                });
-            }
-            function loadEmployeeBankDetails() {
-                $.ajax({
-                    url:"<?= base_url('Forms/formEmployeeBankDetails')?>",
-                    type:"post",
-                    success:function (d) {
-                        $("#load_employee_pages").html(d);
-                    }
-                });
-            }
-            function employeeAttendance() {
-                $.ajax({
-                    url:"<?= base_url('Forms/employeeAttendance')?>",
-                    type:"post",
-                    success:function (d) {
-                        $("#load_employee_pages").html(d);
-                    }
-                });
-            }
-            function loadDepartmentMapping() {
-                $.ajax({
-                    url:"<?= base_url('Forms/mapping_company_department')?>",
-                    type:"post",
-                    success:function (d) {
-                        $("#load_employee_pages").html(d);
-                    }
-                });
-            }
+
         </script>
